@@ -1,3 +1,7 @@
+/*******************************************************************************
+ Copyright 2009-2012 Ellucian Company L.P. and its affiliates.
+ *******************************************************************************/
+
 dataSource {
     pooled = true
     driverClassName = "org.h2.Driver"

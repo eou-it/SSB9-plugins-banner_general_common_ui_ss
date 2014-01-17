@@ -1,3 +1,6 @@
+/*******************************************************************************
+ Copyright 2009-2012 Ellucian Company L.P. and its affiliates.
+ *******************************************************************************/
 class BannerGeneralCommonUiSsGrailsPlugin {
     // the plugin version
     def version = "0.1"

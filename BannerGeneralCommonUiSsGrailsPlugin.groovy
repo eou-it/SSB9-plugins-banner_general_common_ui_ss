@@ -1,19 +1,30 @@
 /*******************************************************************************
  Copyright 2014 Ellucian Company L.P. and its affiliates.
- *******************************************************************************/
+*******************************************************************************/
+
+import net.hedtech.banner.overall.loginworkflow.SecurityQAFlow
+import net.hedtech.banner.overall.loginworkflow.UserAgreementFlow
+import net.hedtech.banner.web.SsbLoginURLRequest
+
+
 class BannerGeneralCommonUiSsGrailsPlugin {
+    String groupId = "net.hedtech"
     // the plugin version
     def version = "0.1"
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "2.2 > *"
+    def grailsVersion = "2.2.1 > *"
+
+    def loadAfter = ["banner-core"]
+
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-        "grails-app/views/error.gsp"
+            "grails-app/views/error.gsp"
     ]
 
     // TODO Fill in these fields
     def title = "Banner General Common Ui Ss Plugin" // Headline display name of the plugin
     def author = "Your name"
+
     def authorEmail = ""
     def description = '''\
 Brief summary/description of the plugin.
@@ -44,7 +55,24 @@ Brief summary/description of the plugin.
     }
 
     def doWithSpring = {
-        // TODO Implement runtime spring config (optional)
+
+        ssbLoginURLRequest(SsbLoginURLRequest) {
+        }
+
+        userAgreementFlow(UserAgreementFlow) { bean ->
+            sessionFactory = ref(sessionFactory)
+
+            registerFlowClass = [
+                    10: "userAgreementFlow"
+            ]
+        }
+
+        securityQAFlow(SecurityQAFlow) {
+            registerFlowClass = [
+                    30: "securityQAFlow"
+            ]
+        }
+
     }
 
     def doWithDynamicMethods = { ctx ->

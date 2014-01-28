@@ -1,41 +1,42 @@
 /*******************************************************************************
  Copyright 2014 Ellucian Company L.P. and its affiliates.
- *******************************************************************************/
+*******************************************************************************/
 
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
-grails.project.dependency.resolution = {
-    // inherit Grails' default dependencies
-    inherits("global") {
-        // uncomment to disable ehcache
-        // excludes 'ehcache'
-    }
-    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
-    legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
-    repositories {
-        grailsCentral()
-        // uncomment the below to enable remote dependency resolution
-        // from public Maven repositories
-        //mavenLocal()
-        //mavenCentral()
-        //mavenRepo "http://snapshots.repository.codehaus.org"
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
-    }
-    dependencies {
-        // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
+grails.plugin.location.'banner-core' = "../banner_core.git"
+grails.plugin.location.'banner-general-validation-common' = "../banner_general_validation_common.git"
+grails.plugin.location.'banner-general-person' = "../banner_general_person.git"
+grails.plugin.location.'banner-general-common' = "../banner_general_common.git"
 
-        // runtime 'mysql:mysql-connector-java:5.1.21'
+grails.project.dependency.resolution = {
+
+    inherits("global") {
+    }
+
+    log "warn"
+
+    repositories {
+        if (System.properties['PROXY_SERVER_NAME']) {
+            mavenRepo "${System.properties['PROXY_SERVER_NAME']}"
+        } else {
+            grailsPlugins()
+            grailsHome()
+            grailsCentral()
+            mavenCentral()
+            mavenRepo "http://repository.jboss.org/maven2/"
+            mavenRepo "http://repository.codehaus.org"
+        }
+    }
+
+    dependencies {
     }
 
     plugins {
-        build(":tomcat:$grailsVersion",
-              ":release:2.2.0",
-              ":rest-client-builder:1.0.3") {
-            export = false
-        }
+        compile ":hibernate:$grailsVersion"
+        compile ":tomcat:$grailsVersion"
+        test ':code-coverage:1.2.5'
     }
 }

@@ -7,7 +7,6 @@ import net.hedtech.banner.exceptions.ApplicationException
 import net.hedtech.banner.general.overall.PinQuestion
 import net.hedtech.banner.general.utility.InformationTextUtility
 import net.hedtech.banner.security.BannerGrantedAuthorityService
-import net.hedtech.banner.loginworkflow.PostLoginWorkflow
 
 class SecurityQAController {
 

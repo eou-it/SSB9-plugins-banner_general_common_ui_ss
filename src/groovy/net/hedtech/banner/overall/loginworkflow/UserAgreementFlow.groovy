@@ -6,7 +6,6 @@ package net.hedtech.banner.overall.loginworkflow
 
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
-import net.hedtech.banner.loginworkflow.PostLoginWorkflow
 import org.apache.log4j.Logger
 import java.sql.SQLException
 import net.hedtech.banner.security.BannerGrantedAuthorityService

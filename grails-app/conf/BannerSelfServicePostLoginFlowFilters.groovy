@@ -3,7 +3,7 @@
 ****************************************************************************** */
 
 import net.hedtech.banner.apisupport.ApiUtils
-import net.hedtech.banner.loginworkflow.PostLoginWorkflow
+import net.hedtech.banner.overall.loginworkflow.PostLoginWorkflow
 import net.hedtech.banner.security.FormContext
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.servlet.GrailsUrlPathHelper

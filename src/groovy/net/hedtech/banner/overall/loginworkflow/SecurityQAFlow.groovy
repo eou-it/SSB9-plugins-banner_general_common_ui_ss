@@ -3,7 +3,6 @@
 ****************************************************************************** */
 package net.hedtech.banner.overall.loginworkflow
 
-import net.hedtech.banner.loginworkflow.PostLoginWorkflow
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.springframework.context.ApplicationContext
 import net.hedtech.banner.security.BannerGrantedAuthorityService

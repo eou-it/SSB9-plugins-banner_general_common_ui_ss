@@ -4,7 +4,6 @@
 package net.hedtech.banner.overall.loginworkflow
 
 import net.hedtech.banner.general.utility.InformationTextUtility
-import net.hedtech.banner.loginworkflow.PostLoginWorkflow
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 
 class UserAgreementController {

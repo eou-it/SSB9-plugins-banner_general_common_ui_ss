@@ -1,8 +1,9 @@
 /*******************************************************************************
  Copyright 2014 Ellucian Company L.P. and its affiliates.
-*******************************************************************************/
+ *******************************************************************************/
 
 import net.hedtech.banner.overall.loginworkflow.SecurityQAFlow
+import net.hedtech.banner.overall.loginworkflow.SurveyFlow
 import net.hedtech.banner.overall.loginworkflow.UserAgreementFlow
 import net.hedtech.banner.web.SsbLoginURLRequest
 
@@ -70,6 +71,13 @@ Brief summary/description of the plugin.
         securityQAFlow(SecurityQAFlow) {
             registerFlowClass = [
                     30: "securityQAFlow"
+            ]
+        }
+
+        surveyFlow(SurveyFlow) {
+            sessionFactory = ref(sessionFactory)
+            registerFlowClass = [
+                    50: "surveyFlow"
             ]
         }
 

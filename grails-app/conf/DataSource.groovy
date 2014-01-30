@@ -17,7 +17,10 @@ hibernate {
    	hbm2ddl.auto = null
    	show_sql = false
    	dialect = "org.hibernate.dialect.Oracle10gDialect"
-    config.location = []
+    config.location = [
+            "classpath:hibernate-banner-general-validation-common.cfg.xml",
+            "classpath:hibernate-banner-general-person.cfg.xml",
+            "classpath:hibernate-banner-general-common.cfg.xml"]
 }
 
 environments {

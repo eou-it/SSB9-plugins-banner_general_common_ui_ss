@@ -1,6 +1,6 @@
 /*******************************************************************************
  Copyright 2014 Ellucian Company L.P. and its affiliates.
-****************************************************************************** */
+ ****************************************************************************** */
 package net.hedtech.banner.general.utility
 
 import groovy.sql.GroovyRowResult
@@ -15,44 +15,63 @@ import java.sql.SQLException
 class InformationTextUtility {
     private static final log = Logger.getLogger(getClass())
 
+    /*
+    getMessages method returns information text message for the given pagename and label.
+    InformationTextUtility.getMessages(<GURINFO_PAGE_NAME>)
+    This utility will just take a page name and return a map of all the information texts for the specific page. The map will have the label as a key and information text as the value.
+    Example Implementation - Map infoTexts = InformationTextUtility.getMessage("TERMSELECTION"); String infoText = infoTexts.get("termSelect.bodyTitle")
+   */
+
     public static Map getMessages(String pageName, Locale locale = LocaleContextHolder.getLocale()) {
         Map informationTexts = new HashMap()
         Map defaultRoleInfoTexts = new HashMap()
-        def sql = null
-        try {
-            String localeParam = locale.toString();
-            List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
-            roles << InformationTextPersonaListService.PERSONA_DEFAULT
-            if (roles) {
-                List<String> params = [pageName]
-                String roleClauseParams = getQueryPlaceHolders(roles)
-                List<String> temporaryParams = params
-                temporaryParams.addAll(getParams(roles))
-                temporaryParams << localeParam
-                sql = getSQLObject()
-                def queryString = " ${buildBasicQueryString(roleClauseParams)} ORDER BY GURINFO_LABEL, GURINFO_SEQUENCE_NUMBER "
-                String sqlQueryString = queryString.toString()
-                def resultSet = sql.rows(sqlQueryString, temporaryParams)
-                resultSet = getFilteredResultSet(resultSet);
-
-                resultSet.each { t ->
-                    if(t.GURINFO_ROLE_CODE == InformationTextPersonaListService.PERSONA_DEFAULT && t.GURINFO_START_DATE != null) {
-                        String infoText = defaultRoleInfoTexts.get(t.GURINFO_LABEL)
-                        infoText = getInfoText(infoText, t)
-                        defaultRoleInfoTexts.put(t.GURINFO_LABEL, infoText)
-                    } else {
-                        String infoText = informationTexts.get(t.GURINFO_LABEL)
-                        infoText = getInfoText(infoText, t)
-                        informationTexts.put(t.GURINFO_LABEL, infoText)
-                    }
-                }
-
-                defaultRoleInfoTexts.each {key, value ->
-                    if(!informationTexts.containsKey(key)) {
-                        informationTexts.put(key, value)
-                    }
+        List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
+        roles << InformationTextPersonaListService.PERSONA_DEFAULT
+        if (roles) {
+            String sqlQueryString = " ORDER BY GURINFO_LABEL, GURINFO_SEQUENCE_NUMBER "
+            List<String> temporaryParams = buildQueryParams(pageName,locale)
+            def resultSet = executeQuery(temporaryParams, sqlQueryString)
+            resultSet = getFilteredResultSet(resultSet);
+            resultSet.each { t ->
+                if(t.GURINFO_ROLE_CODE == InformationTextPersonaListService.PERSONA_DEFAULT && t.GURINFO_START_DATE != null) {
+                    String infoText = defaultRoleInfoTexts.get(t.GURINFO_LABEL)
+                    infoText = getInfoText(infoText, t)
+                    defaultRoleInfoTexts.put(t.GURINFO_LABEL, infoText)
+                } else {
+                    String infoText = informationTexts.get(t.GURINFO_LABEL)
+                    infoText = getInfoText(infoText, t)
+                    informationTexts.put(t.GURINFO_LABEL, infoText)
                 }
             }
+
+            defaultRoleInfoTexts.each {key, value ->
+                if(!informationTexts.containsKey(key)) {
+                    informationTexts.put(key, value)
+                }
+            }
+        }
+        return informationTexts
+    }
+
+
+    /*
+        executeQuery method is just to execute the query to fetch the
+        info text with the given params.
+   */
+    private static List<GroovyRowResult> executeQuery(List<String> temporaryParams, String sqlQueryString)    {
+        def resultSet = null
+        Sql sql = null
+        try {
+            List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
+            roles << InformationTextPersonaListService.PERSONA_DEFAULT
+            String roleClauseParams = getQueryPlaceHolders(roles)
+            StringBuffer sb = new StringBuffer( ) ;
+            def queryString =  " ${buildBasicQueryString(roleClauseParams)} "
+            sb.append(queryString.toString())
+            sb.append(sqlQueryString)
+            sqlQueryString = sb.toString()
+            sql = getSQLObject()
+            resultSet = sql.rows(sqlQueryString, temporaryParams)
         } finally {
             try {
                 if (sql) {
@@ -62,10 +81,35 @@ class InformationTextUtility {
                 log.debug ae.stackTrace
                 throw ae
             }
-
         }
-        return informationTexts
+        return resultSet
     }
+
+    /*
+        buildQueryParams method is just to prepare the query params
+        for the getMessage and getMessages API. Params which are common between these two apis
+        are extracted and put it in a method. If additional params are required those are added in the
+        respective methods itself.
+   */
+
+    private static List<String> buildQueryParams(String pageName, Locale locale) {
+        String localeParam = locale.toString();
+        List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
+        List<String> temporaryParams
+        roles << InformationTextPersonaListService.PERSONA_DEFAULT
+        List<String> params = [pageName]
+        temporaryParams = params
+        temporaryParams.addAll(getParams(roles))
+        temporaryParams << localeParam
+        return temporaryParams
+    }
+
+
+
+    /*
+    *   Method returns a filtered result by removing baseline records if at least one local record is
+    *   present for a set of labels returned by the query.
+    * */
 
     private static Collection<GroovyRowResult> getFilteredResultSet(List<GroovyRowResult> resultSet) {
         Set<String> labels = new HashSet<String>();
@@ -84,50 +128,34 @@ class InformationTextUtility {
         return modifiedResultSet
     }
 
-
+    /*
+    getMessage method returns information text message for the given pagename and label
+    This will return the information text string for a page with specific label (key). The page name would need to be decided by respective teams to enable them to access the necessary information texts.
+    Example Implementation - def infoTexts = ["termSelect.bodyTitle": InformationTextUtility.getMessage("TERMSELECTION","termSelect.bodyTitle")]
+    */
 
     public static String getMessage(String pageName, String label, Locale locale = LocaleContextHolder.getLocale()) {
         String infoText = null
-        Sql sql = null
-        try {
-            String localeParam = locale.toString();
-            List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
-            roles << InformationTextPersonaListService.PERSONA_DEFAULT
-            if (roles) {
-                List<String> params = [pageName]
-                String roleClauseParams = getQueryPlaceHolders(roles)
-                List<String> temporaryParams = params
-                temporaryParams.addAll(getParams(roles))
-                temporaryParams << localeParam
-                temporaryParams << label
-                def queryString = " ${buildBasicQueryString(roleClauseParams)} AND GURINFO_LABEL = ?   ORDER BY GURINFO_LABEL, GURINFO_SEQUENCE_NUMBER "
-                String sqlQueryString = queryString.toString()
-                sql = getSQLObject()
-                def resultSet = sql.rows(sqlQueryString, temporaryParams)
-
-                resultSet = getFilteredResultSetForLabel(resultSet)
-
-                resultSet.each {t ->
-                    infoText = getInfoText(infoText, t)
-                }
-            }
-            if (infoText == null) {
-                infoText = label
-            }
-        } finally {
-            try {
-                if (sql) {
-                    sql.close()
-                }
-            } catch (SQLException ae) {
-                log.debug ae.stackTrace
-                throw ae
-            }
-
+        def temporaryParams = buildQueryParams(pageName,locale)
+        temporaryParams << label
+        String sqlQueryString = " AND GURINFO_LABEL = ?  ORDER BY GURINFO_LABEL, GURINFO_SEQUENCE_NUMBER "
+        def resultSet = executeQuery(temporaryParams,sqlQueryString);
+        resultSet = getFilteredResultSetForLabel(resultSet)
+        resultSet.each {t ->
+            infoText = getInfoText(infoText, t)
         }
+
+        if (infoText == null) {
+            infoText = label
+        }
+
         return infoText
     }
 
+    /**
+     *
+     * Gives a filtered result set of a message for a particular label by removing baseline records if a local record is present.
+     */
     private static Collection<GroovyRowResult> getFilteredResultSetForLabel(List<GroovyRowResult> resultSet) {
         List<GroovyRowResult> localInfoTexts = resultSet.findAll {
             it.GURINFO_SOURCE_INDICATOR == SourceIndicators.LOCAL.getCode() && it.GURINFO_START_DATE != null

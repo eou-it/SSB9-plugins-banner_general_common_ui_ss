@@ -163,7 +163,7 @@ class InformationTextUtility {
      */
 
     public static String getMessage(String pageName, String label, Locale locale = LocaleContextHolder.getLocale()) {
-        String infoText = null
+        String infoText = ""
         def temporaryParams = buildQueryParams(pageName,locale)
         temporaryParams << label
         StringBuffer sbSqlWhereClause = new StringBuffer()
@@ -214,7 +214,7 @@ class InformationTextUtility {
     }
 
     private static String getInfoText(infoText, infoTextResultSet) {
-        String text
+        String text     =""
         if (infoText == null || infoText == "") { text = getTextBasedOnDateRange(infoTextResultSet) }
         else {
             if (getTextBasedOnDateRange(infoTextResultSet) != "") { text = "\n" + getTextBasedOnDateRange(infoTextResultSet) }

@@ -37,13 +37,16 @@ class InformationTextUtility {
             def resultSet = executeQuery(temporaryParams, SQL_ORDER_BY)
             resultSet = getFilteredResultSet(resultSet);
             resultSet.each { GroovyRowResult infoTextsGroupByRole ->
+                String infoText =""
                 if(infoTextsGroupByRole.GURINFO_ROLE_CODE == InformationTextPersonaListService.PERSONA_DEFAULT && infoTextsGroupByRole.GURINFO_START_DATE != null) {
-                    String infoText = defaultRoleInfoTexts.get(infoTextsGroupByRole.GURINFO_LABEL)
-                    infoText = getInfoText(infoText, infoTextsGroupByRole)
+                    infoText = defaultRoleInfoTexts.get(infoTextsGroupByRole.GURINFO_LABEL)
+                    infoText = infoText!=null?infoText:""
+                    infoText = infoText + getInfoText(infoText, infoTextsGroupByRole)
                     defaultRoleInfoTexts.put(infoTextsGroupByRole.GURINFO_LABEL, infoText)
                 } else {
-                    String infoText = informationTexts.get(infoTextsGroupByRole.GURINFO_LABEL)
-                    infoText = getInfoText(infoText, infoTextsGroupByRole)
+                    infoText = informationTexts.get(infoTextsGroupByRole.GURINFO_LABEL)
+                    infoText = infoText!=null?infoText:""
+                    infoText = infoText + getInfoText(infoText, infoTextsGroupByRole)
                     informationTexts.put(infoTextsGroupByRole.GURINFO_LABEL, infoText)
                 }
             }
@@ -175,7 +178,7 @@ class InformationTextUtility {
             infoText += getInfoText(infoText, infoTextResultSet)
         }
 
-        if (infoText == null) {
+        if ((infoText == null)||(infoText.trim().size()==0)) {
             infoText = label
         }
         return infoText
@@ -248,7 +251,9 @@ class InformationTextUtility {
             return ""
         }
         else {
-            row.GURINFO_TEXT
+            String text = row.GURINFO_TEXT
+            text = text!=null?text:""
+            return text
         }
     }
 

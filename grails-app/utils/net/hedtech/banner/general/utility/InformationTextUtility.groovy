@@ -87,7 +87,7 @@ class InformationTextUtility {
             roles << InformationTextPersonaListService.PERSONA_DEFAULT
             String roleClauseParams = getQueryPlaceHolders(roles)
             StringBuffer sb = new StringBuffer( ) ;
-            def queryString =  ${buildBasicQueryString(roleClauseParams)}
+            def queryString =  " ${buildBasicQueryString(roleClauseParams)}  "
             sb.append(queryString.toString())
             sb.append(sqlQueryString)
             sqlQueryString = sb.toString()

@@ -1,14 +1,12 @@
 /*******************************************************************************
  Copyright 2014 Ellucian Company L.P. and its affiliates.
-****************************************************************************** */
-
+ ****************************************************************************** */
 import net.hedtech.banner.apisupport.ApiUtils
 import net.hedtech.banner.overall.loginworkflow.PostLoginWorkflow
-import net.hedtech.banner.security.FormContext
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.servlet.GrailsUrlPathHelper
-import javax.servlet.http.HttpSession
 
+import javax.servlet.http.HttpSession
 
 class BannerSelfServicePostLoginFlowFilters {
     private static final String SLASH = "/"
@@ -17,6 +15,8 @@ class BannerSelfServicePostLoginFlowFilters {
     private final log = Logger.getLogger(BannerSelfServicePostLoginFlowFilters.class)
     public static final String LAST_FLOW_COMPLETED = "LAST_FLOW_COMPLETED"
     def ssbLoginURLRequest
+
+    def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
 
     def filters = {
         all(controller: "selfServiceMenu|login|logout|error|dateConverter", invert: true) {
@@ -47,7 +47,6 @@ class BannerSelfServicePostLoginFlowFilters {
                                 lastFlowCompleted = 0
                             }
                             session.setAttribute(PostLoginWorkflow.URI_ACCESSED, path)
-                            setFormContext()
                             int noOfFlows = listOfFlows.size()
                             for (int i = lastFlowCompleted; i < noOfFlows; i++) {
                                 session.setAttribute(LAST_FLOW_COMPLETED, i)
@@ -68,12 +67,6 @@ class BannerSelfServicePostLoginFlowFilters {
 
     private boolean shouldVerifyFlowCompleted(def lastFlowCompleted, String path, HashMap<String, Integer> uriMap, boolean uriHampered) {
         return (!isFlowControllerURI(path, uriMap)) || lastFlowCompleted == null || uriHampered
-    }
-
-    private setFormContext() {
-        def associatedFormsList = []
-        associatedFormsList?.add(0, "SELFSERVICE")
-        FormContext.set(associatedFormsList)
     }
 
     public boolean isFlowControllerURI(String path, Map uriMap) {

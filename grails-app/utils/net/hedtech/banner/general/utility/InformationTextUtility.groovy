@@ -93,7 +93,8 @@ class InformationTextUtility {
     private static List<String> getQueryParamForRoles() {
         List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
         roles << InformationTextPersonaListService.PERSONA_DEFAULT
-        return getParams(roles)
+        roles = getParams(roles)
+        return roles
     }
 
     /**
@@ -113,15 +114,15 @@ class InformationTextUtility {
         List<InformationText> resultSet = InformationText.fetchInfoTextByRolesAndLabel(pageName,getQueryParamForRoles(),localeParam,label)
         resultSet = getFilteredResultSetForLabel(resultSet)
         println "result set size is "+resultSet.size()
+        if(resultSet.size() > 0) {
+            for(InformationText infoTextResultSet : resultSet) {
+                infoText += getInfoText(infoText, infoTextResultSet)
+            }
 
-        for(InformationText infoTextResultSet : resultSet) {
-            infoText += getInfoText(infoText, infoTextResultSet)
+            if (((infoText == null)||(infoText.trim().size()==0))) {
+                infoText = label
+            }
         }
-
-        if (((infoText == null)||(infoText.trim().size()==0))) {
-            infoText = label
-        }
-
         println "infoText value is "+infoText
         return infoText
     }

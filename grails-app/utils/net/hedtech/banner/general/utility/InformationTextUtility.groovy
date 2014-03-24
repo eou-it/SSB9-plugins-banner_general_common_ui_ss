@@ -2,15 +2,9 @@
  Copyright 2014 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 package net.hedtech.banner.general.utility
-
-import groovy.sql.GroovyRowResult
-import groovy.sql.Sql
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 import org.apache.log4j.Logger
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
-import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
 import org.springframework.context.i18n.LocaleContextHolder
-import java.sql.SQLException
 
 class InformationTextUtility {
     private static final log = Logger.getLogger(getClass())
@@ -30,24 +24,24 @@ class InformationTextUtility {
     public static Map getMessages(String pageName, Locale locale = LocaleContextHolder.getLocale()) {
         Map informationTexts = new HashMap<String,String>()
         Map defaultRoleInfoTexts = new HashMap<String,String>()
-        List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
-        roles << InformationTextPersonaListService.PERSONA_DEFAULT
-        if (roles) {
-            List<String> temporaryParams = buildQueryParams(pageName,locale)
-            def resultSet = executeQuery(temporaryParams, SQL_ORDER_BY)
+        String localeParam = locale.toString()
+        List<String> roleCode = getQueryParamForRoles()
+        List<InformationText> resultSet;
+        if (roleCode) {
+            resultSet = InformationText.fetchInfoTextByRoles(pageName,roleCode ,localeParam)
             resultSet = getFilteredResultSet(resultSet);
-            resultSet.each { GroovyRowResult infoTextsGroupByRole ->
+            for(InformationText infoTextsGroupByRole: resultSet) {
                 String infoText =""
-                if(infoTextsGroupByRole.GURINFO_ROLE_CODE == InformationTextPersonaListService.PERSONA_DEFAULT && infoTextsGroupByRole.GURINFO_START_DATE != null) {
-                    infoText = defaultRoleInfoTexts.get(infoTextsGroupByRole.GURINFO_LABEL)
+                if(infoTextsGroupByRole.persona == InformationTextPersonaListService.PERSONA_DEFAULT && infoTextsGroupByRole.startDate != null) {
+                    infoText = defaultRoleInfoTexts.get(infoTextsGroupByRole.label)
                     infoText = infoText!=null?infoText:""
                     infoText = infoText + getInfoText(infoText, infoTextsGroupByRole)
-                    defaultRoleInfoTexts.put(infoTextsGroupByRole.GURINFO_LABEL, infoText)
+                    defaultRoleInfoTexts.put(infoTextsGroupByRole.label, infoText)
                 } else {
-                    infoText = informationTexts.get(infoTextsGroupByRole.GURINFO_LABEL)
+                    infoText = informationTexts.get(infoTextsGroupByRole.label)
                     infoText = infoText!=null?infoText:""
                     infoText = infoText + getInfoText(infoText, infoTextsGroupByRole)
-                    informationTexts.put(infoTextsGroupByRole.GURINFO_LABEL, infoText)
+                    informationTexts.put(infoTextsGroupByRole.label, infoText)
                 }
             }
 
@@ -73,85 +67,33 @@ class InformationTextUtility {
         }
     }
 
-
-
-    /***
-     * executeQuery method is just to execute the query to fetch the
-     * info text with the given params.
-     * @param queryParams
-     * @param sqlQueryString
-     * @return
-     */
-    private static List<GroovyRowResult> executeQuery(List<String> queryParams, String sqlQueryString)    {
-        def resultSet = null
-        Sql sql = null
-        try {
-            List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
-            roles << InformationTextPersonaListService.PERSONA_DEFAULT
-            String roleClauseParams = getQueryPlaceHolders(roles)
-            StringBuffer sb = new StringBuffer( ) ;
-            def queryString =  " ${buildBasicQueryString(roleClauseParams)}  "
-            sb.append(queryString.toString())
-            sb.append(sqlQueryString)
-            sqlQueryString = sb.toString()
-            sql = getSQLObject()
-            resultSet = sql.rows(sqlQueryString, queryParams)
-        } finally {
-            try {
-                if (sql) {
-                    sql.close()
-                }
-            } catch (SQLException ae) {
-                log.debug ae.stackTrace
-                throw ae
-            }
-        }
-        return resultSet
-    }
-
-
-    /***
-     * buildQueryParams method is just to prepare the query params
-     * for the getMessage and getMessages API. Params which are common between these two apis
-     * are extracted and put it in a method. If additional params are required those are added in the
-     * respective methods itself.
-     * @param pageName
-     * @param locale
-     * @return
-     */
-
-    private static List<String> buildQueryParams(String pageName, Locale locale) {
-        String localeParam = locale.toString();
-        List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
-        roles << InformationTextPersonaListService.PERSONA_DEFAULT
-        List<String> params = [pageName]
-        List<String> temporaryParams = params
-        temporaryParams.addAll(getParams(roles))
-        temporaryParams << localeParam
-        return temporaryParams
-    }
-
     /***
      *   Method returns a filtered result by removing baseline records if at least one local record is
      *   present for a set of labels returned by the query.
      * @param resultSet
      * @return
      */
-    private static Collection<GroovyRowResult> getFilteredResultSet(List<GroovyRowResult> resultSet) {
+    private static Collection<InformationText> getFilteredResultSet(List<InformationText> resultSet) {
         Set<String> labels = new HashSet<String>();
-        resultSet.each { GroovyRowResult row ->
-            labels.add(row.GURINFO_LABEL)
+        for(InformationText row : resultSet) {
+            labels.add(row.getLabel())
         }
 
-        List<GroovyRowResult> modifiedResultSet = new ArrayList<GroovyRowResult>()
+        List<InformationText> modifiedResultSet = new ArrayList<InformationText>()
         labels.each {String label ->
-            List<GroovyRowResult> resultSubSet = resultSet.findAll { row ->
-                row.GURINFO_LABEL == label
+            List<InformationText> resultSubSet = resultSet.findAll { row ->
+                row.label == label
             }
             resultSubSet = getFilteredResultSetForLabel(resultSubSet)
             modifiedResultSet.addAll(resultSubSet)
         }
         return modifiedResultSet
+    }
+
+    private static List<String> getQueryParamForRoles() {
+        List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
+        roles << InformationTextPersonaListService.PERSONA_DEFAULT
+        return getParams(roles)
     }
 
     /**
@@ -167,20 +109,20 @@ class InformationTextUtility {
 
     public static String getMessage(String pageName, String label, Locale locale = LocaleContextHolder.getLocale()) {
         String infoText = ""
-        def temporaryParams = buildQueryParams(pageName,locale)
-        temporaryParams << label
-        StringBuffer sbSqlWhereClause = new StringBuffer()
-        sbSqlWhereClause.append(" AND GURINFO_LABEL = ?  ")
-        sbSqlWhereClause.append(SQL_ORDER_BY)
-        def resultSet = executeQuery(temporaryParams,sbSqlWhereClause.toString());
+        String localeParam = locale.toString()
+        List<InformationText> resultSet = InformationText.fetchInfoTextByRolesAndLabel(pageName,getQueryParamForRoles(),localeParam,label)
         resultSet = getFilteredResultSetForLabel(resultSet)
-        resultSet.each {GroovyRowResult infoTextResultSet ->
+        println "result set size is "+resultSet.size()
+
+        for(InformationText infoTextResultSet : resultSet) {
             infoText += getInfoText(infoText, infoTextResultSet)
         }
 
-        if ((infoText == null)||(infoText.trim().size()==0)) {
+        if (((infoText == null)||(infoText.trim().size()==0))) {
             infoText = label
         }
+
+        println "infoText value is "+infoText
         return infoText
     }
 
@@ -188,11 +130,11 @@ class InformationTextUtility {
      *
      * Gives a filtered result set of a message for a particular label by removing baseline records if a local record is present.
      */
-    private static Collection<GroovyRowResult> getFilteredResultSetForLabel(List<GroovyRowResult> resultSet) {
-        List<GroovyRowResult> localInfoTexts = resultSet.findAll {
-            it.GURINFO_SOURCE_INDICATOR == SourceIndicators.LOCAL.getCode() && it.GURINFO_START_DATE != null
+    private static Collection<InformationText> getFilteredResultSetForLabel(List<InformationText> resultSet) {
+        List<InformationText> localInfoTexts = resultSet.findAll {
+            it.sourceIndicator == SourceIndicators.LOCAL.getCode() && it.startDate != null
         }
-        List<GroovyRowResult> baselineInfoTexts = resultSet - localInfoTexts
+        List<InformationText> baselineInfoTexts = resultSet - localInfoTexts
 
         if (localInfoTexts.size() > 0) {
             resultSet = getDefaultOrNonDefaultResultSet(localInfoTexts)
@@ -203,69 +145,43 @@ class InformationTextUtility {
         return resultSet
     }
 
-    private static Collection<GroovyRowResult> getDefaultOrNonDefaultResultSet(List<GroovyRowResult> resultSet) {
-        List<GroovyRowResult> defaultInfoText = resultSet.findAll {
-            it.GURINFO_ROLE_CODE == InformationTextPersonaListService.PERSONA_DEFAULT
+    private static Collection<InformationText> getDefaultOrNonDefaultResultSet(List<InformationText> resultSet) {
+        List<InformationText> defaultInfoText = resultSet.findAll {
+            it.persona == InformationTextPersonaListService.PERSONA_DEFAULT
         }
-        List<GroovyRowResult> nonDefaultInfoText = resultSet - defaultInfoText
+        List<InformationText> nonDefaultInfoText = resultSet - defaultInfoText
         if(nonDefaultInfoText.size() > 0) {
-            resultSet = nonDefaultInfoText
+           resultSet = nonDefaultInfoText
         }
         else {
-            resultSet = defaultInfoText
+           resultSet = defaultInfoText
         }
+        return resultSet
     }
 
     private static String getInfoText(infoText, infoTextResultSet) {
         String text     =""
-        if (infoText == null || infoText == "") { text = getTextBasedOnDateRange(infoTextResultSet) }
+        String tempText = getTextBasedOnDateRange(infoTextResultSet)
+        if (infoText == null || infoText == "") { text = tempText }
         else {
-            if (getTextBasedOnDateRange(infoTextResultSet) != "") { text = "\n" + getTextBasedOnDateRange(infoTextResultSet) }
+            if (tempText != "") { text = "\n" + tempText }
         }
         return text
     }
 
-    private static String buildBasicQueryString(roleClauseParams) {
-        return """ SELECT * FROM gurinfo a
-                           WHERE gurinfo_page_name = ?
-                           AND GURINFO_ROLE_CODE IN (${roleClauseParams})
-                           AND GURINFO_LOCALE = ?
-                           AND GURINFO_SOURCE_INDICATOR =
-                           (
-                               SELECT nvl( MAX(GURINFO_SOURCE_INDICATOR ),'${SourceIndicators.BASELINE.getCode()}')
-                               FROM GURINFO
-                               WHERE gurinfo_page_name = a.gurinfo_page_name
-                               AND GURINFO_LABEL = a.GURINFO_LABEL
-                               AND GURINFO_SEQUENCE_NUMBER = a.GURINFO_SEQUENCE_NUMBER
-                               AND GURINFO_ROLE_CODE = a.GURINFO_ROLE_CODE
-                               AND GURINFO_LOCALE = a.GURINFO_LOCALE
-                               AND GURINFO_SOURCE_INDICATOR ='${SourceIndicators.LOCAL.getCode()}'
-                               AND TRUNC(SYSDATE) BETWEEN TRUNC(NVL( GURINFO_START_DATE, (SYSDATE - 1) ) ) AND TRUNC( NVL( GURINFO_END_DATE, (SYSDATE + 1) ))
-                           )"""
-
-
-    }
-
-    private static String getTextBasedOnDateRange(row) {
-        if (row.GURINFO_SOURCE_INDICATOR == "${SourceIndicators.LOCAL.getCode()}" && row.GURINFO_START_DATE == null) {
+   private static String getTextBasedOnDateRange(InformationText row) {
+        if (row.sourceIndicator == "${SourceIndicators.LOCAL.getCode()}" && row.startDate == null) {
             return ""
         }
         else {
-            String text = row.GURINFO_TEXT
+            String text = row.text
             text = text!=null?text:""
             return text
         }
     }
 
-    private static Sql getSQLObject() {
-        def ctx = ServletContextHolder.servletContext.getAttribute(GrailsApplicationAttributes.APPLICATION_CONTEXT)
-        def sessionFactory = ctx.sessionFactory
-        def session = sessionFactory.currentSession
-        def sql = new Sql(session.connection())
-        sql
-    }
 
-    private static List getParams(List<String> roles) {
+    private static List<String> getParams(List<String> roles) {
         List localparams = []
         for (int i = 0; i < roles.size(); i++) {
             localparams << roles.get(i)
@@ -273,14 +189,4 @@ class InformationTextUtility {
         return localparams
     }
 
-    private static String getQueryPlaceHolders(List<String> roles) {
-        StringBuilder roleClauseParams = new StringBuilder()
-        if (roles.size() >= 1) {
-            roleClauseParams.append("?")
-        }
-        for (int i = 1; i < roles.size(); i++) {
-            roleClauseParams.append(",?")
-        }
-        roleClauseParams.toString()
-    }
 }

@@ -60,7 +60,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         if (!isSsbEnabled()) return
         setAuthentication()
         def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
-        String expectedText = "key1"
+        String expectedText = ""
         GroovyTestCase.assertEquals(expectedText, informationText)
         logout()
     }

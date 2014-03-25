@@ -119,7 +119,6 @@ class InformationTextUtility {
         String localeParam = locale.toString()
         List<InformationText> resultSet = InformationText.fetchInfoTextByRolesAndLabel(pageName,getQueryParamForRoles(),localeParam,label)
         resultSet = getFilteredResultSetForLabel(resultSet)
-        println "result set size is "+resultSet.size()
         if(resultSet.size() > 0) {
             for(InformationText infoTextResultSet : resultSet) {
                 infoText += getInfoText(infoText, infoTextResultSet)
@@ -129,7 +128,6 @@ class InformationTextUtility {
                 infoText = label
             }
         }
-        println "infoText value is "+infoText
         return infoText
     }
 

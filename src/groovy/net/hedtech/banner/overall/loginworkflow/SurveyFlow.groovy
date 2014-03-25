@@ -4,21 +4,23 @@
 
 package net.hedtech.banner.overall.loginworkflow
 
-import groovy.sql.GroovyRowResult
-import groovy.sql.Sql
+import net.hedtech.banner.general.person.PersonBasicPersonBase
+import net.hedtech.banner.general.system.SdaCrosswalkConversion
 import net.hedtech.banner.utility.DateUtility
 import org.apache.log4j.Logger
-import java.sql.SQLException
 import java.sql.Timestamp
+import java.sql.Date
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 
 class SurveyFlow extends PostLoginWorkflow {
-
     def sessionFactory
     private final log = Logger.getLogger(getClass())
     private static final STUDENT_ROLE = "SELFSERVICE-STUDENT"
     private static final EMPLOYEE_ROLE = "SELFSERVICE-EMPLOYEE"
     private static final CONFIRMATION_INDICATOR = "Y"
+    protected static final int INTERNAL_SEQUENCE_NUMBER = 1
+    protected static final String INTERNAL_GROUP = 'SSMREDATE'
+    protected static final String SYSTEM_REQUEST_INDICATOR = 'Y'
 
     @Override
     public boolean isShowPage(request) {
@@ -29,13 +31,22 @@ class SurveyFlow extends PostLoginWorkflow {
 
         if (isSurveyAvailableForUserAuthority() && isDone != SurveyController.ACTION_DONE) {
             // Survey is not yet taken.
-            Map startAndEndDates = getStartAndEndDates()
-            Timestamp surveyStartDate = startAndEndDates.startDate
+            Map startAndEndDates = SdaCrosswalkConversion.fetchReportingDates(INTERNAL_SEQUENCE_NUMBER,INTERNAL_GROUP,SYSTEM_REQUEST_INDICATOR);
+            Timestamp surveyStartDate
+            Timestamp surveyEndDate
             Timestamp today = new Timestamp(DateUtility.getTodayDate().getTime())
-            Timestamp surveyEndDate = startAndEndDates.endDate ?: today
-
+            if(startAndEndDates){
+                Date startDate = startAndEndDates.RESTARTDAT
+                Date endDate = startAndEndDates.REENDDATE
+                if (startDate){
+                    surveyStartDate =  new Timestamp(startDate.getTime())
+                }
+                if(endDate){
+                    surveyEndDate = new Timestamp(endDate.getTime())
+                }
+            }
             // Survey start date is not null & Today is between Survey start and end dates
-            if (surveyStartDate && (surveyStartDate <= today && today <= surveyEndDate)) {
+            if (surveyStartDate && (surveyStartDate <= today) && (surveyEndDate==null || (today <= surveyEndDate))) {
                 if (getSurveyConfirmedIndicator(pidm) != CONFIRMATION_INDICATOR) {
                     pushSurvey = true
                 }
@@ -62,61 +73,7 @@ class SurveyFlow extends PostLoginWorkflow {
     }
 
     private def getSurveyConfirmedIndicator(pidm) {
-        def connection
-        Sql sql
-        try {
-            connection = sessionFactory.currentSession.connection()
-            sql = new Sql(connection)
-            GroovyRowResult row = sql.firstRow("""select SPBPERS_CONFIRMED_RE_CDE from spbpers where spbpers_pidm = ${pidm}""")
-            return row?.SPBPERS_CONFIRMED_RE_CDE
-        } catch (SQLException ae) {
-            sql.close()
-            log.debug ae.stackTrace
-            throw ae
-        }
-        catch (Exception ae) {
-            log.debug ae.stackTrace
-            throw ae
-        }
-        finally {
-            connection.close()
-        }
-    }
-
-    private Map getStartAndEndDates() {
-        def connection
-        Sql sql
-        Map startAndEndDates = [:]
-        try {
-            connection = sessionFactory.currentSession.connection()
-            sql = new Sql(connection)
-            def startEndDateRows = sql.rows("""SELECT GTVSDAX_INTERNAL_CODE,TRUNC(GTVSDAX_REPORTING_DATE) as GTVSDAX_REPORTING_DATE
-                                       FROM GTVSDAX
-                                        WHERE GTVSDAX_INTERNAL_CODE_SEQNO = 1
-                                        AND GTVSDAX_INTERNAL_CODE_GROUP = 'SSMREDATE'
-                                        AND GTVSDAX_SYSREQ_IND          = 'Y'""")
-
-            startEndDateRows.each {
-                if (it.GTVSDAX_INTERNAL_CODE == "REENDDATE") {
-                    startAndEndDates.put("endDate", it.GTVSDAX_REPORTING_DATE)
-                }
-                else if (it.GTVSDAX_INTERNAL_CODE == "RESTARTDAT") {
-                    startAndEndDates.put("startDate", it.GTVSDAX_REPORTING_DATE)
-                }
-            }
-            return startAndEndDates
-        } catch (SQLException ae) {
-            sql.close()
-            log.debug ae.stackTrace
-            throw ae
-        }
-        catch (Exception ae) {
-            log.debug ae.stackTrace
-            throw ae
-        }
-        finally {
-            connection.close()
-        }
+        return PersonBasicPersonBase.fetchSurveyConfirmedFlagByPidm(pidm);
     }
 
 }

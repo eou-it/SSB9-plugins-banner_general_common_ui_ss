@@ -2,6 +2,7 @@
  Copyright 2014 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 package net.hedtech.banner.general.utility
+
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 import org.apache.log4j.Logger
 import org.springframework.context.i18n.LocaleContextHolder
@@ -89,6 +90,11 @@ class InformationTextUtility {
         }
         return modifiedResultSet
     }
+
+    /**
+     * Method getQueryParamForRoles method returns roles.
+     * @return
+     */
 
     private static List<String> getQueryParamForRoles() {
         List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()

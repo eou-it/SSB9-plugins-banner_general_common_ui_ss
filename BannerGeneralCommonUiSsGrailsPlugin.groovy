@@ -61,7 +61,7 @@ Brief summary/description of the plugin.
         }
 
         userAgreementFlow(UserAgreementFlow) { bean ->
-            sessionFactory = ref(sessionFactory)
+            sessionFactory = ref('sessionFactory')
 
             registerFlowClass = [
                     10: "userAgreementFlow"
@@ -75,7 +75,7 @@ Brief summary/description of the plugin.
         }
 
         surveyFlow(SurveyFlow) {
-            sessionFactory = ref(sessionFactory)
+            sessionFactory = ref('sessionFactory')
             registerFlowClass = [
                     50: "surveyFlow"
             ]

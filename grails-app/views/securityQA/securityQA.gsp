@@ -14,6 +14,7 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
         <r:require module="securityQARTL"/>
     </g:if>
     <meta name="layout" content="bannerSelfServicePage"/>
+    <meta name="menuBaseURL" content="${createLink(uri: '/ssb')}" />
     <r:script disposition="head">
                window.securityQAInitErrors = {
                    notification: "${notification}"

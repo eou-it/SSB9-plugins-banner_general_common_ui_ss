@@ -29,27 +29,6 @@ $(document).ready(function () {
 
                 notifications.addNotification(n);
             });
-
-            var n = new Notification( {message: $.i18n.prop("js.notification.dirtyCheck.message"), type:"warning", promptMessage: $.i18n.prop("js.notification.dirtyCheck.promptMessage")} );
-
-            n.addPromptAction( $.i18n.prop("js.notification.dirtyCheck.cancelActionButton"), function() {
-                notifications.remove( n );
-            });
-
-            n.addPromptAction( $.i18n.prop("js.notification.dirtyCheck.doNotSaveActionButton"), function() {
-                notifications.remove( n );
-            });
-
-            n.addPromptAction( $.i18n.prop("js.notification.dirtyCheck.saveActionButton"), function() {
-                notifications.remove( n );
-                var form = document.getElementById('securityForm');
-                form.submit();
-
-            });
-
-            notifications.addNotification( n );
-
-            return false;
         }
         else {
             var form = document.getElementById('securityForm');

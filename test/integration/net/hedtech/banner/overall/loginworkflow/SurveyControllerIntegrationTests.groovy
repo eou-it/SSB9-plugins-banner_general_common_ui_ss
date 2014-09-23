@@ -2,6 +2,9 @@
 Copyright 2014 Ellucian Company L.P. and its affiliates.
 **********************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
+import org.junit.Before
+import org.junit.Test
+import org.junit.After
 
 import net.hedtech.banner.exceptions.ApplicationException
 import net.hedtech.banner.general.person.PersonBasicPersonBase
@@ -28,14 +31,16 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
 
 
-    protected void setUp() {
+	@Before
+	public void setUp() {
         formContext = ['GUAGMNU']
         controller = new SurveyController()
         super.setUp()
     }
 
 
-    protected void tearDown() {
+	@After
+	public void tearDown() {
         super.tearDown()
         logout()
         controller = null
@@ -48,6 +53,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
     }
 
+	@Test
     public void testSurvey() {
         if (!isSsbEnabled()) return
         loginForRegistration(i_success_banner_Id)
@@ -85,6 +91,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
 
 
+	@Test
     public void testSaveValid(){
         if (!isSsbEnabled()) return
         loginForRegistration(i_success_banner_Id)
@@ -97,6 +104,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
     }
 
+	@Test
     public void testSaveInValid(){
         if (!isSsbEnabled()) return
         loginForRegistration(i_success_banner_Id)

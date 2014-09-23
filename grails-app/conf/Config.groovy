@@ -28,7 +28,7 @@ def locationAdder = ConfigFinder.&addLocation.curry(grails.config.locations)
 
 
 grails.project.groupId = "net.hedtech" // used when deploying to a maven repo
-
+grails.databinding.useSpringBinder=true
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
 grails.mime.types = [html: ['text/html', 'application/xhtml+xml'],

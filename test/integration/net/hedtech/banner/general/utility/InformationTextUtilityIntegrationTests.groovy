@@ -3,6 +3,9 @@
 **********************************************************************************/
 
 package net.hedtech.banner.general.utility
+import org.junit.Before
+import org.junit.Test
+import org.junit.After
 
 import grails.util.Holders
 import net.hedtech.banner.testing.BaseIntegrationTestCase
@@ -22,18 +25,21 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     private static final String RECORD_BASELINE = "B"
     private static final String RECORD_LOCAL = "L"
 
-    protected void setUp() {
+	@Before
+	public void setUp() {
         if (!isSsbEnabled()) return
         formContext = ['GUAGMNU'] // Since we are not testing a controller, we need to explicitly set this
         super.setUp()
     }
 
 
-    protected void tearDown() {
+	@After
+	public void tearDown() {
         if (!isSsbEnabled()) return
         super.tearDown()
     }
 
+	@Test
     void testSingleValueKeyWithBaseline() {
         if (!isSsbEnabled()) return
         createBaselineWithSingleValueKey()
@@ -44,6 +50,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testMultipleValuesKeyWithBaseline() {
         if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
@@ -56,6 +63,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testSingleKeyWithoutValue() {
         if (!isSsbEnabled()) return
         setAuthentication()
@@ -65,6 +73,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testSingleValueKeyWithLocal() {
         if (!isSsbEnabled()) return
         createLocalWithSingleValueKey()
@@ -75,6 +84,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testMultipleValuesKeyWithLocalNullDate() {
         if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
@@ -87,6 +97,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testMultipleValuesKeyWithLocalNotNullDate() {
         if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
@@ -100,6 +111,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testMultipleValuesKeyWithLocalSingleNullDate() {
         if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
@@ -111,6 +123,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testLocalWithFutureStartDate() {
         if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
@@ -123,6 +136,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     }
 
 
+	@Test
     void testAnonymousUserSingleValue() {
         if (!isSsbEnabled()) return
         setAuthentication()
@@ -135,6 +149,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testAnonymousUserMultipleValues() {
         if (!isSsbEnabled()) return
         setAuthentication()
@@ -148,6 +163,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testDefaultPersonaSingleValue() {
         if (!isSsbEnabled()) return
         setAuthentication()
@@ -164,6 +180,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+	@Test
     void testDefaultPersonaMultipleValue() {
         if (!isSsbEnabled()) return
         setAuthentication()

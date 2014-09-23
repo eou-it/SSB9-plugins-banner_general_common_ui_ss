@@ -2,6 +2,9 @@
  Copyright 2014 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
+import org.junit.Before
+import org.junit.Test
+import org.junit.After
 
 import groovy.sql.Sql
 import net.hedtech.banner.testing.BaseIntegrationTestCase
@@ -29,7 +32,8 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
     def i_question2 = "Fav food?"
     def pidm = 400720
 
-    protected void setUp() {
+	@Before
+	public void setUp() {
 
         // For testing RESTful APIs, we don't want the default 'controller support' added by our base class.
         // Most importantly, we don't want to redefine the controller's params to be a map within this test,
@@ -49,12 +53,14 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
     }
 
 
-    protected void tearDown() {
+	@After
+	public void tearDown() {
         if (!isSsbEnabled()) return
         super.tearDown()
         logout()
     }
 
+	@Test
     void testRetrieveDate() {
         if (!isSsbEnabled()) return
         controller.index()
@@ -72,11 +78,12 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
         answerMinimumLength = securityQAService.getUserDefinedPreference().GUBPPRF_ANSR_MIN_LENGTH
         assertTrue !controller?.response?.contentAsString?.equals("[]")
         def fields = renderMap.model
-        assertEquals fields.questionMinimumLength, questionMinimumLength
-        assertEquals fields.answerMinimumLength, answerMinimumLength
-        assertEquals fields.questions.size(), ques.size()
+        assertEquals fields.questionMinimumLength, questionMinimumLength, 0
+        assertEquals fields.answerMinimumLength, answerMinimumLength, 0
+        assertEquals fields.questions.size(), ques.size(), 0
     }
 
+	@Test
     void testSave(){
         if (!isSsbEnabled()) return
         def pinQuestion1  = newValidForCreatePinQuestion("TT11" ,i_question1 )
@@ -95,7 +102,7 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
         }
         questionList = questions.values().collect()
         setNumberOfQuestion(3)
-        assertEquals 3, securityQAService.getUserDefinedPreference().GUBPPRF_NO_OF_QSTNS
+        assertEquals 3, securityQAService.getUserDefinedPreference().GUBPPRF_NO_OF_QSTNS, 0
 
         int question1Index = questionList.indexOf(pinQuestion1.getDescription())+1
         int question2Index = questionList.indexOf(pinQuestion2.getDescription()) +1
@@ -111,7 +118,7 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
         assertEquals controller.response.status, 200
         def securityQAData = controller?.response?.contentAsString
         int ansrCount = securityQAService.getNumberOfQuestionsAnswered(pidm)
-        assertEquals 3, ansrCount
+        assertEquals 3, ansrCount, 0
         assertNotNull securityQAData
 
     }

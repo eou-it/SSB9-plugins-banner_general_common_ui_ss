@@ -10,6 +10,7 @@ grails.plugin.location.'banner-general-validation-common' = "../banner_general_v
 grails.plugin.location.'banner-general-person' = "../banner_general_person.git"
 grails.plugin.location.'banner-general-common' = "../banner_general_common.git"
 
+grails.project.dependency.resolver = "ivy"
 grails.project.dependency.resolution = {
 
     inherits("global") {
@@ -37,5 +38,6 @@ grails.project.dependency.resolution = {
         runtime  ":hibernate:3.6.10.10"
         compile ":tomcat:7.0.52.1"
         test ':code-coverage:1.2.5'
+        runtime ":webxml:1.4.1"
     }
 }

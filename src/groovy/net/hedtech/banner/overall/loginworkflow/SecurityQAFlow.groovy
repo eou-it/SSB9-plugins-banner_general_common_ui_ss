@@ -54,11 +54,11 @@ class SecurityQAFlow extends PostLoginWorkflow {
     }
 
     private boolean isUserAlreadyAnsweredSecurityQA(noOfQuestions) {
-
-        if (noOfQuestions > securityQAService.getNumberOfQuestionsAnswered(BannerGrantedAuthorityService.getPidm())) {
+        Integer pidm = BannerGrantedAuthorityService.getPidm()
+        if (pidm && noOfQuestions > securityQAService.getNumberOfQuestionsAnswered(pidm)) {
             return false
         }
-
         return true
     }
+
 }

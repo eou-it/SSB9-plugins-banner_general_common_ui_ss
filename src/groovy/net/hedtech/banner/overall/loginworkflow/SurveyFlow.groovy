@@ -8,6 +8,8 @@ import net.hedtech.banner.general.person.PersonBasicPersonBase
 import net.hedtech.banner.general.system.SdaCrosswalkConversion
 import net.hedtech.banner.utility.DateUtility
 import org.apache.log4j.Logger
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+
 import java.sql.Timestamp
 import java.sql.Date
 import net.hedtech.banner.security.BannerGrantedAuthorityService
@@ -67,9 +69,21 @@ class SurveyFlow extends PostLoginWorkflow {
     }
 
     private static def isSurveyAvailableForUserAuthority() {
+        def pageRoles
         def authorities = BannerGrantedAuthorityService.getAuthorities()
-        def userAuthorities = authorities?.collect { it.objectName }
-        return (userAuthorities?.contains(STUDENT_ROLE) || userAuthorities?.contains(EMPLOYEE_ROLE))
+        def userAuthorities = authorities?.collect { it}
+        String page = "/ssb/survey/\\**"
+        def pageDetail = ConfigurationHolder.config.grails.plugins.springsecurity.interceptUrlMap
+        pageRoles = pageDetail.find {
+            it =~ page
+        }?.value
+
+        pageRoles?.each { role ->
+            userAuthorities?.each {
+                if (it == role)
+                    return true
+            }
+        }
     }
 
     private def getSurveyConfirmedIndicator(pidm) {

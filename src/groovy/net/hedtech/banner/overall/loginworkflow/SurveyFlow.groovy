@@ -69,21 +69,26 @@ class SurveyFlow extends PostLoginWorkflow {
     }
 
     private static def isSurveyAvailableForUserAuthority() {
+        def isAuthorized =false
         def pageRoles
         def authorities = BannerGrantedAuthorityService.getAuthorities()
-        def userAuthorities = authorities?.collect { it}
+        def userAuthorities = authorities?.collect { it.toString()}
         String page = "/ssb/survey/\\**"
         def pageDetail = ConfigurationHolder.config.grails.plugins.springsecurity.interceptUrlMap
         pageRoles = pageDetail.find {
             it =~ page
         }?.value
 
-        pageRoles?.each { role ->
-            userAuthorities?.each {
-                if (it == role)
-                    return true
+        for (role in pageRoles) {
+            for (it in userAuthorities) {
+                if (it == role) {
+                    isAuthorized = true
+                    break
+                }
             }
+            if(isAuthorized) break
         }
+        return isAuthorized
     }
 
     private def getSurveyConfirmedIndicator(pidm) {

@@ -75,15 +75,8 @@ class SurveyFlow extends PostLoginWorkflow {
             it =~ PAGE
         }?.value
 
-        for (role in pageRoles) {
-            for (it in userAuthorities) {
-                if (it == role) {
-                    isAuthorized = true
-                    break
-                }
-            }
-            if(isAuthorized) break
-        }
+        isAuthorized =  !userAuthorities?.disjoint(pageRoles)
+
         return isAuthorized
     }
 

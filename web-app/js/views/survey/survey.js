@@ -2,26 +2,6 @@
  Copyright 2014 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 $(document).ready(function () {
-    function fixBreadcrumbs() {
-        function rebindBreadCrumb() {
-            $('.breadcrumbButton').each(function(idx, ele) {
-                var elementId = $(ele).attr('id').replace(/([ #;&,.+*~\':"!^$[\]()=>|\/])/g, '\\$1');
-                $('#'+elementId).unbind('click');
-            });
-        }
-        function repeatUntil(func, delay, count) {
-            if (!func()) {
-                count = count == null ? 10 : count;
-                delay = delay || 100;
-                _.delay(function () {
-                    repeatUntil(func, delay, --count);
-                }, delay);
-            }
-        }
-
-        repeatUntil(rebindBreadCrumb, 100, 10);
-    }
-    fixBreadcrumbs();
     $('#confirmSurvey').hide();
     $('#chkEthn_1').focus();
     var notificationMessages = new Array();

@@ -20,6 +20,14 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
                    notification: "${notification}"
                };
     </r:script>
+
+    <meta name="headerAttributes" content=""/>
+    <script type="text/javascript">
+        document.getElementsByName('headerAttributes')[0].content = JSON.stringify({
+            "pageTitle": "<g:message code="securityQA.title"/>"
+        });
+    </script>
+
 </head>
 
 <body>
@@ -80,11 +88,7 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
 
 <div id="content">
     <div id="bodyContainer" class="ui-layout-center inner-center">
-        <div id="pageheader" class="level4">
-            <div id="pagetitle"><g:message code="securityQA.title"/></div>
-        </div>
-
-        <div id="pagebody" class="level4">
+         <div id="pagebody" class="level4">
             <div id="contentHolder">
                 <div id="contentBelt"></div>
 

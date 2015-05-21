@@ -14,13 +14,16 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
     <g:if test="${message(code: 'default.language.direction') == 'rtl'}">
         <r:require module="userAgreementRTL"/>
     </g:if>
+    <meta name="headerAttributes" content=""/>
+    <script type="text/javascript">
+        document.getElementsByName('headerAttributes')[0].content = JSON.stringify({
+            "pageTitle": "<g:message code="net.hedtech.banner.termsofuse.title"/>"
+        });
+    </script>
 </head>
 <body>
 <div id="content">
     <div id="bodyContainer">
-        <div id="pageheader">
-            <div id="pagetitle"><g:message code="net.hedtech.banner.termsofuse.title"/></div>
-        </div>
         <div id="pagebody" class="loginterms level">
             <div id="contentHolder">
                 <div id="contentBelt"></div>

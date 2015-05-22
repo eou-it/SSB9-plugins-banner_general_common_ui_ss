@@ -16,7 +16,7 @@ class BannerSelfServicePostLoginFlowFilters {
     public static final String LAST_FLOW_COMPLETED = "LAST_FLOW_COMPLETED"
     def ssbLoginURLRequest
 
-    def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
+    def dependsOn = [net.hedtech.banner.security.BannerMepCodeFilter.class, net.hedtech.banner.security.AccessControlFilters.class]
 
     def filters = {
         all(controller: "selfServiceMenu|login|logout|error|dateConverter", invert: true) {

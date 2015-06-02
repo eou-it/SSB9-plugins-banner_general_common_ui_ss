@@ -21,7 +21,7 @@ class BannerSelfServicePostLoginFlowFilters {
     def filters = {
         all(controller: "selfServiceMenu|login|logout|error|dateConverter", invert: true) {
             before = {
-                if (!ApiUtils.isApiRequest()) {
+                if (!ApiUtils.isApiRequest() && !request.xhr) {
                     HttpSession session = request.getSession()
                     boolean isAllFlowCompleted = session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE)
                     String path = getServletPath(request)

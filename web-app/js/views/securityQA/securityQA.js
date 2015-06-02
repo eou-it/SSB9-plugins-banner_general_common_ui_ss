@@ -24,8 +24,8 @@ $(document).ready(function () {
         notificationMessages = [];
         validateForm();
         if (notificationMessages && notificationMessages.length > 0) {
-            _.each(notificationMessages, function (message) {
-                var n = new Notification({message:message, type:"error"});
+            _.each(notificationMessages, function (notification) {
+                var n = new Notification({message:notification.message, type:"error",component: notification.component});
 
                 notifications.addNotification(n);
             });
@@ -44,6 +44,7 @@ $(document).ready(function () {
         if(userDefinedQuesFlag == 'Y') {
             $('input#userDefinedQuestion').each(function (j, selectElm) {
                 // to clear old states
+                var inputbox = $(selectElm);
                 removeAriaErrors(selectElm, 'aria-invalid-question-'+j);
                 $(selectElm).parent().removeClass("notification-error");
                 var enteredText = $(selectElm).val();
@@ -55,12 +56,15 @@ $(document).ready(function () {
 
                     addAriaErrors(selectElm, invalidcharacter, "aria-invalid-question-"+j);
 
-                    notificationMessages.push(invalidcharacter);
+                    var notification = {message:invalidcharacter,component:inputbox};
+                    notificationMessages.push(notification);
+
                 }
                 if (enteredText.length > 0 && enteredText.length < questionMinimumLength) {
                     $(selectElm).parent().addClass("notification-error");
                     addAriaErrors(selectElm, invalidqusetionlength, "aria-invalid-question-"+j);
-                    notificationMessages.push(invalidqusetionlength);
+                    var notification = {message:invalidqusetionlength,component:inputbox};
+                    notificationMessages.push(notification);
                 }
             });
         }
@@ -70,6 +74,8 @@ $(document).ready(function () {
             // to clear old states
             removeAriaErrors(ielm, 'aria-invalid-select-question-'+j);
 
+            var selectbox = $(ielm).parent();
+
             $(ielm).closest("div .section-wrapper").removeClass("notification-error");
             var index = parseInt($(ielm).val().substring("question".length));
             $('body').append('<div role="alert" id="aria-invalid-select-question-'+ j + '"></div>');
@@ -78,7 +84,8 @@ $(document).ready(function () {
                     var error = $.i18n.prop("securityQA.error");
                     $(ielm).closest("div .section-wrapper").addClass("notification-error");
                     addAriaErrors(ielm.parentElement, error, "aria-invalid-select-question-" + j);
-                    notificationMessages.push(error);
+                    var notification = {message:error,component:selectbox};
+                    notificationMessages.push(notification);
                 }
             } else {
                 var userDefinedQuestion = $('input#userDefinedQuestion')[j].value;
@@ -87,14 +94,16 @@ $(document).ready(function () {
                     $(ielm).closest("div .section-wrapper").addClass("notification-error");
                     addAriaErrors(ielm.parentElement, error, "aria-invalid-select-question-" + j);
                     $($('input#userDefinedQuestion')[j]).attr('aria-invalid', 'true');
-                    notificationMessages.push(error);
+                    var notification = {message:error,component:selectbox};
+                    notificationMessages.push(notification);
                 }
                 else if (index == 0 && userDefinedQuestion.length == 0) {
                     var error = $.i18n.prop("securityQA.error");
                     $(ielm).closest("div .section-wrapper").addClass("notification-error");
                     addAriaErrors(ielm.parentElement, error, "aria-invalid-select-question-" + j);
                     $($('input#userDefinedQuestion')[j]).attr('aria-invalid', 'true');
-                    notificationMessages.push(error);
+                    var notification = {message:error,component:selectbox};
+                    notificationMessages.push(notification);
                 }
             }
         });
@@ -104,12 +113,15 @@ $(document).ready(function () {
             // to clear old states
             removeAriaErrors(ielm, 'aria-invalid-answer-'+j);
 
+            var inputbox = $(ielm);
+
             $(ielm).parent().removeClass("notification-error");
             $('body').append('<div role="alert" id="aria-invalid-answer-'+ j + '"></div>');
             var enteredText = $(ielm).val();
             if (enteredText.length == 0) {
                 var error = $.i18n.prop("securityQA.error");
-                notificationMessages.push(error);
+                var notification = {message:error,component:inputbox};
+                notificationMessages.push(notification);
                 $(ielm).parent().addClass("notification-error");
                 addAriaErrors(ielm, error, "aria-invalid-answer-"+j);
             }
@@ -118,13 +130,15 @@ $(document).ready(function () {
                 var invalidcharacter = $.i18n.prop("securityQA.invalid.answer");
                 $(ielm).parent().addClass("notification-error");
                 addAriaErrors(ielm, invalidcharacter, "aria-invalid-answer-"+j);
-                notificationMessages.push(invalidcharacter);
+                var notification = {message:invalidcharacter,component:inputbox};
+                notificationMessages.push(notification);
             }
             if (enteredText.length > 0 && enteredText.length < answerMinimumLength) {
                 var invalidanswerlength = $.i18n.prop("securityQA.invalid.length.answer", [answerMinimumLength]);
                 $(ielm).parent().addClass("notification-error");
                 addAriaErrors(ielm, invalidanswerlength, "aria-invalid-answer-"+j);
-                notificationMessages.push(invalidanswerlength);
+                var notification = {message:invalidanswerlength,component:inputbox};
+                notificationMessages.push(notification);
             }
         });
     }
@@ -203,7 +217,8 @@ $(document).ready(function () {
         var error = $.i18n.prop("securityQA.invaild.pin");
         var blankPinAnswerNotification = new Notification({message:error, type:"error"});
         if ($('input#pin').val().length == 0) {
-            notificationMessages.push(error);
+            var notification = {message:error,component:$('input#pin')};
+            notificationMessages.push(notification);
             $('input#pin').parent().addClass("notification-error");
             setAriaInvalidTrueAndDescribedByError('input#pin', 'invalid-pin');
             $('#invalid-pin').remove();

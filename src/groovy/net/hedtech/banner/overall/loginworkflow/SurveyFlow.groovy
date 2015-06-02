@@ -7,16 +7,15 @@ package net.hedtech.banner.overall.loginworkflow
 import net.hedtech.banner.general.person.PersonBasicPersonBase
 import net.hedtech.banner.general.system.SdaCrosswalkConversion
 import net.hedtech.banner.utility.DateUtility
-import org.apache.log4j.Logger
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+
 import java.sql.Timestamp
 import java.sql.Date
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 
 class SurveyFlow extends PostLoginWorkflow {
     def sessionFactory
-    private final log = Logger.getLogger(getClass())
-    private static final STUDENT_ROLE = "SELFSERVICE-STUDENT"
-    private static final EMPLOYEE_ROLE = "SELFSERVICE-EMPLOYEE"
+    private static final PAGE = "/ssb/survey/\\**"
     private static final CONFIRMATION_INDICATOR = "Y"
     protected static final int INTERNAL_SEQUENCE_NUMBER = 1
     protected static final String INTERNAL_GROUP = 'SSMREDATE'
@@ -67,9 +66,18 @@ class SurveyFlow extends PostLoginWorkflow {
     }
 
     private static def isSurveyAvailableForUserAuthority() {
+        def isAuthorized =false
+        def pageRoles
         def authorities = BannerGrantedAuthorityService.getAuthorities()
-        def userAuthorities = authorities?.collect { it.objectName }
-        return (userAuthorities?.contains(STUDENT_ROLE) || userAuthorities?.contains(EMPLOYEE_ROLE))
+        def userAuthorities = authorities?.collect { it.toString()}
+        def pageDetail = ConfigurationHolder.config.grails.plugins.springsecurity.interceptUrlMap
+        pageRoles = pageDetail.find {
+            it =~ PAGE
+        }?.value
+
+        isAuthorized =  !userAuthorities?.disjoint(pageRoles)
+
+        return isAuthorized
     }
 
     private def getSurveyConfirmedIndicator(pidm) {

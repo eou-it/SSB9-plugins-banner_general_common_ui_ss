@@ -16,7 +16,7 @@ grails.project.dependency.resolution = {
     inherits("global") {
     }
 
-    log "warn"
+    log "error"
 
     repositories {
         if (System.properties['PROXY_SERVER_NAME']) {

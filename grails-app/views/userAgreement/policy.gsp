@@ -1,6 +1,6 @@
 <%--
 /*******************************************************************************
-Copyright 2014 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 --%>
 
@@ -10,10 +10,12 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
 <head>
     <title><g:message code="net.hedtech.banner.termsofuse.title"/></title>
     <meta name="layout" content="bannerSelfServicePage"/>
-    <r:require module="userAgreement"/>
-    <g:if test="${message(code: 'default.language.direction') == 'rtl'}">
-        <r:require module="userAgreementRTL"/>
+    <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
+        <r:require modules="userAgreementRTL"/>
     </g:if>
+    <g:else>
+        <r:require modules="userAgreementLTR"/>
+    </g:else>
     <meta name="headerAttributes" content=""/>
     <script type="text/javascript">
         document.getElementsByName('headerAttributes')[0].content = JSON.stringify({

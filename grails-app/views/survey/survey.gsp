@@ -1,6 +1,6 @@
 <%--
 /*******************************************************************************
-Copyright 2014 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 --%>
 
@@ -24,11 +24,12 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
         });
     </script>
 
-
-    <r:require module="survey"/>
-    <g:if test="${message(code: 'default.language.direction') == 'rtl'}">
-        <r:require module="surveyRTL"/>
+    <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
+        <r:require modules="surveyRTL"/>
     </g:if>
+    <g:else>
+        <r:require modules="surveyLTR"/>
+    </g:else>
 </head>
 
 <body>

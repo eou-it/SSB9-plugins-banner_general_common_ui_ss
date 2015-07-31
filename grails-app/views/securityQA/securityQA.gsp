@@ -1,6 +1,6 @@
 <%--
 /*******************************************************************************
-Copyright 2014 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 --%>
 
@@ -9,10 +9,12 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
 <html>
 <head>
     <title><g:message code="securityQA.title"/></title>
-    <r:require module="securityQA"/>
-    <g:if test="${message(code: 'default.language.direction') == 'rtl'}">
-        <r:require module="securityQARTL"/>
+    <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
+        <r:require modules="securityQARTL"/>
     </g:if>
+    <g:else>
+        <r:require modules="securityQALTR"/>
+    </g:else>
     <meta name="layout" content="bannerSelfServicePage"/>
     <meta name="menuBaseURL" content="${createLink(uri: '/ssb')}" />
     <r:script disposition="head">

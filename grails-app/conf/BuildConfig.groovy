@@ -10,7 +10,7 @@ grails.plugin.location.'banner-general-validation-common' = "../banner_general_v
 grails.plugin.location.'banner-general-person' = "../banner_general_person.git"
 grails.plugin.location.'banner-general-common' = "../banner_general_common.git"
 
-grails.project.dependency.resolver = "ivy"
+grails.project.dependency.resolver = "maven"
 grails.project.dependency.resolution = {
 
     inherits("global") {

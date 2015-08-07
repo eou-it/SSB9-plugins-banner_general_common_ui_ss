@@ -7,7 +7,7 @@ package net.hedtech.banner.overall.loginworkflow
 import net.hedtech.banner.general.person.PersonBasicPersonBase
 import net.hedtech.banner.general.system.SdaCrosswalkConversion
 import net.hedtech.banner.utility.DateUtility
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import grails.util.Holders
 
 import java.sql.Timestamp
 import java.sql.Date
@@ -70,7 +70,7 @@ class SurveyFlow extends PostLoginWorkflow {
         def pageRoles
         def authorities = BannerGrantedAuthorityService.getAuthorities()
         def userAuthorities = authorities?.collect { it.toString()}
-        def pageDetail = ConfigurationHolder.config.grails.plugins.springsecurity.interceptUrlMap
+        def pageDetail = Holders.config.grails.plugins.springsecurity.interceptUrlMap
         pageRoles = pageDetail.find {
             it =~ PAGE
         }?.value

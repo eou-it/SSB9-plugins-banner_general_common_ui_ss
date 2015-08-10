@@ -2,22 +2,22 @@
 Copyright 2014 Ellucian Company L.P. and its affiliates.
 **********************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
-import org.junit.Before
-import org.junit.Test
-import org.junit.After
 
 import net.hedtech.banner.exceptions.ApplicationException
 import net.hedtech.banner.general.person.PersonBasicPersonBase
 import net.hedtech.banner.general.person.PersonRace
 import net.hedtech.banner.general.system.Race
 import net.hedtech.banner.general.system.RegulatoryRace
+import net.hedtech.banner.security.BannerGrantedAuthorityService
 import net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider
 import net.hedtech.banner.testing.BaseIntegrationTestCase
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import grails.util.Holders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import net.hedtech.banner.security.BannerGrantedAuthorityService
 
 class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
     SelfServiceBannerAuthenticationProvider selfServiceBannerAuthenticationProvider
@@ -127,7 +127,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
     }
 
     private def isSsbEnabled() {
-        ConfigurationHolder.config.ssbEnabled instanceof Boolean ? ConfigurationHolder.config.ssbEnabled : false
+        Holders.config.ssbEnabled instanceof Boolean ? Holders.config.ssbEnabled : false
     }
 
 }

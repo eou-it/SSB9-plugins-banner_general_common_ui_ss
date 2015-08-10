@@ -8,7 +8,7 @@ import org.junit.After
 
 import groovy.sql.Sql
 import net.hedtech.banner.testing.BaseIntegrationTestCase
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import grails.util.Holders
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken as UPAT
 import org.springframework.security.core.context.SecurityContextHolder
@@ -143,7 +143,7 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
     }
 
     private def isSsbEnabled() {
-        ConfigurationHolder.config.ssbEnabled instanceof Boolean ? ConfigurationHolder.config.ssbEnabled : false
+        Holders.config.ssbEnabled instanceof Boolean ? Holders.config.ssbEnabled : false
     }
 
 

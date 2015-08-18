@@ -12,13 +12,19 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
     <meta name="layout" content="bannerSelfServicePage"/>
     <meta name="menuEndPoint" content="${g.createLink(controller: 'selfServiceMenu', action: 'data')}"/>
     <meta name="menuBaseURL" content="${createLink(uri: '/ssb')}" />
-    <meta name="menuDefaultBreadcrumbId" content=""/>
+
+    <meta name="headerAttributes" content=""/>
     <script type="text/javascript">
-        document.getElementsByName('menuDefaultBreadcrumbId')[0].content = [
-            "<g:message code="survey.breadcrumb.bannerSelfService"/>",
-            "<g:message code="survey.breadcrumb.survey"/>"
-        ].join('_');
+        document.getElementsByName('headerAttributes')[0].content = JSON.stringify({
+            "pageTitle": "<g:message code="survey.edit.title" />",
+            "breadcrumb": {
+                "<g:message code="survey.breadcrumb.bannerSelfService"/>": "",
+                "<g:message code="survey.breadcrumb.survey"/>": ""
+            }
+        });
     </script>
+
+
     <r:require module="survey"/>
     <g:if test="${message(code: 'default.language.direction') == 'rtl'}">
         <r:require module="surveyRTL"/>
@@ -28,9 +34,7 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
 <body>
 <div id="content">
     <div id="bodyContainer" class="ui-layout-center inner-center">
-        <div id="pageheader" class="level4">
-            <div id="pagetitle"><g:message code="survey.edit.title" /></div>
-        </div>
+
         <div id="pagebody" class="level4">
             <div id="contentHolder">
                 <div id="contentBelt"></div>

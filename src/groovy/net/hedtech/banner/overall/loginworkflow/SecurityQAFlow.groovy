@@ -37,7 +37,7 @@ class SecurityQAFlow extends PostLoginWorkflow {
     }
 
     private void initializeSecurityQAService() {
-        ApplicationContext ctx = (ApplicationContext) ApplicationHolder.getApplication().getMainContext()
+        ApplicationContext ctx = (ApplicationContext) Holders.getGrailsApplication().getMainContext()
         securityQAService = (SecurityQAService) ctx.getBean("securityQAService")
     }
 

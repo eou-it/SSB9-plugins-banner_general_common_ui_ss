@@ -6,8 +6,6 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
-grails.plugin.location.'banner-general-validation-common' = "../banner_general_validation_common.git"
-grails.plugin.location.'banner-general-person' = "../banner_general_person.git"
 grails.plugin.location.'banner-general-common' = "../banner_general_common.git"
 
 grails.project.dependency.resolver = "maven"

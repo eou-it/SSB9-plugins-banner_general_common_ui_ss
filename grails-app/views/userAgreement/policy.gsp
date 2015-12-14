@@ -25,6 +25,7 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
 </head>
 <body>
 <div id="content">
+    <div id='title-panel' class='aurora-theme'></div>
     <div id="bodyContainer">
         <div id="pagebody" class="loginterms level">
             <div id="contentHolder">

@@ -9,11 +9,13 @@ import org.junit.After
 
 import grails.util.Holders
 import net.hedtech.banner.testing.BaseIntegrationTestCase
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.GrantedAuthorityImpl
 import org.springframework.security.core.context.SecurityContextHolder
+import java.util.Locale
 
 class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
@@ -52,7 +54,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testMultipleValuesKeyWithBaseline() {
-        if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
         setAuthentication()
         def informationText = InformationTextUtility.getMessages(PAGE_NAME)
@@ -91,9 +92,10 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         createLocalTestDataWithNullDate()
         setAuthentication()
         def informationText = InformationTextUtility.getMessages(PAGE_NAME)
-        String expectedText = ""
-        assertEquals(expectedText, informationText.key1)
-        assertEquals(expectedText, informationText.key2)
+        String expectedText1 = "Baseline text no 0\nBaseline text no 1\nBaseline text no 2\nBaseline text no 3"
+        String expectedText2 = "Baseline second text no 0\nBaseline second text no 1\nBaseline second text no 2\nBaseline second text no 3"
+        GroovyTestCase.assertEquals(expectedText1, informationText.key1)
+        GroovyTestCase.assertEquals(expectedText2, informationText.key2)
         logout()
     }
 
@@ -198,6 +200,63 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+    @Test
+    void testFallbackLocales() {
+        List<Locale> fallbackLocales = InformationTextUtility.getFallbackLocales(Locale.CANADA_FRENCH)
+        assertEquals(3, fallbackLocales.size())
+        assertEquals("fr_CA", fallbackLocales[0])
+        assertEquals("fr", fallbackLocales[1])
+        assertEquals(Locale.default.toString(), fallbackLocales[2])
+
+    }
+
+    @Test
+    void testLocalOnlyLocaleMatch(){
+        createSingleDefaultLocalTestDataForUserForLocale()
+        setAuthentication()
+       Locale l = new Locale("fr","CA")
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1",l)
+        String expectedText = "DEFAULT - Local text no 0"
+        GroovyTestCase.assertEquals(expectedText, informationText)
+        logout()
+    }
+
+    @Test
+    void testBaseLineOnlyLocaleMatch(){
+        createSingleDefaultLocalTestDataForUserWithLocale()
+        createBaselineWithSingleValueKeyWithLocale()
+        setAuthentication()
+        Locale l = new Locale("fr","CA")
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1",l)
+        String expectedText = "Baseline text no 0"
+        GroovyTestCase.assertEquals(expectedText, informationText)
+        logout()
+    }
+
+    @Test
+    void testLocalAndBaseLineLocaleMatch(){
+        createSingleDefaultLocalTestDataForUserForLocale()
+        createBaselineWithSingleValueKeyForLocale()
+        setAuthentication()
+        Locale l = new Locale("fr","CA")
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1",l)
+        String expectedText = "DEFAULT - Local text no 0"
+        GroovyTestCase.assertEquals(expectedText, informationText)
+        logout()
+    }
+
+    @Test
+    void testFallbackLocaleMatch(){
+        createSingleDefaultLocalTestDataForUserWithLocale()
+        createBaselineWithSingleValueKeyWithFallbackLocale()
+        setAuthentication()
+        Locale l = new Locale("fr","CA")
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1",l)
+        String expectedText = "DEFAULT - Local text no 0"
+        GroovyTestCase.assertEquals(expectedText, informationText)
+        logout()
+    }
+
     void setAnonymousAuthentication() {
         List roles = new ArrayList();
         GrantedAuthority grantedAuthority = new GrantedAuthorityImpl("ROLE_ANONYMOUS");
@@ -242,12 +301,27 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     }
 
     private def setAuthentication() {
+        def oldFlag = Holders.getConfig().ssbEnabled
+        Holders.getConfig().ssbEnabled = true
         def auth = selfServiceBannerAuthenticationProvider.authenticate(new UsernamePasswordAuthenticationToken('HOSWEB002', '111111'))
         SecurityContextHolder.getContext().setAuthentication(auth)
+        Holders.getConfig().ssbEnabled = oldFlag
     }
 
     private def createBaselineWithSingleValueKey() {
         createInfoTextTestData(RECORD_BASELINE, "Baseline text no", "key1", new Date(), new Date(), 1)
+    }
+
+    private def createBaselineWithSingleValueKeyForLocale() {
+        createInfoTextTestDataForLocaleMatch(RECORD_BASELINE, "Baseline text no", "key1", new Date(), new Date(), 1)
+    }
+
+    private def createBaselineWithSingleValueKeyWithLocale() {
+        createInfoTextTestDataWithLocaleArgument(RECORD_BASELINE, "Baseline text no", "key1","fr_CA", new Date(), new Date(), 1)
+    }
+
+    private def createBaselineWithSingleValueKeyWithFallbackLocale() {
+        createInfoTextTestDataWithLocaleArgument(RECORD_BASELINE, "Baseline text no", "key1","fr", new Date(), new Date(), 1)
     }
 
     private def createBaselineTestDataWithNotNullDate() {
@@ -295,6 +369,14 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         createInfoTextTestData(RECORD_LOCAL, "DEFAULT - Local text no", "key1", new Date(), new Date(), 1, false, PERSONA_DEFAULT)
     }
 
+    def createSingleDefaultLocalTestDataForUserForLocale() {
+        createInfoTextTestDataForLocaleMatch(RECORD_LOCAL, "DEFAULT - Local text no", "key1", new Date(), new Date(), 1, false, PERSONA_DEFAULT)
+    }
+
+    def createSingleDefaultLocalTestDataForUserWithLocale() {
+        createInfoTextTestDataWithLocaleArgument(RECORD_LOCAL, "DEFAULT - Local text no", "key1","fr", new Date(), new Date(), 1, false, PERSONA_DEFAULT)
+    }
+
     def createMultipleDefaultLocalTestDataForUser() {
         createInfoTextTestData(RECORD_LOCAL, "DEFAULT - Local text no", "key1", new Date(), new Date(), 3, true, PERSONA_DEFAULT)
     }
@@ -304,6 +386,65 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         def textType = "N"
         def sequenceNumber = 1
         def locale = "en_US"
+        def comment = "Test data"
+        recordsSize.times {
+            if (singleNullDateIndicator) {
+                if (it == recordsSize - 1) {
+                    startDate = null
+                    endDate = null
+                }
+            }
+            new InformationText(
+                    pageName: pageName,
+                    label: label,
+                    textType: textType,
+                    sequenceNumber: sequenceNumber++,
+                    persona: persona,
+                    startDate: startDate,
+                    endDate: endDate,
+                    text: text + " " + it,
+                    locale: locale,
+                    sourceIndicator: sourceIndicator,
+                    comment: comment
+            ).save(failOnError: true, flush: true)
+
+        }
+    }
+
+    def createInfoTextTestDataForLocaleMatch(sourceIndicator, text, label, startDate = null, endDate = null, recordsSize = 4, singleNullDateIndicator = false, persona = PERSONA_STUDENT) {
+        def pageName = PAGE_NAME
+        def textType = "N"
+        def sequenceNumber = 1
+        def locale = "fr_CA"
+        def comment = "Test data"
+        recordsSize.times {
+            if (singleNullDateIndicator) {
+                if (it == recordsSize - 1) {
+                    startDate = null
+                    endDate = null
+                }
+            }
+            new InformationText(
+                    pageName: pageName,
+                    label: label,
+                    textType: textType,
+                    sequenceNumber: sequenceNumber++,
+                    persona: persona,
+                    startDate: startDate,
+                    endDate: endDate,
+                    text: text + " " + it,
+                    locale: locale,
+                    sourceIndicator: sourceIndicator,
+                    comment: comment
+            ).save(failOnError: true, flush: true)
+
+        }
+    }
+
+    def createInfoTextTestDataWithLocaleArgument(sourceIndicator, text, label, locale, startDate = null, endDate = null, recordsSize = 4, singleNullDateIndicator = false, persona = PERSONA_STUDENT) {
+        def pageName = PAGE_NAME
+        def textType = "N"
+        def sequenceNumber = 1
         def comment = "Test data"
         recordsSize.times {
             if (singleNullDateIndicator) {

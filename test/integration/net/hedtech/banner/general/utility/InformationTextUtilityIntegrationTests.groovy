@@ -253,9 +253,9 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         def Key1 = "Key1"
         createInfoTextRecord(TESTPAGE, Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
         createInfoTextRecord(TESTPAGE,Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key2","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key2","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key2 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr_CA", "fr_CA", "B", "Test data")
 
         setAuthentication()
 
@@ -278,9 +278,9 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         def Key1 = "Key1"
         createInfoTextRecord(TESTPAGE, Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
         createInfoTextRecord(TESTPAGE,Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key2","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key2","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key2 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr_CA", "fr_CA", "B", "Test data")
 
         setAuthentication()
 
@@ -290,8 +290,8 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         GroovyTestCase.assertNotNull("info-text for Key3 is not retrieved",infoTextMap.Key3)
 
         GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key1 for fr_CA", infoTextMap.Key1)
-        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key1 for fr", infoTextMap."Key2")
-        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key1 for fr_CA", infoTextMap."Key3")
+        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key2 for fr", infoTextMap."Key2")
+        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key3 for fr_CA", infoTextMap."Key3")
 
         logout()
     }

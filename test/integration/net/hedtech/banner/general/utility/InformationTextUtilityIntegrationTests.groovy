@@ -257,6 +257,62 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         logout()
     }
 
+    @Test
+    void testFallbackForLabelWhenMultiplePageKeysHavingMultipleBaselineLocaleRecords(){
+
+        final def TESTPAGE = "TESTPAGE"
+        def Key1 = "Key1"
+        createInfoTextRecord(TESTPAGE, Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key2","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
+
+        setAuthentication()
+
+        def informationText = InformationTextUtility.getMessage(TESTPAGE, Key1,new Locale("fr"))
+        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key1 for fr", informationText)
+
+        informationText = InformationTextUtility.getMessage(TESTPAGE, Key1,new Locale("fr","CA"))
+        GroovyTestCase.assertEquals("Failed for direct match for language_country","Baseline text for Key1 for fr_CA", informationText)
+
+        informationText = InformationTextUtility.getMessage(TESTPAGE, Key1,new Locale("fr","MX"))
+        GroovyTestCase.assertEquals("Failed for fallback to language","Baseline text for Key1 for fr", informationText)
+
+        logout()
+    }
+
+    @Test
+    void testFallbackForLabelsWithinPageWhenMultiplePageKeysHavingMultipleBaselineLocaleRecords(){
+
+        final def TESTPAGE = "TESTPAGE"
+        def Key1 = "Key1"
+        createInfoTextRecord(TESTPAGE, Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key2","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
+        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
+
+        setAuthentication()
+
+        def infoTextMap = InformationTextUtility.getMessages(TESTPAGE, new Locale("fr", "CA"))
+        GroovyTestCase.assertNotNull("info-text for Key1 is not retrieved",infoTextMap.Key1)
+        GroovyTestCase.assertNotNull("info-text for Key2 is not retrieved",infoTextMap.Key2)
+        GroovyTestCase.assertNotNull("info-text for Key3 is not retrieved",infoTextMap.Key3)
+
+        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key1 for fr_CA", infoTextMap.Key1)
+        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key1 for fr", infoTextMap."Key2")
+        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key1 for fr_CA", infoTextMap."Key3")
+
+        logout()
+    }
+
+    private void createInfoTextRecord(pageName, label, textType, sequenceNumber, persona, startDate, endDate, text, locale, sourceIndicator, comment) {
+        new InformationText(pageName: pageName, label: label, textType: textType, sequenceNumber: sequenceNumber, persona: persona,
+                startDate: startDate, endDate: endDate, text: text, locale: locale, sourceIndicator: sourceIndicator, comment: comment
+        ).save(failOnError: true, flush: true)
+    }
+
     void setAnonymousAuthentication() {
         List roles = new ArrayList();
         GrantedAuthority grantedAuthority = new GrantedAuthorityImpl("ROLE_ANONYMOUS");

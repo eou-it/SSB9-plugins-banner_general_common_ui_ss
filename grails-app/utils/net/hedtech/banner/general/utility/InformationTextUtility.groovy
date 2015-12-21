@@ -198,35 +198,47 @@ class InformationTextUtility {
     }
 
     public static List<String> getFallbackLocales (Locale locale)  {
-        List<String> fallbackLocales = []
         List<Locale> locales = LocaleUtils.localeLookupList(locale, Locale.default)
-        locales.each {
-            String localeParam = it.toString()
-            fallbackLocales.add(localeParam)
-        }
-        return fallbackLocales
+        return locales*.toString()
+
     }
 
     public static List<InformationText> getResultSetPrioritzedForLocale(List<InformationText> resultSet,List<String> localeList){
+//        List<InformationText> newResultSet = []
+//        List<String> localeKey = []
+//        resultSet.each {
+//            localeKey.add(it.locale)
+//        }
+//        localeKey.each {print(it)}
+//        if(localeKey.contains(localeList[0])){
+//            newResultSet = resultSet.findAll{
+//                it.locale == localeList[0]
+//            }
+//        }
+//        else if (localeKey.contains(localeList[1])){
+//            newResultSet = resultSet.findAll{
+//                it.locale == localeList[1]
+//            }
+//        }
+//        else {
+//            newResultSet = resultSet.findAll{
+//                it.locale == localeList[2]
+//            }
+//        }
+
+
+        Map<String, InformationText> infoTextGroupedByLabel = resultSet.groupBy({ informationText -> informationText.label })
         List<InformationText> newResultSet = []
-        List<String> localeKey = []
-        resultSet.each {
-            localeKey.add(it.locale)
-        }
-        localeKey.each {print(it)}
-        if(localeKey.contains(localeList[0])){
-            newResultSet = resultSet.findAll{
-                it.locale == localeList[0]
-            }
-        }
-        else if (localeKey.contains(localeList[1])){
-            newResultSet = resultSet.findAll{
-                it.locale == localeList[1]
-            }
-        }
-        else {
-            newResultSet = resultSet.findAll{
-                it.locale == localeList[2]
+        infoTextGroupedByLabel?.each {label, infoTextsForLabel ->
+            localeList.find {locale ->
+                def foundLabelsForLocale = infoTextsForLabel.findAll{ infoTextForLabel ->
+                    infoTextForLabel.locale == locale
+                }
+                if (foundLabelsForLocale) {
+                    newResultSet += foundLabelsForLocale
+                } else {
+                    return false
+                }
             }
         }
         return newResultSet

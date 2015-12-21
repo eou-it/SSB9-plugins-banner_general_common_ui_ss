@@ -61,6 +61,7 @@ banner {
     }
 }
 
+ssbEnabled = true
 // enabled native2ascii conversion of i18n properties files
 grails.enable.native2ascii = false
 

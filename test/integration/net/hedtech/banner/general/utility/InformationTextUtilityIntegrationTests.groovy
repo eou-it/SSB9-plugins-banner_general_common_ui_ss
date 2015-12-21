@@ -43,7 +43,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testSingleValueKeyWithBaseline() {
-        if (!isSsbEnabled()) return
         createBaselineWithSingleValueKey()
         setAuthentication()
         def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
@@ -66,7 +65,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testSingleKeyWithoutValue() {
-        if (!isSsbEnabled()) return
         setAuthentication()
         def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
         String expectedText = ""
@@ -76,7 +74,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testSingleValueKeyWithLocal() {
-        if (!isSsbEnabled()) return
         createLocalWithSingleValueKey()
         setAuthentication()
         def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
@@ -87,7 +84,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testMultipleValuesKeyWithLocalNullDate() {
-        if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithNullDate()
         setAuthentication()
@@ -101,7 +97,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testMultipleValuesKeyWithLocalNotNullDate() {
-        if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithNotNullDate()
         setAuthentication()
@@ -115,7 +110,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testMultipleValuesKeyWithLocalSingleNullDate() {
-        if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithSingleNullDate()
         setAuthentication()
@@ -127,7 +121,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testLocalWithFutureStartDate() {
-        if (!isSsbEnabled()) return
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithFutureStartDate()
         setAuthentication()
@@ -140,7 +133,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testAnonymousUserSingleValue() {
-        if (!isSsbEnabled()) return
         setAuthentication()
         createSingleLocalTestDataForWebUser();
         logout()
@@ -153,7 +145,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testAnonymousUserMultipleValues() {
-        if (!isSsbEnabled()) return
         setAuthentication()
         createMultipleLocalTestDataForWebUser();
         logout()
@@ -167,7 +158,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testDefaultPersonaSingleValue() {
-        if (!isSsbEnabled()) return
         setAuthentication()
         createSingleDefaultLocalTestDataForUser();
         def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
@@ -184,7 +174,6 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
 	@Test
     void testDefaultPersonaMultipleValue() {
-        if (!isSsbEnabled()) return
         setAuthentication()
         createMultipleDefaultLocalTestDataForUser();
         def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
@@ -202,7 +191,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
     @Test
     void testFallbackLocales() {
-        List<Locale> fallbackLocales = InformationTextUtility.getFallbackLocales(Locale.CANADA_FRENCH)
+        List<Locale> fallbackLocales = InformationTextUtility.getFallbackLocaleNames(Locale.CANADA_FRENCH)
         assertEquals(3, fallbackLocales.size())
         assertEquals("fr_CA", fallbackLocales[0])
         assertEquals("fr", fallbackLocales[1])
@@ -214,7 +203,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     void testLocalOnlyLocaleMatch(){
         createSingleDefaultLocalTestDataForUserForLocale()
         setAuthentication()
-       Locale l = new Locale("fr","CA")
+        Locale l = new Locale("fr","CA")
         def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1",l)
         String expectedText = "DEFAULT - Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)

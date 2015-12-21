@@ -26,11 +26,11 @@ class InformationTextUtility {
     public static Map getMessages(String pageName, Locale locale = LocaleContextHolder.getLocale()) {
         Map informationTexts = new HashMap<String,String>()
         Map defaultRoleInfoTexts = new HashMap<String,String>()
-        List<String> localeList = getFallbackLocales(locale)
+        List<String> localeList = getFallbackLocaleNames(locale)
         List<String> roleCode = getQueryParamForRoles()
         List<InformationText> resultSet;
         if (roleCode) {
-            resultSet = InformationText.fetchInfoTextByRoles(pageName,getQueryParamForRoles(),localeList)
+            resultSet = InformationText.fetchInfoTextByRoles(pageName,roleCode,localeList)
             resultSet = getResultSetPrioritzedForLocale(resultSet,localeList)
             resultSet = getFilteredResultSet(resultSet)
             for(InformationText infoTextsGroupByRole: resultSet) {
@@ -118,7 +118,7 @@ class InformationTextUtility {
 
     public static String getMessage(String pageName, String label, Locale locale = LocaleContextHolder.getLocale()) {
         String infoText = ""
-        List<String> localeList = getFallbackLocales(locale)
+        List<String> localeList = getFallbackLocaleNames(locale)
         List<InformationText> resultSet = InformationText.fetchInfoTextByRolesAndLabel(pageName,getQueryParamForRoles(),localeList,label)
         resultSet = getResultSetPrioritzedForLocale(resultSet,localeList)
         resultSet = getFilteredResultSetForLabel(resultSet)
@@ -197,14 +197,9 @@ class InformationTextUtility {
         return localparams
     }
 
-    public static List<String> getFallbackLocales (Locale locale)  {
-        List<String> fallbackLocales = []
-        List<Locale> locales = LocaleUtils.localeLookupList(locale, Locale.default)
-        locales.each {
-            String localeParam = it.toString()
-            fallbackLocales.add(localeParam)
-        }
-        return fallbackLocales
+    public static List<String> getFallbackLocaleNames (Locale locale)  {
+        List<Locale> fallbackLocaleNames = LocaleUtils.localeLookupList(locale, Locale.default)
+        return fallbackLocaleNames*.toString()
     }
 
     public static List<InformationText> getResultSetPrioritzedForLocale(List<InformationText> resultSet,List<String> localeList){
@@ -213,7 +208,6 @@ class InformationTextUtility {
         resultSet.each {
             localeKey.add(it.locale)
         }
-        localeKey.each {print(it)}
         if(localeKey.contains(localeList[0])){
             newResultSet = resultSet.findAll{
                 it.locale == localeList[0]

@@ -247,7 +247,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     }
 
     @Test
-    void testFallbackForLabelWhenMultiplePageKeysHavingMultipleBaselineLocaleRecords(){
+    void testFallbackWithLabelForRecordsWithMultipleLabels(){
 
         final def TESTPAGE = "TESTPAGE"
         def Key1 = "Key1"
@@ -272,7 +272,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     }
 
     @Test
-    void testFallbackForLabelsWithinPageWhenMultiplePageKeysHavingMultipleBaselineLocaleRecords(){
+    void testFallbackForRecordsWithMultipleLabels(){
 
         final def TESTPAGE = "TESTPAGE"
         def Key1 = "Key1"

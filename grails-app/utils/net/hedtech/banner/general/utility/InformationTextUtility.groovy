@@ -99,7 +99,7 @@ class InformationTextUtility {
      */
 
     private static List<String> getQueryParamForRoles() {
-        List<String> roles = BannerGrantedAuthorityService.getSelfServiceUserRole()
+        List<String> roles = BannerGrantedAuthorityService.getSelfServiceDistinctUserRole()
         roles << InformationTextPersonaListService.PERSONA_DEFAULT
         roles = getParams(roles)
         return roles

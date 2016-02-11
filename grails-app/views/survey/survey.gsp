@@ -34,6 +34,7 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
 
 <body>
 <div id="content">
+    <div id='title-panel' class='aurora-theme'></div>
     <div id="bodyContainer" class="ui-layout-center inner-center">
 
         <div id="pagebody" class="level4">

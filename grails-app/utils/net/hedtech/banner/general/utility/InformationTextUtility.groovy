@@ -4,6 +4,7 @@
 package net.hedtech.banner.general.utility
 
 import net.hedtech.banner.security.BannerGrantedAuthorityService
+import org.apache.commons.lang.LocaleUtils
 import org.apache.log4j.Logger
 import org.springframework.context.i18n.LocaleContextHolder
 
@@ -25,12 +26,13 @@ class InformationTextUtility {
     public static Map getMessages(String pageName, Locale locale = LocaleContextHolder.getLocale()) {
         Map informationTexts = new HashMap<String,String>()
         Map defaultRoleInfoTexts = new HashMap<String,String>()
-        String localeParam = locale.toString()
+        List<String> localeList = getFallbackLocaleNames(locale)
         List<String> roleCode = getQueryParamForRoles()
         List<InformationText> resultSet;
         if (roleCode) {
-            resultSet = InformationText.fetchInfoTextByRoles(pageName,roleCode ,localeParam)
-            resultSet = getFilteredResultSet(resultSet);
+            resultSet = InformationText.fetchInfoTextByRoles(pageName,roleCode,localeList)
+            resultSet = getResultSetPrioritzedForLocale(resultSet,localeList)
+            resultSet = getFilteredResultSet(resultSet)
             for(InformationText infoTextsGroupByRole: resultSet) {
                 String infoText =""
                 if(infoTextsGroupByRole.persona == InformationTextPersonaListService.PERSONA_DEFAULT && infoTextsGroupByRole.startDate != null) {
@@ -116,8 +118,9 @@ class InformationTextUtility {
 
     public static String getMessage(String pageName, String label, Locale locale = LocaleContextHolder.getLocale()) {
         String infoText = ""
-        String localeParam = locale.toString()
-        List<InformationText> resultSet = InformationText.fetchInfoTextByRolesAndLabel(pageName,getQueryParamForRoles(),localeParam,label)
+        List<String> localeList = getFallbackLocaleNames(locale)
+        List<InformationText> resultSet = InformationText.fetchInfoTextByRolesAndLabel(pageName,getQueryParamForRoles(),localeList,label)
+        resultSet = getResultSetPrioritzedForLocale(resultSet,localeList)
         resultSet = getFilteredResultSetForLabel(resultSet)
         if(resultSet.size() > 0) {
             for(InformationText infoTextResultSet : resultSet) {
@@ -192,6 +195,30 @@ class InformationTextUtility {
             localparams << roles.get(i)
         }
         return localparams
+    }
+
+    public static List<String> getFallbackLocaleNames (Locale locale)  {
+        List<Locale> locales = LocaleUtils.localeLookupList(locale, Locale.default)
+        return locales*.toString()
+
+    }
+
+    public static List<InformationText> getResultSetPrioritzedForLocale(List<InformationText> resultSet,List<String> localeList){
+        Map<String, InformationText> infoTextGroupedByLabel = resultSet.groupBy({ informationText -> informationText.label })
+        List<InformationText> infoTextFilteredForFallbackLocale = []
+        infoTextGroupedByLabel?.each {label, infoTextsForLabel ->
+            localeList.find {locale ->
+                def foundLabelsForLocale = infoTextsForLabel.findAll{ infoTextForLabel ->
+                    infoTextForLabel.locale == locale
+                }
+                if (foundLabelsForLocale) {
+                    infoTextFilteredForFallbackLocale += foundLabelsForLocale
+                } else {
+                    return false
+                }
+            }
+        }
+        return infoTextFilteredForFallbackLocale
     }
 
 }

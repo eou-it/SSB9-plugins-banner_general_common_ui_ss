@@ -3,7 +3,7 @@
 ****************************************************************************** */
 package net.hedtech.banner.overall.loginworkflow
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder
+import grails.util.Holders;
 import org.springframework.context.ApplicationContext
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 
@@ -37,7 +37,7 @@ class SecurityQAFlow extends PostLoginWorkflow {
     }
 
     private void initializeSecurityQAService() {
-        ApplicationContext ctx = (ApplicationContext) ApplicationHolder.getApplication().getMainContext()
+        ApplicationContext ctx = (ApplicationContext) Holders.getGrailsApplication().getMainContext()
         securityQAService = (SecurityQAService) ctx.getBean("securityQAService")
     }
 

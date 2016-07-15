@@ -57,6 +57,10 @@ class BannerSelfServicePostLoginFlowFilters {
                                     return false;
                                 }
                             }
+                            if(session.getAttribute("maxInactiveInterval")) {
+                                session.setMaxInactiveInterval(session.getAttribute("maxInactiveInterval"))
+                                session.removeAttribute("maxInactiveInterval")
+                            }
                             session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, true)
                         }
                     }

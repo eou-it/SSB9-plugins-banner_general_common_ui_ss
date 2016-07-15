@@ -23,6 +23,11 @@ class BannerSelfServicePostLoginFlowFilters {
             before = {
                 if (!ApiUtils.isApiRequest() && !request.xhr) {
                     HttpSession session = request.getSession()
+
+                    if(session.getAttribute("maxInactiveInterval")) {
+                        session.setMaxInactiveInterval(session.getAttribute("maxInactiveInterval"))
+                        session.removeAttribute("maxInactiveInterval")
+                    }
                     boolean isAllFlowCompleted = session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE)
                     String path = getServletPath(request)
                     if (springSecurityService.isLoggedIn() && path != null && !isAllFlowCompleted) {
@@ -57,10 +62,7 @@ class BannerSelfServicePostLoginFlowFilters {
                                     return false;
                                 }
                             }
-                            if(session.getAttribute("maxInactiveInterval")) {
-                                session.setMaxInactiveInterval(session.getAttribute("maxInactiveInterval"))
-                                session.removeAttribute("maxInactiveInterval")
-                            }
+
                             session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, true)
                         }
                     }

@@ -9,7 +9,6 @@ import net.hedtech.banner.general.person.PersonRace
 import net.hedtech.banner.general.system.Race
 import net.hedtech.banner.general.system.RegulatoryRace
 import net.hedtech.banner.security.BannerGrantedAuthorityService
-import net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider
 import net.hedtech.banner.testing.BaseIntegrationTestCase
 import org.junit.After
 import org.junit.Before
@@ -20,7 +19,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 
 class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
-    SelfServiceBannerAuthenticationProvider selfServiceBannerAuthenticationProvider
     SurveyService surveyService
     String i_success_ethnicity="1"
     String i_success_race="MOA"

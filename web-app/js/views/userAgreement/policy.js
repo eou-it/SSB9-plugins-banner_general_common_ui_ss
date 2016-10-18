@@ -22,20 +22,14 @@ $(document).ready(function () {
     function aboutDialogPopUp () {
         var scope = angular.element(document.getElementById('dialogAppDiv')).scope();
         if(!scope){
-            setTimeout( function() {
-                angular.element(document.getElementById('dialogAppDiv')).ready(function() {
-                    angular.bootstrap(document.getElementById('dialogAppDiv'), ['dialogApp']);
-                });
-                scope = angular.element(document.getElementById('dialogAppDiv')).scope();
-                scope.$apply(function(){
-                    scope.toggleModal();
-                })
-            },5000);
-       }else{
-            scope.$apply(function(){
-                scope.toggleModal();
-            })
+            angular.element(document.getElementById('dialogAppDiv')).ready(function() {
+                angular.bootstrap(document.getElementById('dialogAppDiv'), ['dialogApp']);
+            });
+            scope = angular.element(document.getElementById('dialogAppDiv')).scope();
         }
+        scope.$apply(function(){
+            scope.toggleModal();
+        })
     }
 
     $("#policy-continue").click(function () {

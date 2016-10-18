@@ -29,7 +29,7 @@ $(document).ready(function () {
                 scope.$apply(function(){
                     scope.toggleModal();
                 })
-            },3000);
+            },5000);
         }else{
             scope.$apply(function(){
                 scope.toggleModal();

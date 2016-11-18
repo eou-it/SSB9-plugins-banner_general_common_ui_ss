@@ -33,8 +33,9 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 	@Before
 	public void setUp() {
         formContext = ['GUAGMNU']
-        super.setUp()
         controller = new SurveyController()
+        super.setUp()
+
     }
 
 

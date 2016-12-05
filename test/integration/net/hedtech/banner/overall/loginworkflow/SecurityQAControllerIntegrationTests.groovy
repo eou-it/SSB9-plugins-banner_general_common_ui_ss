@@ -72,7 +72,7 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
         ques.each {
             questions.put(it.pinQuestionId, it.description)
         }
-        def questionList = questions.values().collect()
+        questions.values().collect()
         noOfQuestions = securityQAService.getUserDefinedPreference().GUBPPRF_NO_OF_QSTNS
         questionMinimumLength = securityQAService.getUserDefinedPreference().GUBPPRF_QSTN_MIN_LENGTH
         answerMinimumLength = securityQAService.getUserDefinedPreference().GUBPPRF_ANSR_MIN_LENGTH

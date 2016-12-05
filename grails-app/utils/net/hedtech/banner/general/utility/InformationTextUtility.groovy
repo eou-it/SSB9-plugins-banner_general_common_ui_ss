@@ -5,12 +5,9 @@ package net.hedtech.banner.general.utility
 
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 import org.apache.commons.lang.LocaleUtils
-import org.apache.log4j.Logger
 import org.springframework.context.i18n.LocaleContextHolder
 
 class InformationTextUtility {
-    private static final log = Logger.getLogger(getClass())
-    private static final SQL_ORDER_BY = " ORDER BY GURINFO_LABEL, GURINFO_SEQUENCE_NUMBER "
 
     /*****
      * getMessages method returns information text message for the given pagename and locale.

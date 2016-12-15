@@ -14,15 +14,11 @@ class SurveyFlowIntegrationTests extends BaseIntegrationTestCase {
 
 
     def surveyFlow
-    private String SSB_VALID_USERNAME = "HOSH00002"
-    private String SSB_VALID_PASSWORD = "111111"
 
     @Before
     public void setUp() {
         formContext = ['GUAGMNU']
         super.setUp()
-        String username = SSB_VALID_USERNAME
-        String password = SSB_VALID_PASSWORD
         login()
     }
 

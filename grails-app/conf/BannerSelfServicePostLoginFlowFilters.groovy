@@ -19,10 +19,15 @@ class BannerSelfServicePostLoginFlowFilters {
     def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
 
     def filters = {
-        all(controller: "selfServiceMenu|login|logout|error|dateConverter", invert: true) {
+        all(controller: "selfServiceMenu|login|logout|error|dateConverter|about", invert: true) {
             before = {
                 if (!ApiUtils.isApiRequest() && !request.xhr) {
                     HttpSession session = request.getSession()
+
+                    if(session.getAttribute("maxInactiveInterval")) {
+                        session.setMaxInactiveInterval(session.getAttribute("maxInactiveInterval"))
+                        session.removeAttribute("maxInactiveInterval")
+                    }
                     boolean isAllFlowCompleted = session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE)
                     String path = getServletPath(request)
                     if (springSecurityService.isLoggedIn() && path != null && !isAllFlowCompleted) {
@@ -57,6 +62,7 @@ class BannerSelfServicePostLoginFlowFilters {
                                     return false;
                                 }
                             }
+
                             session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, true)
                         }
                     }

@@ -1,5 +1,5 @@
 /** *****************************************************************************
- Copyright 2014 Ellucian Company L.P. and its affiliates.
+ Copyright 2016 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 $(document).ready(function () {
     $('#pin').focus();

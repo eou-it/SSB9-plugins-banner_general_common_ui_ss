@@ -19,7 +19,7 @@ class BannerSelfServicePostLoginFlowFilters {
     def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
 
     def filters = {
-        all(controller: "selfServiceMenu|login|logout|error|dateConverter|about", invert: true) {
+        all(controller: "selfServiceMenu|login|logout|error|dateConverter|about|theme|themeEditor", invert: true) {
             before = {
                 if (!ApiUtils.isApiRequest() && !request.xhr) {
                     HttpSession session = request.getSession()

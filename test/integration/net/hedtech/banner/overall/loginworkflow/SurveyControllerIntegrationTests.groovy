@@ -19,7 +19,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 
 class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
-    def selfServiceBannerAuthenticationProvider
     SurveyService surveyService
     String i_success_ethnicity="1"
     String i_success_race="MOA"
@@ -35,7 +34,6 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
         formContext = ['GUAGMNU']
         controller = new SurveyController()
         super.setUp()
-
     }
 
 

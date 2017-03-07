@@ -1,192 +1,173 @@
 /*********************************************************************************
  Copyright 2014 Ellucian Company L.P. and its affiliates.
-**********************************************************************************/
+ **********************************************************************************/
 
 package net.hedtech.banner.general.utility
+
+import net.hedtech.banner.testing.BaseIntegrationTestCase
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.After
-
-import grails.util.Holders
-import net.hedtech.banner.testing.BaseIntegrationTestCase
-import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.security.authentication.AnonymousAuthenticationToken
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.GrantedAuthorityImpl
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
-import java.util.Locale
 
 class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
-    def selfServiceBannerAuthenticationProvider
-    private static final String PAGE_NAME = "TESTPAGE"
-    private static final String PERSONA_STUDENT = "STUDENT"
-    private static final String PERSONA_WEBUSER = "WEBUSER"
-    private static final String PERSONA_DEFAULT = "DEFAULT"
-    private static final String RECORD_BASELINE = "B"
-    private static final String RECORD_LOCAL = "L"
+    private static final def PAGE_NAME = "TESTPAGE"
+    private static final def PERSONA_STUDENT = "STUDENT"
+    private static final def PERSONA_WEBUSER = "WEBUSER"
+    private static final def PERSONA_DEFAULT = "DEFAULT"
+    private static final def RECORD_BASELINE = "B"
+    private static final def RECORD_LOCAL = "L"
+    private static final def KEY_1 = "key1"
+    private static final def LOCALE_FR = "fr"
+    private static final def LOCALE_COUNTRY = "CA"
+    private static final def ASSERT_VALUE_1 = 'Baseline text no 0\nBaseline text no 1\nBaseline text no 2\nBaseline text no 3'
 
-	@Before
-	public void setUp() {
-        if (!isSsbEnabled()) return
+    @Before
+    public void setUp() {
         formContext = ['GUAGMNU'] // Since we are not testing a controller, we need to explicitly set this
         super.setUp()
     }
 
 
-	@After
-	public void tearDown() {
-        if (!isSsbEnabled()) return
+    @After
+    public void tearDown() {
         super.tearDown()
     }
 
-	@Test
+    @Test
     void testSingleValueKeyWithBaseline() {
         createBaselineWithSingleValueKey()
-        setAuthentication()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         String expectedText = "Baseline text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
-        logout()
     }
 
-	@Test
+    @Test
     void testMultipleValuesKeyWithBaseline() {
         createBaselineTestDataWithNotNullDate()
-        setAuthentication()
+
         def informationText = InformationTextUtility.getMessages(PAGE_NAME)
-        String value1 = "Baseline text no 0\nBaseline text no 1\nBaseline text no 2\nBaseline text no 3"
+        String value1 = ASSERT_VALUE_1
         String value2 = "Baseline second text no 0\nBaseline second text no 1\nBaseline second text no 2\nBaseline second text no 3"
         assertEquals(value1, informationText.key1)
         assertEquals(value2, informationText.key2)
-        logout()
     }
 
-	@Test
+    @Test
     void testSingleKeyWithoutValue() {
-        setAuthentication()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         String expectedText = ""
         GroovyTestCase.assertEquals(expectedText, informationText)
-        logout()
     }
 
-	@Test
+    @Test
     void testSingleValueKeyWithLocal() {
         createLocalWithSingleValueKey()
-        setAuthentication()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         String expectedText = "Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
-        logout()
     }
 
-	@Test
+    @Test
     void testMultipleValuesKeyWithLocalNullDate() {
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithNullDate()
-        setAuthentication()
+
         def informationText = InformationTextUtility.getMessages(PAGE_NAME)
-        String expectedText1 = "Baseline text no 0\nBaseline text no 1\nBaseline text no 2\nBaseline text no 3"
+        String expectedText1 = ASSERT_VALUE_1
         String expectedText2 = "Baseline second text no 0\nBaseline second text no 1\nBaseline second text no 2\nBaseline second text no 3"
         GroovyTestCase.assertEquals(expectedText1, informationText.key1)
         GroovyTestCase.assertEquals(expectedText2, informationText.key2)
-        logout()
     }
 
-	@Test
+    @Test
     void testMultipleValuesKeyWithLocalNotNullDate() {
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithNotNullDate()
-        setAuthentication()
+
         def informationText = InformationTextUtility.getMessages(PAGE_NAME)
         String value1 = "Local text no 0\nLocal text no 1\nLocal text no 2\nLocal text no 3"
         String value2 = "Local second text no 0\nLocal second text no 1\nLocal second text no 2\nLocal second text no 3"
         assertEquals(value1, informationText.key1)
         assertEquals(value2, informationText.key2)
-        logout()
     }
 
-	@Test
+    @Test
     void testMultipleValuesKeyWithLocalSingleNullDate() {
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithSingleNullDate()
-        setAuthentication()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         String expectedText = "Local text no 0\nLocal text no 1\nLocal text no 2"
         GroovyTestCase.assertEquals(expectedText, informationText)
-        logout()
     }
 
-	@Test
+    @Test
     void testLocalWithFutureStartDate() {
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithFutureStartDate()
-        setAuthentication()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
-        String expectedText = "Baseline text no 0\nBaseline text no 1\nBaseline text no 2\nBaseline text no 3"
+
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        String expectedText = ASSERT_VALUE_1
         GroovyTestCase.assertEquals(expectedText, informationText)
-        logout()
     }
 
 
-	@Test
+    @Test
     void testAnonymousUserSingleValue() {
-        setAuthentication()
+
         createSingleLocalTestDataForWebUser();
-        logout()
         setAnonymousAuthentication()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         String expectedText = "Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
         logout()
     }
 
-	@Test
+    @Test
     void testAnonymousUserMultipleValues() {
-        setAuthentication()
+
         createMultipleLocalTestDataForWebUser();
-        logout()
         setAnonymousAuthentication()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         println informationText
         String expectedText = "Local text no 0\nLocal text no 1"
         GroovyTestCase.assertEquals(expectedText, informationText)
         logout()
     }
 
-	@Test
+    @Test
     void testDefaultPersonaSingleValue() {
-        setAuthentication()
+
         createSingleDefaultLocalTestDataForUser();
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         String expectedText = "DEFAULT - Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
 
         createLocalWithSingleValueKey()
-        informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+        informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         expectedText = "Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
-
-        logout()
     }
 
-	@Test
+    @Test
     void testDefaultPersonaMultipleValue() {
-        setAuthentication()
+
         createMultipleDefaultLocalTestDataForUser();
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         String expectedText = "DEFAULT - Local text no 0\n" +
                 "DEFAULT - Local text no 1"
         GroovyTestCase.assertEquals(expectedText, informationText)
 
         createLocalTestDataWithNotNullDate()
-        informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1")
+        informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
         expectedText = "Local text no 0\nLocal text no 1\nLocal text no 2\nLocal text no 3"
         GroovyTestCase.assertEquals(expectedText, informationText)
-
-        logout()
     }
 
     @Test
@@ -194,108 +175,92 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         List<Locale> fallbackLocales = InformationTextUtility.getFallbackLocaleNames(Locale.CANADA_FRENCH)
         assertEquals(3, fallbackLocales.size())
         assertEquals("fr_CA", fallbackLocales[0])
-        assertEquals("fr", fallbackLocales[1])
+        assertEquals(LOCALE_FR, fallbackLocales[1])
         assertEquals(Locale.default.toString(), fallbackLocales[2])
-
     }
 
     @Test
-    void testLocalOnlyLocaleMatch(){
+    void testLocalOnlyLocaleMatch() {
         createSingleDefaultLocalTestDataForUserForLocale()
-        setAuthentication()
-        Locale l = new Locale("fr","CA")
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1",l)
+        Locale l = new Locale(LOCALE_FR, LOCALE_COUNTRY)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, l)
         String expectedText = "DEFAULT - Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
-        logout()
     }
 
     @Test
-    void testBaseLineOnlyLocaleMatch(){
+    void testBaseLineOnlyLocaleMatch() {
         createSingleDefaultLocalTestDataForUserWithLocale()
         createBaselineWithSingleValueKeyWithLocale()
-        setAuthentication()
-        Locale l = new Locale("fr","CA")
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1",l)
+
+        Locale l = new Locale(LOCALE_FR, LOCALE_COUNTRY)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, l)
         String expectedText = "Baseline text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
-        logout()
     }
 
     @Test
-    void testLocalAndBaseLineLocaleMatch(){
+    void testLocalAndBaseLineLocaleMatch() {
         createSingleDefaultLocalTestDataForUserForLocale()
         createBaselineWithSingleValueKeyForLocale()
-        setAuthentication()
-        Locale l = new Locale("fr","CA")
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1",l)
+        Locale l = new Locale(LOCALE_FR, LOCALE_COUNTRY)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, l)
         String expectedText = "DEFAULT - Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
-        logout()
     }
 
     @Test
-    void testFallbackLocaleMatch(){
+    void testFallbackLocaleMatch() {
         createSingleDefaultLocalTestDataForUserWithLocale()
         createBaselineWithSingleValueKeyWithFallbackLocale()
-        setAuthentication()
-        Locale l = new Locale("fr","CA")
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, "key1",l)
+        Locale l = new Locale(LOCALE_FR, LOCALE_COUNTRY)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, l)
         String expectedText = "DEFAULT - Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
-        logout()
     }
 
     @Test
-    void testFallbackWithLabelForRecordsWithMultipleLabels(){
+    void testFallbackWithLabelForRecordsWithMultipleLabels() {
 
-        final def TESTPAGE = "TESTPAGE"
+        final def TESTPAGE = PAGE_NAME
         def Key1 = "Key1"
-        createInfoTextRecord(TESTPAGE, Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key2","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key2 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr_CA", "fr_CA", "B", "Test data")
+        createInfoTextRecord(TESTPAGE, Key1, "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", LOCALE_FR, "B", "Test data")
+        createInfoTextRecord(TESTPAGE, Key1, "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
+        createInfoTextRecord(TESTPAGE, "Key2", "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key2 for fr", LOCALE_FR, "B", "Test data")
+        createInfoTextRecord(TESTPAGE, "Key3", "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr", LOCALE_FR, "B", "Test data")
+        createInfoTextRecord(TESTPAGE, "Key3", "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr_CA", "fr_CA", "B", "Test data")
 
-        setAuthentication()
+        def informationText = InformationTextUtility.getMessage(TESTPAGE, Key1, new Locale(LOCALE_FR))
+        GroovyTestCase.assertEquals("Failed for direct match for language", "Baseline text for Key1 for fr", informationText)
 
-        def informationText = InformationTextUtility.getMessage(TESTPAGE, Key1,new Locale("fr"))
-        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key1 for fr", informationText)
+        informationText = InformationTextUtility.getMessage(TESTPAGE, Key1, new Locale(LOCALE_FR, LOCALE_COUNTRY))
+        GroovyTestCase.assertEquals("Failed for direct match for language_country", "Baseline text for Key1 for fr_CA", informationText)
 
-        informationText = InformationTextUtility.getMessage(TESTPAGE, Key1,new Locale("fr","CA"))
-        GroovyTestCase.assertEquals("Failed for direct match for language_country","Baseline text for Key1 for fr_CA", informationText)
-
-        informationText = InformationTextUtility.getMessage(TESTPAGE, Key1,new Locale("fr","MX"))
-        GroovyTestCase.assertEquals("Failed for fallback to language","Baseline text for Key1 for fr", informationText)
-
-        logout()
+        informationText = InformationTextUtility.getMessage(TESTPAGE, Key1, new Locale(LOCALE_FR, "MX"))
+        GroovyTestCase.assertEquals("Failed for fallback to language", "Baseline text for Key1 for fr", informationText)
     }
 
     @Test
-    void testFallbackForRecordsWithMultipleLabels(){
-
-        final def TESTPAGE = "TESTPAGE"
+    void testFallbackForRecordsWithMultipleLabels() {
+        final def TESTPAGE = PAGE_NAME
         def Key1 = "Key1"
-        createInfoTextRecord(TESTPAGE, Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,Key1,"N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key2","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key2 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr", "fr", "B", "Test data")
-        createInfoTextRecord(TESTPAGE,"Key3","N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr_CA", "fr_CA", "B", "Test data")
+        createInfoTextRecord(TESTPAGE, Key1, "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr", LOCALE_FR, "B", "Test data")
+        createInfoTextRecord(TESTPAGE, Key1, "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key1 for fr_CA", "fr_CA", "B", "Test data")
+        createInfoTextRecord(TESTPAGE, "Key2", "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key2 for fr", LOCALE_FR, "B", "Test data")
+        createInfoTextRecord(TESTPAGE, "Key3", "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr", LOCALE_FR, "B", "Test data")
+        createInfoTextRecord(TESTPAGE, "Key3", "N", 1, PERSONA_STUDENT, null, null, "Baseline text for Key3 for fr_CA", "fr_CA", "B", "Test data")
 
-        setAuthentication()
+        def infoTextMap = InformationTextUtility.getMessages(TESTPAGE, new Locale(LOCALE_FR, LOCALE_COUNTRY))
+        GroovyTestCase.assertNotNull("info-text for Key1 is not retrieved", infoTextMap.Key1)
+        GroovyTestCase.assertNotNull("info-text for Key2 is not retrieved", infoTextMap.Key2)
+        GroovyTestCase.assertNotNull("info-text for Key3 is not retrieved", infoTextMap.Key3)
 
-        def infoTextMap = InformationTextUtility.getMessages(TESTPAGE, new Locale("fr", "CA"))
-        GroovyTestCase.assertNotNull("info-text for Key1 is not retrieved",infoTextMap.Key1)
-        GroovyTestCase.assertNotNull("info-text for Key2 is not retrieved",infoTextMap.Key2)
-        GroovyTestCase.assertNotNull("info-text for Key3 is not retrieved",infoTextMap.Key3)
-
-        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key1 for fr_CA", infoTextMap.Key1)
-        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key2 for fr", infoTextMap."Key2")
-        GroovyTestCase.assertEquals("Failed for direct match for language","Baseline text for Key3 for fr_CA", infoTextMap."Key3")
-
-        logout()
+        GroovyTestCase.assertEquals("Failed for direct match for language", "Baseline text for Key1 for fr_CA", infoTextMap.Key1)
+        GroovyTestCase.assertEquals("Failed for direct match for language", "Baseline text for Key2 for fr", infoTextMap."Key2")
+        GroovyTestCase.assertEquals("Failed for direct match for language", "Baseline text for Key3 for fr_CA", infoTextMap."Key3")
     }
 
+    /************************************************Helpers***********************************************************/
     private void createInfoTextRecord(pageName, label, textType, sequenceNumber, persona, startDate, endDate, text, locale, sourceIndicator, comment) {
         new InformationText(pageName: pageName, label: label, textType: textType, sequenceNumber: sequenceNumber, persona: persona,
                 startDate: startDate, endDate: endDate, text: text, locale: locale, sourceIndicator: sourceIndicator, comment: comment
@@ -304,128 +269,86 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
     void setAnonymousAuthentication() {
         List roles = new ArrayList();
-        GrantedAuthority grantedAuthority = new GrantedAuthorityImpl("ROLE_ANONYMOUS");
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_ANONYMOUS");
         roles.add(grantedAuthority);
         AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken("anonymousUser", "anonymousUser", roles);
         SecurityContextHolder.getContext().setAuthentication(auth)
     }
 
-    private def newValidForCreateInformationText() {
-        def informationText = new InformationText(
-                pageName: i_success_pageName,
-                label: i_success_label,
-                textType: i_success_textType,
-                sequenceNumber: i_success_sequenceNumber,
-                persona: i_success_persona,
-                startDate: i_success_startDate,
-                endDate: i_success_endDate,
-                text: i_success_text,
-                locale: i_success_locale,
-                sourceIndicator: i_success_sourceIndicator,
-                comment: i_success_comment
-        )
-        return informationText
-    }
-
-
-    private def newInvalidForCreateInformationText() {
-        def informationText = new InformationText(
-                pageName: i_failure_pageName,
-                label: i_failure_label,
-                textType: i_failure_textType,
-                sequenceNumber: i_failure_sequenceNumber,
-                persona: i_failure_persona,
-                startDate: i_failure_startDate,
-                endDate: i_failure_endDate,
-                text: i_failure_text,
-                locale: i_failure_locale,
-                sourceIndicator: i_failure_sourceIndicator,
-                comment: i_failure_comment
-        )
-        return informationText
-    }
-
-    private def setAuthentication() {
-        def oldFlag = Holders.getConfig().ssbEnabled
-        Holders.getConfig().ssbEnabled = true
-        def auth = selfServiceBannerAuthenticationProvider.authenticate(new UsernamePasswordAuthenticationToken('HOSWEB002', '111111'))
-        SecurityContextHolder.getContext().setAuthentication(auth)
-        Holders.getConfig().ssbEnabled = oldFlag
-    }
-
     private def createBaselineWithSingleValueKey() {
-        createInfoTextTestData(RECORD_BASELINE, "Baseline text no", "key1", new Date(), new Date(), 1)
+        createInfoTextTestData(RECORD_BASELINE, "Baseline text no", KEY_1, new Date(), new Date(), 1)
     }
 
     private def createBaselineWithSingleValueKeyForLocale() {
-        createInfoTextTestDataForLocaleMatch(RECORD_BASELINE, "Baseline text no", "key1", new Date(), new Date(), 1)
+        createInfoTextTestDataForLocaleMatch(RECORD_BASELINE, "Baseline text no", KEY_1, new Date(), new Date(), 1)
     }
 
     private def createBaselineWithSingleValueKeyWithLocale() {
-        createInfoTextTestDataWithLocaleArgument(RECORD_BASELINE, "Baseline text no", "key1","fr_CA", new Date(), new Date(), 1)
+        createInfoTextTestDataWithLocaleArgument(RECORD_BASELINE, "Baseline text no", KEY_1, "fr_CA", new Date(), new Date(), 1)
     }
 
     private def createBaselineWithSingleValueKeyWithFallbackLocale() {
-        createInfoTextTestDataWithLocaleArgument(RECORD_BASELINE, "Baseline text no", "key1","fr", new Date(), new Date(), 1)
+        createInfoTextTestDataWithLocaleArgument(RECORD_BASELINE, "Baseline text no", KEY_1, LOCALE_FR, new Date(), new Date(), 1)
     }
 
     private def createBaselineTestDataWithNotNullDate() {
-        createInfoTextTestData(RECORD_BASELINE, "Baseline text no", "key1", new Date(), new Date())
+        createInfoTextTestData(RECORD_BASELINE, "Baseline text no", KEY_1, new Date(), new Date())
         createInfoTextTestData(RECORD_BASELINE, "Baseline second text no", "key2", new Date(), new Date())
     }
 
     private def createLocalWithSingleValueKey() {
-        createInfoTextTestData(RECORD_LOCAL, "Local text no", "key1", new Date(), new Date(), 1)
+        createInfoTextTestData(RECORD_LOCAL, "Local text no", KEY_1, new Date(), new Date(), 1)
     }
 
-    def createLocalTestDataWithNotNullDate() {
-        createInfoTextTestData(RECORD_LOCAL, "Local text no", "key1", new Date(), new Date())
+    private def createLocalTestDataWithNotNullDate() {
+        createInfoTextTestData(RECORD_LOCAL, "Local text no", KEY_1, new Date(), new Date())
         createInfoTextTestData(RECORD_LOCAL, "Local second text no", "key2", new Date(), new Date())
     }
 
-    def createLocalTestDataWithFutureStartDate() {
+    private def createLocalTestDataWithFutureStartDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         def startDate = calendar.getTime();
         calendar.add(Calendar.WEEK_OF_YEAR, 5)
         def endDate = calendar.getTime()
-        createInfoTextTestData(RECORD_LOCAL, "Local text no", "key1", startDate, endDate)
+        createInfoTextTestData(RECORD_LOCAL, "Local text no", KEY_1, startDate, endDate)
 
     }
 
-    def createLocalTestDataWithNullDate() {
-        createInfoTextTestData(RECORD_LOCAL, "Local text no", "key1")
+    private def createLocalTestDataWithNullDate() {
+        createInfoTextTestData(RECORD_LOCAL, "Local text no", KEY_1)
         createInfoTextTestData(RECORD_LOCAL, "Local text no", "key2")
     }
 
-    def createLocalTestDataWithSingleNullDate() {
-        createInfoTextTestData(RECORD_LOCAL, "Local text no", "key1", new Date(), new Date(), 4, true)
+    private def createLocalTestDataWithSingleNullDate() {
+        createInfoTextTestData(RECORD_LOCAL, "Local text no", KEY_1, new Date(), new Date(), 4, true)
     }
 
-    def createSingleLocalTestDataForWebUser() {
-        createInfoTextTestData(RECORD_LOCAL, "Local text no", "key1", new Date(), new Date(), 1, false, PERSONA_WEBUSER)
+    private def createSingleLocalTestDataForWebUser() {
+        createInfoTextTestData(RECORD_LOCAL, "Local text no", KEY_1, new Date(), new Date(), 1, false, PERSONA_WEBUSER)
     }
 
-    def createMultipleLocalTestDataForWebUser() {
-        createInfoTextTestData(RECORD_LOCAL, "Local text no", "key1", new Date(), new Date(), 3, true, PERSONA_WEBUSER)
+    private def createMultipleLocalTestDataForWebUser() {
+        createInfoTextTestData(RECORD_LOCAL, "Local text no", KEY_1, new Date(), new Date(), 3, true, PERSONA_WEBUSER)
     }
 
-    def createSingleDefaultLocalTestDataForUser() {
-        createInfoTextTestData(RECORD_LOCAL, "DEFAULT - Local text no", "key1", new Date(), new Date(), 1, false, PERSONA_DEFAULT)
+    private def createSingleDefaultLocalTestDataForUser() {
+        createInfoTextTestData(RECORD_LOCAL, "DEFAULT - Local text no", KEY_1, new Date(), new Date(), 1, false, PERSONA_DEFAULT)
     }
 
-    def createSingleDefaultLocalTestDataForUserForLocale() {
-        createInfoTextTestDataForLocaleMatch(RECORD_LOCAL, "DEFAULT - Local text no", "key1", new Date(), new Date(), 1, false, PERSONA_DEFAULT)
+    private def createSingleDefaultLocalTestDataForUserForLocale() {
+        createInfoTextTestDataForLocaleMatch(RECORD_LOCAL, "DEFAULT - Local text no", KEY_1, new Date(), new Date(), 1, false, PERSONA_DEFAULT)
     }
 
-    def createSingleDefaultLocalTestDataForUserWithLocale() {
-        createInfoTextTestDataWithLocaleArgument(RECORD_LOCAL, "DEFAULT - Local text no", "key1","fr", new Date(), new Date(), 1, false, PERSONA_DEFAULT)
+    private def createSingleDefaultLocalTestDataForUserWithLocale() {
+        createInfoTextTestDataWithLocaleArgument(RECORD_LOCAL, "DEFAULT - Local text no", KEY_1, LOCALE_FR, new Date(), new Date(), 1, false, PERSONA_DEFAULT)
     }
 
-    def createMultipleDefaultLocalTestDataForUser() {
-        createInfoTextTestData(RECORD_LOCAL, "DEFAULT - Local text no", "key1", new Date(), new Date(), 3, true, PERSONA_DEFAULT)
+    private def createMultipleDefaultLocalTestDataForUser() {
+        createInfoTextTestData(RECORD_LOCAL, "DEFAULT - Local text no", KEY_1, new Date(), new Date(), 3, true, PERSONA_DEFAULT)
     }
 
+    private
     def createInfoTextTestData(sourceIndicator, text, label, startDate = null, endDate = null, recordsSize = 4, singleNullDateIndicator = false, persona = PERSONA_STUDENT) {
         def pageName = PAGE_NAME
         def textType = "N"
@@ -452,10 +375,10 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
                     sourceIndicator: sourceIndicator,
                     comment: comment
             ).save(failOnError: true, flush: true)
-
         }
     }
 
+    private
     def createInfoTextTestDataForLocaleMatch(sourceIndicator, text, label, startDate = null, endDate = null, recordsSize = 4, singleNullDateIndicator = false, persona = PERSONA_STUDENT) {
         def pageName = PAGE_NAME
         def textType = "N"
@@ -482,10 +405,10 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
                     sourceIndicator: sourceIndicator,
                     comment: comment
             ).save(failOnError: true, flush: true)
-
         }
     }
 
+    private
     def createInfoTextTestDataWithLocaleArgument(sourceIndicator, text, label, locale, startDate = null, endDate = null, recordsSize = 4, singleNullDateIndicator = false, persona = PERSONA_STUDENT) {
         def pageName = PAGE_NAME
         def textType = "N"
@@ -511,13 +434,9 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
                     sourceIndicator: sourceIndicator,
                     comment: comment
             ).save(failOnError: true, flush: true)
-
         }
     }
 
-    private def isSsbEnabled() {
-        Holders.config.ssbEnabled instanceof Boolean ? Holders.config.ssbEnabled : false
-    }
 }
 
 

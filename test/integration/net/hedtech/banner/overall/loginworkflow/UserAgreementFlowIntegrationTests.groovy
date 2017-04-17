@@ -84,20 +84,34 @@ class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
     @Test
     void testUsageIndicator() {
         loginForRegistration(TEST_BANNER_ID)
+        def pidm = BannerGrantedAuthorityService.getPidm()
         GrailsMockHttpServletRequest request = new GrailsMockHttpServletRequest()
         def oldUserAgreementAction = request.getSession().getAttribute(USER_AGREEMENT_ACTION)
         String ind = initialDisplayStatus()
-        changeDisplayStatus('Y')
+        String usageInd = initialUsageStatus(pidm)
+        if (usageInd?.equals('Y')) {
+            changeUsageStatus(pidm, 'N')
+        }
+        if (ind?.equals('N')) {
+            changeDisplayStatus('Y')
+        }
         def res = UserAgreementFlow.isShowPage(request)
         changeDisplayStatus(ind)
+        changeUsageStatus(pidm, usageInd)
         request.getSession().setAttribute(USER_AGREEMENT_ACTION, oldUserAgreementAction)
         assertNotNull(res)
     }
 
-    private initialDisplayStatus() {
+    private initialDisplayStatus(){
         def sql = new Sql(sessionFactory.getCurrentSession().connection())
         GroovyRowResult row = sql.firstRow("""select TWGBWRUL_DISP_USAGE_IND from TWGBWRUL""")
         return row?.TWGBWRUL_DISP_USAGE_IND
+    }
+
+    private initialUsageStatus(pidm){
+        def sql = new Sql(sessionFactory.getCurrentSession().connection())
+        GroovyRowResult row = sql.firstRow("""select GOBTPAC_USAGE_ACCEPT_IND from GOBTPAC where GOBTPAC_PIDM = ${pidm}""")
+        return row?.GOBTPAC_USAGE_ACCEPT_IND
     }
 
     private changeDisplayStatus(indicator) {
@@ -110,6 +124,15 @@ class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
         }
     }
 
+    private changeUsageStatus(pidm,value) {
+        def sql
+        try {
+            sql = new Sql(sessionFactory.getCurrentSession().connection())
+            sql.executeUpdate("update GOBTPAC set GOBTPAC_USAGE_ACCEPT_IND = ? WHERE GOBTPAC_PIDM = ? ", [value, pidm])
+        } finally {
+            sql?.close() // note that the test will close the connection, since it's our current session's connection
+        }
+    }
     private Authentication loginForRegistration(String bannerId) {
         Authentication authentication = selfServiceBannerAuthenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(bannerId, '111111'))
         SecurityContextHolder.getContext().setAuthentication(authentication)

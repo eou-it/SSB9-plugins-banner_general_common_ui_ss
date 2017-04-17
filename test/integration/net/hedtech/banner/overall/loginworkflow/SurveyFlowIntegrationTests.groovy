@@ -1,5 +1,5 @@
 /*******************************************************************************
- Copyright 2014-2016 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
 
@@ -71,7 +71,7 @@ class SurveyFlowIntegrationTests extends BaseIntegrationTestCase {
         def res = surveyFlow.isShowPage(request)
         Holders.config.grails.plugin.springsecurity.interceptUrlMap = oldMap
         request.getSession().setAttribute(SurveyController.SURVEY_ACTION, oldSurveyAction)
-        assertNotNull(res)
+        assertFalse(res)
     }
 
     @Test

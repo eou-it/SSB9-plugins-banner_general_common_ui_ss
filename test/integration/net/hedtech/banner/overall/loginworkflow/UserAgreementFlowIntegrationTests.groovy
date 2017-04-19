@@ -16,7 +16,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 
 /**
- * Integration test cases for UserAgreementController.
+ * Integration test cases for UserAgreementFlowIntegrationTests.
  */
 class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
     def UserAgreementFlow
@@ -44,7 +44,7 @@ class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
         def oldUserAgreementAction = request.getSession().getAttribute(USER_AGREEMENT_ACTION)
         def res = UserAgreementFlow.isShowPage(request)
         request.getSession().setAttribute(USER_AGREEMENT_ACTION, oldUserAgreementAction)
-        assertNotNull(res)
+        assertFalse(res)
     }
 
     @Test
@@ -54,7 +54,7 @@ class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
         request.getSession().setAttribute(USER_AGREEMENT_ACTION, ACTION_DONE)
         def res = UserAgreementFlow.isShowPage(request)
         request.getSession().setAttribute(USER_AGREEMENT_ACTION, oldUserAgreementAction)
-        assertNotNull(res)
+        assertFalse(res)
     }
 
     @Test
@@ -78,7 +78,7 @@ class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
         def res = UserAgreementFlow.isShowPage(request)
         changeDisplayStatus(ind)
         request.getSession().setAttribute(USER_AGREEMENT_ACTION, oldUserAgreementAction)
-        assertNotNull(res)
+        assertFalse(res)
     }
 
     @Test
@@ -99,7 +99,7 @@ class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
         changeDisplayStatus(ind)
         changeUsageStatus(pidm, usageInd)
         request.getSession().setAttribute(USER_AGREEMENT_ACTION, oldUserAgreementAction)
-        assertNotNull(res)
+        assertTrue(res)
     }
 
     private initialDisplayStatus(){

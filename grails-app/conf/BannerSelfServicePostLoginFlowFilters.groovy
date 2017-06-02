@@ -28,16 +28,22 @@ class BannerSelfServicePostLoginFlowFilters {
                         session.setMaxInactiveInterval(session.getAttribute("maxInactiveInterval"))
                         session.removeAttribute("maxInactiveInterval")
                     }
-                    boolean isAllFlowCompleted = session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE)
+                    Boolean isAllFlowCompleted = new Boolean(false)
+                    if(session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE) != null){
+                        isAllFlowCompleted= session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE)
+                    }
+
                     String path = getServletPath(request)
-                    if (springSecurityService.isLoggedIn() && path != null && !isAllFlowCompleted) {
+                    if (springSecurityService.isLoggedIn() && path != null && !isAllFlowCompleted.booleanValue()) {
 
                         log.debug "Initializing workflow classes"
                         List<PostLoginWorkflow> listOfFlows = []
                         listOfFlows = PostLoginWorkflow.getListOfFlows()
                         Map<String, Integer> uriMap = initializeUriMap(listOfFlows)
 
-                        def lastFlowCompleted = session.getAttribute(LAST_FLOW_COMPLETED)
+                        Integer lastFlowCompleted = session.getAttribute(LAST_FLOW_COMPLETED)
+
+
                         String uriRedirected = session.getAttribute(PostLoginWorkflow.URI_REDIRECTED)
 
                         boolean uriHampered = false
@@ -53,8 +59,8 @@ class BannerSelfServicePostLoginFlowFilters {
                             }
                             session.setAttribute(PostLoginWorkflow.URI_ACCESSED, path)
                             int noOfFlows = listOfFlows.size()
-                            for (int i = lastFlowCompleted; i < noOfFlows; i++) {
-                                session.setAttribute(LAST_FLOW_COMPLETED, i)
+                            for (int i = lastFlowCompleted.intValue(); i < noOfFlows; i++) {
+                                session.setAttribute(LAST_FLOW_COMPLETED, new Integer(i))
                                 if (listOfFlows[i].isShowPage(request)) {
                                     log.debug "Workflow URI " + listOfFlows[i].getControllerUri()
                                     session.setAttribute(PostLoginWorkflow.URI_REDIRECTED, listOfFlows[i].getControllerUri())
@@ -63,7 +69,7 @@ class BannerSelfServicePostLoginFlowFilters {
                                 }
                             }
 
-                            session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, true)
+                            session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, new Boolean(true))
                         }
                     }
                 }

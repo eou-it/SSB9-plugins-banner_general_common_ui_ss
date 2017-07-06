@@ -1,5 +1,5 @@
 /*******************************************************************************
- Copyright 2014-2016 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
 
@@ -14,6 +14,8 @@ class SurveyFlowIntegrationTests extends BaseIntegrationTestCase {
 
 
     def surveyFlow
+    static final CONTROLLER_URL = "/ssb/survey/survey"
+    static final CONTROLLER_NAME = "survey"
 
     @Before
     public void setUp() {
@@ -57,15 +59,31 @@ class SurveyFlowIntegrationTests extends BaseIntegrationTestCase {
     }
 
     @Test
+    void testIsShowPageFalse() {
+        GrailsMockHttpServletRequest request = new GrailsMockHttpServletRequest()
+        def map = [:]
+        def oldMap = Holders.config.grails.plugin.springsecurity.interceptUrlMap
+        map.put('/ssb/survey/', ['ROLE_API_ABOUT_BAN_DEFAULT_M'])
+        Holders.config.grails.plugin.springsecurity.interceptUrlMap = map
+        def oldSurveyAction = request.getSession().getAttribute(SurveyController.SURVEY_ACTION)
+        request.getSession().setAttribute(SecurityQAController.SECURITY_QA_ACTION, false)
+        request.getSession().setAttribute(SurveyController.SURVEY_ACTION, "true")
+        def res = surveyFlow.isShowPage(request)
+        Holders.config.grails.plugin.springsecurity.interceptUrlMap = oldMap
+        request.getSession().setAttribute(SurveyController.SURVEY_ACTION, oldSurveyAction)
+        assertFalse(res)
+    }
+
+    @Test
     void testControllerUri() {
         def res = surveyFlow.getControllerUri()
-        assertEquals("/ssb/survey/survey", res)
+        assertEquals(CONTROLLER_URL, res)
     }
 
     @Test
     void testControllerName() {
         def res = surveyFlow.getControllerName()
-        assertEquals("survey", res)
+        assertEquals(CONTROLLER_NAME, res)
     }
 
 }

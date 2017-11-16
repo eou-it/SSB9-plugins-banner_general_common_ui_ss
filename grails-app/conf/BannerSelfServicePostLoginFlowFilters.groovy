@@ -12,8 +12,10 @@ class BannerSelfServicePostLoginFlowFilters {
     private static final String SLASH = "/"
     private static final String QUESTION_MARK = "?"
     def springSecurityService
+    def configUserPreferenceService
     private final log = Logger.getLogger(BannerSelfServicePostLoginFlowFilters.class)
     public static final String LAST_FLOW_COMPLETED = "LAST_FLOW_COMPLETED"
+    private static final String USER_LOCALE_SETUP_COMPLETE = "USER_LOCALE_SETUP_COMPLETE"
     def ssbLoginURLRequest
 
     def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
@@ -65,6 +67,13 @@ class BannerSelfServicePostLoginFlowFilters {
 
                             session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, true)
                         }
+                    }
+                    boolean islocaleSetupCompleted = session.getAttribute(USER_LOCALE_SETUP_COMPLETE)
+                    if (springSecurityService.isLoggedIn() && path != null && !islocaleSetupCompleted) {
+                        def userLocale = configUserPreferenceService.getUserLocale()
+                        session['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'] = userLocale
+                        log.debug "UserLocale evaluated is = "+ userLocale
+                        session.setAttribute(USER_LOCALE_SETUP_COMPLETE, true)
                     }
                 }
             }

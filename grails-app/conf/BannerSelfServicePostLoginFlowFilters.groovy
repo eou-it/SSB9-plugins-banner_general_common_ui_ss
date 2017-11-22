@@ -68,12 +68,12 @@ class BannerSelfServicePostLoginFlowFilters {
                             session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, true)
                         }
                     }
-                    boolean islocaleSetupCompleted = session.getAttribute(USER_LOCALE_SETUP_COMPLETE)
+                    Boolean islocaleSetupCompleted = session.getAttribute(USER_LOCALE_SETUP_COMPLETE)
                     if (springSecurityService.isLoggedIn() && path != null && !islocaleSetupCompleted) {
                         def userLocale = configUserPreferenceService.getUserLocale()
                         session['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'] = userLocale
                         log.debug "UserLocale evaluated is = "+ userLocale
-                        session.setAttribute(USER_LOCALE_SETUP_COMPLETE, true)
+                        session.setAttribute(USER_LOCALE_SETUP_COMPLETE, Boolean.TRUE)
                     }
                 }
             }

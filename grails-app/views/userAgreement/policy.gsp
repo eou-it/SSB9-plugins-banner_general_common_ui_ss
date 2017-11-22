@@ -17,6 +17,7 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
         <r:require modules="userAgreementLTR"/>
     </g:else>
     <meta name="headerAttributes" content=""/>
+        <meta name="menuBaseURL" content="${request.contextPath}/ssb"/>
     <script type="text/javascript">
         document.getElementsByName('headerAttributes')[0].content = JSON.stringify({
             "pageTitle": "<g:message code="net.hedtech.banner.termsofuse.title"/>"

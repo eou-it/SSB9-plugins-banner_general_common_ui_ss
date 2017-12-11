@@ -3,6 +3,7 @@ Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
 **********************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
 
+import grails.util.Holders
 import net.hedtech.banner.exceptions.ApplicationException
 import net.hedtech.banner.general.person.PersonBasicPersonBase
 import net.hedtech.banner.general.person.PersonRace
@@ -13,20 +14,17 @@ import net.hedtech.banner.testing.BaseIntegrationTestCase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import grails.util.Holders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 
 class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
-    SurveyService surveyService
     String i_success_ethnicity="1"
     String i_success_race="MOA"
     String i_success_banner_Id="HOF00720"
-
     String i_failure_ethnicity="02"
     String i_failure_race="MOAN"
-
+    def controller
 
 
 	@Before
@@ -122,6 +120,16 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
         shouldFail(ApplicationException) {
             controller.save()
         }
+    }
+
+    @Test
+    void testPathNotNull(){
+        String result = controller.checkPath("/ssb/registration/save")
+        assertEquals ("/ssb/registration/save",result)
+        String controllerName1 = controller.checkPath("")
+        assertEquals("", controllerName1)
+        String controllerName2 = controller.checkPath("/ssb/userAgreement")
+        assertEquals("/", controllerName2)
     }
 
     private def isSsbEnabled() {

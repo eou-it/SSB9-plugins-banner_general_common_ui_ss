@@ -1,9 +1,8 @@
 /*********************************************************************************
-Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
-**********************************************************************************/
+ Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
+ **********************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
 
-import grails.util.Holders
 import net.hedtech.banner.exceptions.ApplicationException
 import net.hedtech.banner.general.person.PersonBasicPersonBase
 import net.hedtech.banner.general.person.PersonRace
@@ -14,29 +13,32 @@ import net.hedtech.banner.testing.BaseIntegrationTestCase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import grails.util.Holders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 
 class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
+    SurveyService surveyService
     String i_success_ethnicity="1"
     String i_success_race="MOA"
     String i_success_banner_Id="HOF00720"
+
     String i_failure_ethnicity="02"
     String i_failure_race="MOAN"
-    def controller
 
 
-	@Before
-	public void setUp() {
+
+    @Before
+    public void setUp() {
         formContext = ['GUAGMNU']
         controller = new SurveyController()
         super.setUp()
     }
 
 
-	@After
-	public void tearDown() {
+    @After
+    public void tearDown() {
         super.tearDown()
         logout()
         controller = null
@@ -49,7 +51,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
     }
 
-	@Test
+    @Test
     public void testSurvey() {
         if (!isSsbEnabled()) return
         loginForRegistration(i_success_banner_Id)
@@ -87,7 +89,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
 
 
-	@Test
+    @Test
     public void testSaveValid(){
         if (!isSsbEnabled()) return
         loginForRegistration(i_success_banner_Id)
@@ -100,7 +102,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
     }
 
-	@Test
+    @Test
     public void testSaveInValid(){
         if (!isSsbEnabled()) return
         loginForRegistration(i_success_banner_Id)
@@ -131,6 +133,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
         String controllerName2 = controller.checkPath("/ssb/userAgreement")
         assertEquals("/", controllerName2)
     }
+
 
     private def isSsbEnabled() {
         Holders.config.ssbEnabled instanceof Boolean ? Holders.config.ssbEnabled : false

@@ -12,14 +12,16 @@ class BannerSelfServicePostLoginFlowFilters {
     private static final String SLASH = "/"
     private static final String QUESTION_MARK = "?"
     def springSecurityService
+    def configUserPreferenceService
     private final log = Logger.getLogger(BannerSelfServicePostLoginFlowFilters.class)
     public static final String LAST_FLOW_COMPLETED = "LAST_FLOW_COMPLETED"
+    private static final String USER_LOCALE_SETUP_COMPLETE = "USER_LOCALE_SETUP_COMPLETE"
     def ssbLoginURLRequest
 
     def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
 
     def filters = {
-        all(controller: "selfServiceMenu|login|logout|error|dateConverter|about|theme|themeEditor", invert: true) {
+        all(controller: "selfServiceMenu|login|logout|error|dateConverter|about|theme|themeEditor|userPreference", invert: true) {
             before = {
                 if (!ApiUtils.isApiRequest() && !request.xhr) {
                     HttpSession session = request.getSession()
@@ -28,16 +30,22 @@ class BannerSelfServicePostLoginFlowFilters {
                         session.setMaxInactiveInterval(session.getAttribute("maxInactiveInterval"))
                         session.removeAttribute("maxInactiveInterval")
                     }
-                    boolean isAllFlowCompleted = session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE)
+                    Boolean isAllFlowCompleted = new Boolean(false)
+                    if(session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE) != null){
+                        isAllFlowCompleted= session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE)
+                    }
+
                     String path = getServletPath(request)
-                    if (springSecurityService.isLoggedIn() && path != null && !isAllFlowCompleted) {
+                    if (springSecurityService.isLoggedIn() && path != null && !isAllFlowCompleted.booleanValue()) {
 
                         log.debug "Initializing workflow classes"
                         List<PostLoginWorkflow> listOfFlows = []
                         listOfFlows = PostLoginWorkflow.getListOfFlows()
                         Map<String, Integer> uriMap = initializeUriMap(listOfFlows)
 
-                        def lastFlowCompleted = session.getAttribute(LAST_FLOW_COMPLETED)
+                        Integer lastFlowCompleted = session.getAttribute(LAST_FLOW_COMPLETED)
+
+
                         String uriRedirected = session.getAttribute(PostLoginWorkflow.URI_REDIRECTED)
 
                         boolean uriHampered = false
@@ -53,8 +61,8 @@ class BannerSelfServicePostLoginFlowFilters {
                             }
                             session.setAttribute(PostLoginWorkflow.URI_ACCESSED, path)
                             int noOfFlows = listOfFlows.size()
-                            for (int i = lastFlowCompleted; i < noOfFlows; i++) {
-                                session.setAttribute(LAST_FLOW_COMPLETED, i)
+                            for (int i = lastFlowCompleted.intValue(); i < noOfFlows; i++) {
+                                session.setAttribute(LAST_FLOW_COMPLETED, new Integer(i))
                                 if (listOfFlows[i].isShowPage(request)) {
                                     log.debug "Workflow URI " + listOfFlows[i].getControllerUri()
                                     session.setAttribute(PostLoginWorkflow.URI_REDIRECTED, listOfFlows[i].getControllerUri())
@@ -63,8 +71,15 @@ class BannerSelfServicePostLoginFlowFilters {
                                 }
                             }
 
-                            session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, true)
+                            session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, new Boolean(true))
                         }
+                    }
+                    Boolean islocaleSetupCompleted = session.getAttribute(USER_LOCALE_SETUP_COMPLETE)
+                    if (springSecurityService.isLoggedIn() && path != null && !islocaleSetupCompleted) {
+                        def userLocale = configUserPreferenceService.getUserLocale()
+                        session['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'] = userLocale
+                        log.debug "UserLocale evaluated is = "+ userLocale
+                        session.setAttribute(USER_LOCALE_SETUP_COMPLETE, Boolean.TRUE)
                     }
                 }
             }

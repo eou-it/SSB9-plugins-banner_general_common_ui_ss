@@ -146,5 +146,15 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
         Holders.config.ssbEnabled instanceof Boolean ? Holders.config.ssbEnabled : false
     }
 
+    @Test
+    void testinvalidQuestionerrorMessage() {
+        def msg = controller.getErrorMessage("securityQA.invalid.length.question")
+        assertEquals(msg, "Question has to be 0 characters or more")
+    }
 
+    @Test
+    void testinvalidAnswererrorMessage() {
+        def msg = controller.getErrorMessage("securityQA.invalid.length.answer")
+        assertEquals(msg, "Answer has to be 0 characters or more")
+    }
 }

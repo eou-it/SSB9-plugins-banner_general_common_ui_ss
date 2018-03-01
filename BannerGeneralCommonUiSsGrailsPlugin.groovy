@@ -1,5 +1,5 @@
 /*******************************************************************************
- Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 import net.hedtech.banner.overall.loginworkflow.SecurityQAFlow
@@ -11,7 +11,7 @@ import net.hedtech.banner.web.SsbLoginURLRequest
 class BannerGeneralCommonUiSsGrailsPlugin {
     String groupId = "net.hedtech"
     // the plugin version
-    def version = "9.26"
+    def version = "9.27"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.2.1 > *"
 

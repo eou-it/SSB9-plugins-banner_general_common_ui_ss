@@ -37,9 +37,9 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
                             <sanitizeMarkdown:renderHtml text="${infoText}" />
                         </div>
                         <div class="button-area">
-                            <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.continue"/>' id="policy-continue" class="secondary-button"
+                            <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.continue"/>' id="policy-continue" class="secondary"
                                    data-endpoint="${createLink(controller: "userAgreement", action: "agreement")}"/>
-                            <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.exit"/>' id="policy-exit" class="secondary-button"
+                            <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.exit"/>' id="policy-exit" class="secondary"
                                    data-endpoint="${createLink(controller: "logout")}"/>
                         </div>
                     </div>

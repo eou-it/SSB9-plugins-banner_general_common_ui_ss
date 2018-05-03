@@ -71,22 +71,20 @@ Copyright 2014-18 Ellucian Company L.P. and its affiliates.
     float: right;
 }
 
-.primary {
+.button-area .primary {
     margin-right: 2em;
 }
 
-.primary, .secondary {
+.button-area .primary, .button-area .secondary {
     width: 8.5em;
     height: 2.8em;
 }
 
 @media screen and (min-width: 768px) {
 
-    .primary, .secondary {
+    .button-area .primary,.button-area .secondary {
         width: 10.9em;
         height: 2.8em;
     }
-
-
 }
 

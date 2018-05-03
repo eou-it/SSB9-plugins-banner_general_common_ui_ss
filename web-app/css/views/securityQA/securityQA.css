@@ -212,11 +212,11 @@ select option :hover {
     left: -9999px;
 }
 
-.secondary {
+.button-area .secondary {
     margin-right: 1em;
 }
 
-.primary, .secondary {
+.button-area .primary, .button-area .secondary {
     width: 8.5em;
     height: 2.8em;
 }
@@ -224,7 +224,7 @@ select option :hover {
 
 @media screen and (min-width: 768px) {
 
-    .primary, .secondary {
+    .button-area .primary,.button-area .secondary {
         width: 10.9em;
         height: 2.8em;
     }

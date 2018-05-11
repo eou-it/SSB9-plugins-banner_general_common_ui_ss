@@ -1,11 +1,13 @@
 /*******************************************************************************
-Copyright 2014 Ellucian Company L.P. and its affiliates.
+Copyright 2014-18 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 
 #bodyContainer {
-    margin: 30px;
+    margin: 2em;
 }
-
+#content {
+    overflow: hidden;
+}
 
 #pagetitle {
     color: #646464;
@@ -17,18 +19,6 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
     margin: 5px 0 10px;
     padding: 0;
     width: 85%;
-}
-
-#pagebody {
-    padding: 0 0 25px 0px;
-    top: -5px;
-    background: #fff url(../../../images/content-bg-tc.png) repeat-x left top;
-    border: 1px #e5ebee solid;
-    border-top-width: 0px;
-    float: left;
-    min-width: 911px;
-    width: 100%;
-    margin: 29px 0 0;
 }
 
 #pagebody.loginterms {
@@ -46,10 +36,8 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
     background: transparent;
     position: relative;
     top: 0px;
-    padding: 25px;
     float: left;
     overflow: hidden;
-    width: 95%;
 }
 
 .pagebodydiv {
@@ -58,17 +46,13 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
 }
 
 .termstextdiv {
-    border: 1px #ccc solid;
-    background-color: #fff;
+    border-top: 1px #2874BB solid; /*EDS*/
+    background-color: #EFF7FF; /*EDS*/
     font-size: 1.5em;
-    line-height: 13pt;
-    background-image: url("../../../images/web_info.png");
-    background-position: left 0;
-    background-repeat: no-repeat;
-    background-size: auto auto;
-    padding-left: 25px;
-    padding-right: 0;
-    vertical-align: top;
+    font-family: OpenSans-Semibold;
+    color: #2874BB; /*EDS*/
+    padding: 0.5em;
+    margin-bottom: 2em;
 }
 
 .termstexttable {
@@ -85,5 +69,22 @@ Copyright 2014 Ellucian Company L.P. and its affiliates.
 
 .button-area {
     float: right;
+}
+
+.button-area .primary {
+    margin-right: 2em;
+}
+
+.button-area .primary, .button-area .secondary {
+    width: 8.5em;
+    height: 2.8em;
+}
+
+@media screen and (min-width: 768px) {
+
+    .button-area .primary,.button-area .secondary {
+        width: 10.9em;
+        height: 2.8em;
+    }
 }
 

@@ -11,7 +11,7 @@ import net.hedtech.banner.web.SsbLoginURLRequest
 class BannerGeneralCommonUiSsGrailsPlugin {
     String groupId = "net.hedtech"
     // the plugin version
-    def version = "9.27"
+    def version = "9.27.2"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.2.1 > *"
 

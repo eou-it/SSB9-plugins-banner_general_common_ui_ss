@@ -1,6 +1,6 @@
 /*********************************************************************************
-Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
-**********************************************************************************/
+ Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
+ **********************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
 
 import net.hedtech.banner.exceptions.ApplicationException
@@ -29,16 +29,16 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
 
 
-	@Before
-	public void setUp() {
+    @Before
+    public void setUp() {
         formContext = ['GUAGMNU']
         controller = new SurveyController()
         super.setUp()
     }
 
 
-	@After
-	public void tearDown() {
+    @After
+    public void tearDown() {
         super.tearDown()
         logout()
         controller = null
@@ -51,7 +51,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
     }
 
-	@Test
+    @Test
     public void testSurvey() {
         if (!isSsbEnabled()) return
         loginForRegistration(i_success_banner_Id)
@@ -89,7 +89,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
 
 
-	@Test
+    @Test
     public void testSaveValid(){
         if (!isSsbEnabled()) return
         loginForRegistration(i_success_banner_Id)
@@ -102,7 +102,7 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
     }
 
-	@Test
+    @Test
     public void testSaveInValid(){
         if (!isSsbEnabled()) return
         loginForRegistration(i_success_banner_Id)
@@ -123,6 +123,17 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
             controller.save()
         }
     }
+
+    @Test
+    void testPathNotNull(){
+        String result = controller.checkPath("/ssb/registration/save")
+        assertEquals ("/ssb/registration/save",result)
+        String controllerName1 = controller.checkPath("")
+        assertEquals("", controllerName1)
+        String controllerName2 = controller.checkPath("/ssb/userAgreement")
+        assertEquals("/", controllerName2)
+    }
+
 
     private def isSsbEnabled() {
         Holders.config.ssbEnabled instanceof Boolean ? Holders.config.ssbEnabled : false

@@ -3,6 +3,7 @@
  *******************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
 
+import grails.converters.JSON
 import net.hedtech.banner.general.utility.InformationTextUtility
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 import net.hedtech.banner.testing.BaseIntegrationTestCase
@@ -20,6 +21,7 @@ class UserAgreementControllerIntegrationTests extends BaseIntegrationTestCase {
     private static final VIEW = 'policy'
     private static final String POLICY_PAGE_NAME = 'TERMSOFUSAGE'
     private static final String TERMS_OF_USAGE_LABEL = 'terms.of.usage'
+    private static final String PATH_ENDS_WITH_CONTROLLER_NAME = "/ssb/home"
     private static final ACTION_DONE = 'true'
     private static final String BANNER_ID = 'HOF00720'
     private static final String SLASH = "/"
@@ -53,6 +55,21 @@ class UserAgreementControllerIntegrationTests extends BaseIntegrationTestCase {
     }
 
     @Test
+    public void testIndexWithParam() {
+        loginForRegistration(BANNER_ID)
+        Integer pidm = BannerGrantedAuthorityService.getPidm()
+        def infoText = InformationTextUtility.getMessage(POLICY_PAGE_NAME, TERMS_OF_USAGE_LABEL)
+        assertNotNull pidm
+
+        def result = controller.index()
+        assertEquals(200, controller.response.status)
+        assertNotNull(renderMap)
+        assertEquals(result.view, VIEW)
+        assertEquals(result.model.infoText, infoText)
+    }
+
+
+    @Test
     public void testAggrement() {
         loginForRegistration(BANNER_ID)
         Integer pidm = BannerGrantedAuthorityService.getPidm()
@@ -62,6 +79,22 @@ class UserAgreementControllerIntegrationTests extends BaseIntegrationTestCase {
         def action = controller.session.getAttribute(UserAgreementFlow.USER_AGREEMENT_ACTION)
         assertEquals(action, ACTION_DONE)
     }
+
+
+    @Test
+    public void testAggrementWithPath() {
+        loginForRegistration(BANNER_ID)
+        Integer pidm = BannerGrantedAuthorityService.getPidm()
+        assertNotNull pidm
+
+        controller.session.setAttribute(PostLoginWorkflow.URI_ACCESSED, PATH_ENDS_WITH_CONTROLLER_NAME)
+        def result = controller.agreement()
+        assertEquals(200, controller.response.status)
+        def action = controller.session.getAttribute(UserAgreementFlow.USER_AGREEMENT_ACTION)
+        assertEquals(result.uri, PATH_ENDS_WITH_CONTROLLER_NAME)
+        assertEquals(action, ACTION_DONE)
+    }
+
 
     @Test
     public void testDoneWithNoPreURI_ACCESSED() {

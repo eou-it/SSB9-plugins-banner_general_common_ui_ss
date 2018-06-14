@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.2"
+
     }
 }
 
@@ -22,6 +23,11 @@ apply plugin:"org.grails.grails-gsp"
 repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
+    maven { url "http://central.maven.org/maven2/"}
+    maven { url "https://build.shibboleth.net/nexus/content/repositories/releases"}
+    maven { url "https://build.shibboleth.net/nexus/content/groups/public/"}
+    maven { url "https://code.lds.org/nexus/content/groups/main-repo"}
+    maven { url "http://repository.jboss.org/maven2/"}
 }
 
 dependencies {
@@ -42,6 +48,7 @@ dependencies {
     compile "org.grails.plugins:async"
     compile "org.grails.plugins:scaffolding"
     compile "org.grails.plugins:gsp"
+    compile project(":banner-general-common")
     console "org.grails:grails-console"
     profile "org.grails.profiles:web-plugin"
     provided "org.grails:grails-plugin-services"

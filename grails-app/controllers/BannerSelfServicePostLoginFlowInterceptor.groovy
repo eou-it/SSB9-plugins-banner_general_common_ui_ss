@@ -13,7 +13,6 @@ class BannerSelfServicePostLoginFlowInterceptor {
     private static final String QUESTION_MARK = "?"
     def springSecurityService
     def configUserPreferenceService
-    private final log = Logger.getLogger(BannerSelfServicePostLoginFlowInterceptor.class)
     public static final String LAST_FLOW_COMPLETED = "LAST_FLOW_COMPLETED"
     private static final String USER_LOCALE_SETUP_COMPLETE = "USER_LOCALE_SETUP_COMPLETE"
     def ssbLoginURLRequest

@@ -1,0 +1,200 @@
+/** *****************************************************************************
+ Copyright 2014-18 Ellucian Company L.P. and its affiliates.
+****************************************************************************** */
+
+#content {
+    font-size: 16px;
+    font-family: OpenSans-regular,Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+#bodyContainer {
+    margin: 2em;
+    margin-top: 0;
+}
+
+#pageheader {
+    width: 100%;
+    margin: 25px 0;
+    padding: 0px;
+}
+
+#pagetitle {
+    float: left;
+    color: #646464;
+    font-size: 27px;
+    font-weight: normal;
+    letter-spacing: 0.08em;
+    padding: 0;
+    margin: 5px 0 10px 0;
+    width: 85%;
+}
+
+
+#pagebody.level4 {
+    min-width: 100%;
+    width: auto;
+    margin: 0;
+}
+
+#contentHolder {
+    background: transparent;
+    position: relative;
+    top: 0px;
+    padding: 25px;
+    float: left;
+    overflow: hidden;
+    width: 95%;
+}
+
+.content-label {
+    margin-bottom: 5px;
+    margin-right: 10px;
+    padding-top: 4px;
+    text-align: right;
+    width: 14em;
+    font-size: 12px;
+    min-height: 20px;
+    vertical-align: top;
+    color: #151618;
+}
+
+.section-header {
+    color: #151618;
+    font-family: OpenSans-Bold,Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-style: normal;
+    text-align: left;
+    padding: 10px 0 10px 10px;
+}
+
+.section-header-text {
+    color: #444455;
+}
+
+.race-category-area {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.race-category-header {
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #5B5E65;
+    background-color: #F7F7F7; /*EDS*/
+}
+
+#ethnicity {
+    padding: 4px;
+}
+
+.races-content {
+    padding: 4px;
+}
+
+.button-area {
+    float: right;
+}
+
+#save-btn, #ask-me-later-btn {
+    cursor: pointer;
+}
+
+#errorMessage {
+    font-size: 13px;
+    font-weight: bold;
+    padding: 4px;
+}
+
+
+.notification-error {
+    border: 1px solid #FF3F3F;
+    background-color: #EBCFCF;
+}
+
+
+.section-wrapper div {
+    display: inline-table;
+    padding-bottom: 10px;
+}
+
+.informationImage {
+    background-image: url("../../../images/web_info.png");
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    background-position: left 0;
+}
+
+.section-message {
+    padding-left: 25px;
+    padding-bottom: 10px;
+}
+
+
+.race-label {
+    border: 1px solid #CCCCCC;
+    background-color: #F7F7F7; /*EDS*/
+    border-color: #F7F7F7; /*EDS*/
+}
+
+
+.confirmation-content-label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+
+.container {
+    display: table;
+    min-width: 200px;
+}
+
+.row {
+    display: table-row;
+    padding: 5px;
+}
+
+.column  {
+    display: table-cell;
+    padding-bottom: 10px;
+}
+
+
+.header {
+    display:table-header-group;
+}
+
+.headerColumn  {
+    display: table-cell;
+}
+
+
+.rowGroup {
+    display:table-row-group;
+}
+
+.confirmation-content {
+    font-size: 12px;
+}
+
+.hide-aria-message {
+    position: absolute;
+    left: -9999px;
+}
+
+.button-area .secondary {
+    margin-right: 1em;
+}
+
+.button-area .primary,.button-area .secondary {
+    width: 8.5em;
+    height: 2.8em;
+}
+
+@media screen and (min-width: 768px) {
+
+    .button-area .primary,.button-area .secondary {
+        width: 10.9em;
+        height: 2.8em;
+    }
+}

@@ -3,7 +3,6 @@
  ****************************************************************************** */
 import net.hedtech.banner.apisupport.ApiUtils
 import net.hedtech.banner.overall.loginworkflow.PostLoginWorkflow
-import org.apache.log4j.Logger
 import org.grails.web.servlet.GrailsUrlPathHelper
 
 import javax.servlet.http.HttpSession
@@ -17,7 +16,7 @@ class BannerSelfServicePostLoginFlowInterceptor {
     private static final String USER_LOCALE_SETUP_COMPLETE = "USER_LOCALE_SETUP_COMPLETE"
     def ssbLoginURLRequest
 
-    def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
+    //def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
 
     BannerSelfServicePostLoginFlowInterceptor() {
         matchAll()

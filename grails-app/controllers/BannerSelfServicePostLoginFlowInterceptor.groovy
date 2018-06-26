@@ -97,6 +97,7 @@ class BannerSelfServicePostLoginFlowInterceptor {
             session.setAttribute(USER_LOCALE_SETUP_COMPLETE, Boolean.TRUE)
         }
     }
+        true
     }
 
     boolean after() { true }

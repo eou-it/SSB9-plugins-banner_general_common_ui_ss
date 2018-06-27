@@ -10,12 +10,12 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 <head>
     <title><g:message code="securityQA.title"/></title>
     <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
-        %{--<r:require modules="securityQARTL"/>--}%
-        <asset:javascript src="securityQARTL-mf.js"/>
+        <asset:javascript src="modules/securityQARTL-mf.js"/>
+        <asset:stylesheet href="modules/securityQARTL-mf.css"/>
     </g:if>
     <g:else>
-        %{--<r:require modules="securityQALTR"/>--}%
-        <asset:javascript src="securityQALTR-mf.js"/>
+        <asset:javascript src="modules/securityQALTR-mf.js"/>
+        <asset:stylesheet href="modules/securityQALTR-mf.css"/>
     </g:else>
     <meta name="layout" content="bannerSelfServicePage"/>
     <meta name="menuBaseURL" content="${createLink(uri: '/ssb')}" />
@@ -26,11 +26,11 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
     </asset:script>
 
     <meta name="headerAttributes" content=""/>
-    <asset:script type="text/javascript">
+    <script type="text/javascript">
         document.getElementsByName('headerAttributes')[0].content = JSON.stringify({
             "pageTitle": "<g:message code="securityQA.title"/>"
         });
-    </asset:script>
+    </script>
 
 </head>
 

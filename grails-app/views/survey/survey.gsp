@@ -25,12 +25,12 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
     </script>
 
     <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
-        %{--<r:require modules="surveyRTL"/>--}%
-        <asset:javascript src="surveyRTL-mf.js"/>
+        <asset:javascript src="modules/surveyRTL-mf.js"/>
+        <asset:stylesheet href="modules/surveyRTL-mf.css"/>
     </g:if>
     <g:else>
-        %{--<r:require modules="surveyLTR"/>--}%
-        <asset:javascript src="surveyLTR-mf.js"/>
+        <asset:javascript src="modules/surveyLTR-mf.js"/>
+        <asset:stylesheet href="modules/surveyLTR-mf.css"/>
     </g:else>
 </head>
 

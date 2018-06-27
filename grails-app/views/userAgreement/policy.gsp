@@ -11,10 +11,12 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
     <title><g:message code="net.hedtech.banner.termsofuse.title"/></title>
     <meta name="layout" content="bannerSelfServicePage"/>
     <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
-        <r:require modules="userAgreementRTL"/>
+        %{--<r:require modules="userAgreementRTL"/>--}%
+        <asset:javascript src="userAgreementRTL-mf.js"/>
     </g:if>
     <g:else>
-        <r:require modules="userAgreementLTR"/>
+        %{--<r:require modules="userAgreementLTR"/>--}%
+        <asset:javascript src="userAgreementLTR-mf.js"/>
     </g:else>
     <meta name="headerAttributes" content=""/>
         <meta name="menuBaseURL" content="${request.contextPath}/ssb"/>

@@ -10,25 +10,27 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 <head>
     <title><g:message code="securityQA.title"/></title>
     <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
-        <r:require modules="securityQARTL"/>
+        %{--<r:require modules="securityQARTL"/>--}%
+        <asset:javascript src="securityQARTL-mf.js"/>
     </g:if>
     <g:else>
-        <r:require modules="securityQALTR"/>
+        %{--<r:require modules="securityQALTR"/>--}%
+        <asset:javascript src="securityQALTR-mf.js"/>
     </g:else>
     <meta name="layout" content="bannerSelfServicePage"/>
     <meta name="menuBaseURL" content="${createLink(uri: '/ssb')}" />
-    <r:script disposition="head">
+    <asset:script disposition="head">
                window.securityQAInitErrors = {
                    notification: "${notification}"
                };
-    </r:script>
+    </asset:script>
 
     <meta name="headerAttributes" content=""/>
-    <script type="text/javascript">
+    <asset:script type="text/javascript">
         document.getElementsByName('headerAttributes')[0].content = JSON.stringify({
             "pageTitle": "<g:message code="securityQA.title"/>"
         });
-    </script>
+    </asset:script>
 
 </head>
 

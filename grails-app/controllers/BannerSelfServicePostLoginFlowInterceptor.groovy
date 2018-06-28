@@ -16,6 +16,10 @@ class BannerSelfServicePostLoginFlowInterceptor {
     private static final String USER_LOCALE_SETUP_COMPLETE = "USER_LOCALE_SETUP_COMPLETE"
     def ssbLoginURLRequest
 
+    //TODO : Change the order and replace with constant
+    int order = 55
+
+
     //def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
 
     BannerSelfServicePostLoginFlowInterceptor() {

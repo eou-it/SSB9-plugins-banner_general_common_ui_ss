@@ -71,9 +71,13 @@ class SurveyFlow extends PostLoginWorkflow {
         def authorities = BannerGrantedAuthorityService.getAuthorities()
         def userAuthorities = authorities?.collect { it.toString()}
         def pageDetail = Holders.config.grails.plugin.springsecurity.interceptUrlMap
-        pageRoles = pageDetail.find {
+        /*pageRoles = pageDetail.find {
             it =~ PAGE
-        }?.value
+        }?.value*/
+
+        pageRoles = pageDetail.find {
+            it.pattern =~ PAGE
+        }?.access
 
         isAuthorized =  !userAuthorities?.disjoint(pageRoles)
 

@@ -70,7 +70,9 @@ class UserAgreementFlow extends PostLoginWorkflow {
         def connection
         Sql sql
         try {
-            connection = sessionFactory.currentSession.connection()
+            //session = sessionFactory.openSession()
+            //connection = sessionFactory.currentSession.connection()
+            connection = sessionFactory.openSession().connection()
             sql = new Sql(connection)
             GroovyRowResult row = sql.firstRow("""select GOBTPAC_USAGE_ACCEPT_IND from GOBTPAC where GOBTPAC_PIDM = ${pidm}""")
             return row?.GOBTPAC_USAGE_ACCEPT_IND

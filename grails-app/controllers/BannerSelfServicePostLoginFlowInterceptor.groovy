@@ -3,7 +3,6 @@
  ****************************************************************************** */
 import net.hedtech.banner.apisupport.ApiUtils
 import net.hedtech.banner.overall.loginworkflow.PostLoginWorkflow
-import org.apache.log4j.Logger
 import org.grails.web.servlet.GrailsUrlPathHelper
 
 import javax.servlet.http.HttpSession
@@ -17,8 +16,9 @@ class BannerSelfServicePostLoginFlowInterceptor {
     private static final String USER_LOCALE_SETUP_COMPLETE = "USER_LOCALE_SETUP_COMPLETE"
     def ssbLoginURLRequest
 
-    def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
-
+    //def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
+    //TODO check the precedence using constants
+    int order = 55
     BannerSelfServicePostLoginFlowInterceptor() {
         matchAll()
                 .excludes(controller: 'selfServiceMenu')
@@ -36,68 +36,69 @@ class BannerSelfServicePostLoginFlowInterceptor {
                 .excludes(controller: 'visualPageModelComposer')
                 .excludes(controller: 'cssManager')
 
-     }
+    }
 
     boolean before() {
         if (!ApiUtils.isApiRequest() && !request.xhr) {
-        HttpSession session = request.getSession()
+            HttpSession session = request.getSession()
 
-        if(session.getAttribute("maxInactiveInterval")) {
-            session.setMaxInactiveInterval(session.getAttribute("maxInactiveInterval"))
-            session.removeAttribute("maxInactiveInterval")
-        }
-        Boolean isAllFlowCompleted = new Boolean(false)
-        if(session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE) != null){
-            isAllFlowCompleted= session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE)
-        }
-
-        String path = getServletPath(request)
-        if (springSecurityService.isLoggedIn() && path != null && !isAllFlowCompleted.booleanValue()) {
-
-            log.debug "Initializing workflow classes"
-            List<PostLoginWorkflow> listOfFlows = []
-            listOfFlows = PostLoginWorkflow.getListOfFlows()
-            Map<String, Integer> uriMap = initializeUriMap(listOfFlows)
-
-            Integer lastFlowCompleted = session.getAttribute(LAST_FLOW_COMPLETED)
-
-
-            String uriRedirected = session.getAttribute(PostLoginWorkflow.URI_REDIRECTED)
-
-            boolean uriHampered = false
-            if (uriRedirected != null) {
-                String controllerRedirected = ssbLoginURLRequest.getControllerNameFromPath(uriRedirected)
-                if (!path.contains(controllerRedirected)) {
-                    uriHampered = true
-                }
+            if(session.getAttribute("maxInactiveInterval")) {
+                session.setMaxInactiveInterval(session.getAttribute("maxInactiveInterval"))
+                session.removeAttribute("maxInactiveInterval")
             }
-            if (shouldVerifyFlowCompleted(lastFlowCompleted, path, uriMap, uriHampered)) {
-                if (lastFlowCompleted == null) {
-                    lastFlowCompleted = 0
-                }
-                session.setAttribute(PostLoginWorkflow.URI_ACCESSED, path)
-                int noOfFlows = listOfFlows.size()
-                for (int i = lastFlowCompleted.intValue(); i < noOfFlows; i++) {
-                    session.setAttribute(LAST_FLOW_COMPLETED, new Integer(i))
-                    if (listOfFlows[i].isShowPage(request)) {
-                        log.debug "Workflow URI " + listOfFlows[i].getControllerUri()
-                        session.setAttribute(PostLoginWorkflow.URI_REDIRECTED, listOfFlows[i].getControllerUri())
-                        redirect uri: listOfFlows[i].getControllerUri()
-                        return false;
+            Boolean isAllFlowCompleted = new Boolean(false)
+            if(session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE) != null){
+                isAllFlowCompleted= session.getAttribute(PostLoginWorkflow.FLOW_COMPLETE)
+            }
+
+            String path = getServletPath(request)
+            if (springSecurityService.isLoggedIn() && path != null && !isAllFlowCompleted.booleanValue()) {
+
+                log.debug "Initializing workflow classes"
+                List<PostLoginWorkflow> listOfFlows = []
+                listOfFlows = PostLoginWorkflow.getListOfFlows()
+                Map<String, Integer> uriMap = initializeUriMap(listOfFlows)
+
+                Integer lastFlowCompleted = session.getAttribute(LAST_FLOW_COMPLETED)
+
+
+                String uriRedirected = session.getAttribute(PostLoginWorkflow.URI_REDIRECTED)
+
+                boolean uriHampered = false
+                if (uriRedirected != null) {
+                    String controllerRedirected = ssbLoginURLRequest.getControllerNameFromPath(uriRedirected)
+                    if (!path.contains(controllerRedirected)) {
+                        uriHampered = true
                     }
                 }
+                if (shouldVerifyFlowCompleted(lastFlowCompleted, path, uriMap, uriHampered)) {
+                    if (lastFlowCompleted == null) {
+                        lastFlowCompleted = 0
+                    }
+                    session.setAttribute(PostLoginWorkflow.URI_ACCESSED, path)
+                    int noOfFlows = listOfFlows.size()
+                    for (int i = lastFlowCompleted.intValue(); i < noOfFlows; i++) {
+                        session.setAttribute(LAST_FLOW_COMPLETED, new Integer(i))
+                        if (listOfFlows[i].isShowPage(request)) {
+                            log.debug "Workflow URI " + listOfFlows[i].getControllerUri()
+                            session.setAttribute(PostLoginWorkflow.URI_REDIRECTED, listOfFlows[i].getControllerUri())
+                            redirect uri: listOfFlows[i].getControllerUri()
+                            return false;
+                        }
+                    }
 
-                session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, new Boolean(true))
+                    session.setAttribute(PostLoginWorkflow.FLOW_COMPLETE, new Boolean(true))
+                }
+            }
+            Boolean islocaleSetupCompleted = session.getAttribute(USER_LOCALE_SETUP_COMPLETE)
+            if (springSecurityService.isLoggedIn() && path != null && !islocaleSetupCompleted) {
+                def userLocale = configUserPreferenceService.getUserLocale()
+                session['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'] = userLocale
+                log.debug "UserLocale evaluated is = "+ userLocale
+                session.setAttribute(USER_LOCALE_SETUP_COMPLETE, Boolean.TRUE)
             }
         }
-        Boolean islocaleSetupCompleted = session.getAttribute(USER_LOCALE_SETUP_COMPLETE)
-        if (springSecurityService.isLoggedIn() && path != null && !islocaleSetupCompleted) {
-            def userLocale = configUserPreferenceService.getUserLocale()
-            session['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'] = userLocale
-            log.debug "UserLocale evaluated is = "+ userLocale
-            session.setAttribute(USER_LOCALE_SETUP_COMPLETE, Boolean.TRUE)
-        }
-    }
+        true
     }
 
     boolean after() { true }

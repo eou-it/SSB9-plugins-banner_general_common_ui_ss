@@ -8,21 +8,9 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 
 <html>
 <head>
-    <title><g:message code="securityQA.title"/></title>
-    <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
-        <r:require modules="securityQARTL"/>
-    </g:if>
-    <g:else>
-        <r:require modules="securityQALTR"/>
-    </g:else>
     <meta name="layout" content="bannerSelfServicePage"/>
+    <title><g:message code="securityQA.title"/></title>
     <meta name="menuBaseURL" content="${createLink(uri: '/ssb')}" />
-    <r:script disposition="head">
-               window.securityQAInitErrors = {
-                   notification: "${notification}"
-               };
-    </r:script>
-
     <meta name="headerAttributes" content=""/>
     <script type="text/javascript">
         document.getElementsByName('headerAttributes')[0].content = JSON.stringify({
@@ -30,6 +18,18 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
         });
     </script>
 
+    <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
+        <asset:stylesheet href="modules/securityQARTL-mf.css"/>
+    </g:if>
+    <g:else>
+        <asset:stylesheet href="modules/securityQALTR-mf.css"/>
+    </g:else>
+
+    <asset:script disposition="head">
+        window.securityQAInitErrors = {
+            notification: "${notification}"
+               };
+    </asset:script>
 </head>
 
 <body>
@@ -189,5 +189,8 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
         </div>
     </div>
 </div>
+
+<asset:javascript src="modules/securityQALTR-mf.js"/>
+
 </body>
 </html>

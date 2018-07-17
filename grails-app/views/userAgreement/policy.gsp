@@ -8,15 +8,12 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 
 <html>
 <head>
-    <title><g:message code="net.hedtech.banner.termsofuse.title"/></title>
     <meta name="layout" content="bannerSelfServicePage"/>
-
+    <title><g:message code="net.hedtech.banner.termsofuse.title"/></title>
     <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
-        <asset:javascript src="modules/userAgreementRTL-mf.js"/>
         <asset:stylesheet href="modules/userAgreementRTL-mf.css"/>
     </g:if>
     <g:else>
-        <asset:javascript src="modules/userAgreementLTR-mf.js"/>
         <asset:stylesheet href="modules/userAgreementLTR-mf.css"/>
     </g:else>
     <meta name="headerAttributes" content=""/>
@@ -51,5 +48,8 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
         </div>
     </div>
 </div>
+
+<asset:javascript src="modules/userAgreementLTR-mf.js"/>
+
 </body>
 </html>

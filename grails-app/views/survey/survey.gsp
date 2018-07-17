@@ -8,8 +8,8 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 
 <html>
 <head>
-    <title><g:message code="survey.title"/></title>
     <meta name="layout" content="bannerSelfServicePage"/>
+    <title><g:message code="survey.title"/></title>
     <meta name="menuEndPoint" content="${g.createLink(controller: 'selfServiceMenu', action: 'data')}"/>
     <meta name="menuBaseURL" content="${createLink(uri: '/ssb')}" />
 
@@ -25,11 +25,12 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
     </script>
 
     <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
-        <r:require modules="surveyRTL"/>
+        <asset:stylesheet href="modules/surveyRTL-mf.css"/>
     </g:if>
     <g:else>
-        <r:require modules="surveyLTR"/>
+        <asset:stylesheet href="modules/surveyLTR-mf.css"/>
     </g:else>
+
 </head>
 
 <body>
@@ -64,5 +65,8 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
         </div>
     </div>
 </div>
+
+<asset:javascript src="modules/surveyLTR-mf.js"/>
+
 </body>
 </html>

@@ -62,7 +62,7 @@ class UserAgreementFlow extends PostLoginWorkflow {
             log.debug ae.stackTrace
             throw ae
         } finally {
-            connection.close()
+            //connection.close()
         }
     }
 
@@ -70,9 +70,7 @@ class UserAgreementFlow extends PostLoginWorkflow {
         def connection
         Sql sql
         try {
-            //session = sessionFactory.openSession()
-            //connection = sessionFactory.currentSession.connection()
-            connection = sessionFactory.openSession().connection()
+            connection = sessionFactory.currentSession.connection()
             sql = new Sql(connection)
             GroovyRowResult row = sql.firstRow("""select GOBTPAC_USAGE_ACCEPT_IND from GOBTPAC where GOBTPAC_PIDM = ${pidm}""")
             return row?.GOBTPAC_USAGE_ACCEPT_IND
@@ -84,7 +82,7 @@ class UserAgreementFlow extends PostLoginWorkflow {
             log.debug ae.stackTrace
             throw ae
         } finally {
-            connection.close()
+            //connection.close()
         }
     }
 

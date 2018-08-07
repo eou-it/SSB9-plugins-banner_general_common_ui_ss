@@ -17,6 +17,8 @@ class BannerGeneralCommonUiSsGrailsPlugin extends Plugin {
         "grails-app/views/error.gsp"
     ]
 
+    def loadAfter = ["bannerGeneralCommon"]
+
     // TODO Fill in these fields
     def title = "Banner General Common Ui Ss" // Headline display name of the plugin
     def author = "Ellucian"

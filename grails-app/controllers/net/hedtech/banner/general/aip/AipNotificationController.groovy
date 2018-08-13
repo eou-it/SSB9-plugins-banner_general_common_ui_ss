@@ -6,7 +6,7 @@ package net.hedtech.banner.general.aip
 import grails.converters.JSON
 import net.hedtech.banner.general.ConfigurationData
 
-import static net.hedtech.banner.general.aip.AipNotificationUtil.ENABLED;
+import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED;
 
 /**
  * AIP Notification Controller Class it has end point for notification

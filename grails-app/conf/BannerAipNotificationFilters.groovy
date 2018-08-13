@@ -75,7 +75,7 @@ class BannerAipNotificationFilters {
     private def getAipUrl() {
         try{
             ConfigProperties configProperties = ConfigProperties.fetchByConfigNameAndAppId('GENERALLOCATION','GENERAL_SS')
-            return configProperties? configProperties.configValue + 'ssb/aip/' : null
+            return configProperties? configProperties.configValue + '/ssb/aip/' : null
         }catch (Exception e){
             return "";
         }

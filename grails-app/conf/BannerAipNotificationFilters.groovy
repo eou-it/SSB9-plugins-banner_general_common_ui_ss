@@ -60,13 +60,14 @@ class BannerAipNotificationFilters {
         def gorIccrFlag
         if (!sessionAipEnabledStatus) {
             //For non aip aware applications we dont have aipEnabledStatus set in the session
-            gorIccrFlag = aipNotificationService.getGoriicrFlag()
+            gorIccrFlag = aipNotificationService.getAipEnabledFlag()
             //setting the session for the user
             session["aipEnabledStatus"] = gorIccrFlag
             sessionAipEnabledStatus = session["aipEnabledStatus"]
         }
         return sessionAipEnabledStatus.equals(ENABLED) ? true : false
     }
+
 
     /**
      * Returns the general location from gurocfg table
@@ -76,10 +77,12 @@ class BannerAipNotificationFilters {
         try{
             ConfigProperties configProperties = ConfigProperties.fetchByConfigNameAndAppId('GENERALLOCATION','GENERAL_SS')
             return configProperties? configProperties.configValue + '/ssb/aip/' : null
-        }catch (Exception e){
+        }catch (SQLException e){
+            log.warn("Unable to fetch the configuration GENERALLOCATION "+e.getMessage())
             return "";
         }
     }
+
 
     /**
      * Returns the request url path

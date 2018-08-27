@@ -5,8 +5,9 @@
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.servlet.GrailsUrlPathHelper
 import net.hedtech.banner.general.configuration.ConfigProperties
+import java.sql.SQLException
 
-import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED;
+import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED
 
 class BannerAipNotificationFilters {
 
@@ -79,7 +80,7 @@ class BannerAipNotificationFilters {
             return configProperties? configProperties.configValue + '/ssb/aip/' : null
         }catch (SQLException e){
             log.warn("Unable to fetch the configuration GENERALLOCATION "+e.getMessage())
-            return "";
+            return ""
         }
     }
 
@@ -89,8 +90,8 @@ class BannerAipNotificationFilters {
      * @return String
      * */
     private getServletPath(request) {
-        GrailsUrlPathHelper urlPathHelper = new GrailsUrlPathHelper();
-        String path = urlPathHelper.getOriginatingRequestUri(request);
+        GrailsUrlPathHelper urlPathHelper = new GrailsUrlPathHelper()
+        String path = urlPathHelper.getOriginatingRequestUri(request)
         if (path != null) {
             path = path.substring(request.getContextPath().length())
             if (SLASH.equals(path)) {

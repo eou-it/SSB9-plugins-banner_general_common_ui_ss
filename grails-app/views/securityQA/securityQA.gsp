@@ -1,6 +1,6 @@
 <%--
 /*******************************************************************************
-Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 --%>
 
@@ -100,7 +100,7 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
 
                     </div>
 
-                    <div class="informationImage">
+
                         <label><div
                                 class="section-message" id="aria-section-message">${securityQAInfo}</div></label>
                     </div>
@@ -117,7 +117,7 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
                                 </div>
 
                                 <div id="textLabel" class="section-text-wrapper">
-                                    <g:field name="pin" class="section-text" autocomplete="off" type="password"
+                                    <g:field name="pin" class="eds-text-field" autocomplete="off" type="password"
                                              aria-labelledby="aria-confirm-pin"
                                              aria-describedby="aria-section-message"></g:field>
                                 </div>
@@ -132,7 +132,7 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
                                                 args="[i + 1]"/></label></div>
 
                                     <div class="select-wrapper">
-                                        <select class="select" id="question" name="question"
+                                        <select class="select eds-select-field" id="question" name="question"
                                                 aria-labelledby="aria-question-label${i}">
                                             <option value="question0"><g:message
                                                     code="securityQA.selection.label"/></option>
@@ -155,7 +155,7 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
                                         <div class="section-text-wrapper"><g:textField name="userDefinedQuestion"
                                                                                        id="userDefinedQuestion"
                                                                                        value="${selectedUserDefinedQues[i]}"
-                                                                                       class="section-text"
+                                                                                       class="eds-text-field"
                                                                                        aria-labelledby="aria-editable-question-label${i}"></g:textField></div>
                                     </div>
                                 </g:if>
@@ -169,7 +169,7 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
                                                 code="securityQA.answer.label"
                                                 args="[i + 1]"/></label></div>
 
-                                    <div class="section-text-wrapper"><g:textField name="answer" class="section-text"
+                                    <div class="section-text-wrapper"><g:textField name="answer" class="eds-text-field"
                                                                                    value="${selectedAns[i]}"
                                                                                    aria-labelledby="aria-editable-answer-label${i}"></g:textField></div>
                                 </div>
@@ -178,10 +178,10 @@ Copyright 2014-2015 Ellucian Company L.P. and its affiliates.
                         </g:each>
                         <div class="button-area">
                             <input type='button' value='<g:message code="securityQA.confirm.button.cancel"/>'
-                                   id="security-cancel-btn" class="secondary-button"
+                                   id="security-cancel-btn" class="secondary"
                                    x data-endpoint="${createLink(controller: "logout")}"/>
                             <input type='button' value='<g:message code="securityQA.confirm.button.continue"/>'
-                                   id="security-save-btn" class="primary-button"/>
+                                   id="security-save-btn" class="primary"/>
                         </div>
                     </form>
                 </div>

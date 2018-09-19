@@ -79,7 +79,7 @@ class SurveyFlow extends PostLoginWorkflow {
             it.pattern =~ PAGE
         }?.configAttributes
 
-        isAuthorized =  !userAuthorities?.disjoint(pageRoles)
+        isAuthorized =  !userAuthorities?.disjoint(pageRoles.attrib)
 
         return isAuthorized
     }

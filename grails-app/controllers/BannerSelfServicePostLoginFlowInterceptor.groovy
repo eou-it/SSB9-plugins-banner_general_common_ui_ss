@@ -1,12 +1,13 @@
 /*******************************************************************************
  Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
+
+import groovy.transform.CompileStatic
 import net.hedtech.banner.apisupport.ApiUtils
 import net.hedtech.banner.overall.loginworkflow.PostLoginWorkflow
 import org.grails.web.servlet.GrailsUrlPathHelper
 
 import javax.servlet.http.HttpSession
-
 class BannerSelfServicePostLoginFlowInterceptor {
     private static final String SLASH = "/"
     private static final String QUESTION_MARK = "?"
@@ -18,11 +19,13 @@ class BannerSelfServicePostLoginFlowInterceptor {
 
     //def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
     //TODO check the precedence using constants
-    int order = 55
+
+    int order = HIGHEST_PRECEDENCE + 55
     BannerSelfServicePostLoginFlowInterceptor() {
         matchAll()
                 .excludes(controller: 'selfServiceMenu')
                 .excludes(controller: 'login')
+                .excludes(controller: 'logout')
                 .excludes(controller: 'error')
                 .excludes(controller: 'dateConverter')
                 .excludes(controller: 'about')

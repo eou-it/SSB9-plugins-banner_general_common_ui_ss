@@ -82,7 +82,8 @@ $(document).ready(function () {
             if(userDefinedQuesFlag == 'N') {
                 if (index == 0) {
                     var error = $.i18n.prop("securityQA.error");
-                    $(ielm).closest("div .section-wrapper").addClass("notification-error");
+                    //$(ielm).closest("div .section-wrapper").addClass("notification-error");
+                    $(ielm).addClass("notification-error");
                     addAriaErrors(ielm.parentElement, error, "aria-invalid-select-question-" + j);
                     var notification = {message:error,component:selectbox};
                     notificationMessages.push(notification);
@@ -91,7 +92,8 @@ $(document).ready(function () {
                 var userDefinedQuestion = $('input#userDefinedQuestion')[j].value;
                 if (index != 0 && userDefinedQuestion.length > 0) {
                     var error = $.i18n.prop("securityQA.invalid.number.question");
-                    $(ielm).closest("div .section-wrapper").addClass("notification-error");
+                    //$(ielm).closest("div .section-wrapper").addClass("notification-error");
+                    $(ielm).addClass("notification-error");
                     addAriaErrors(ielm.parentElement, error, "aria-invalid-select-question-" + j);
                     $($('input#userDefinedQuestion')[j]).attr('aria-invalid', 'true');
                     var notification = {message:error,component:selectbox};

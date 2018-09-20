@@ -203,8 +203,11 @@ select option :hover {
 }
 
 
-.notification-error {
+/*.notification-error {
     background-color: #EBCFCF;
+}*/
+.component-error{
+    border:1px solid #cc0000;
 }
 
 .hide-aria-message {

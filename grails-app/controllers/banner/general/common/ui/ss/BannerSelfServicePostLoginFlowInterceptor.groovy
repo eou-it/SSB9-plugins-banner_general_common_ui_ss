@@ -1,13 +1,14 @@
+package banner.general.common.ui.ss
 /*******************************************************************************
  Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
-import groovy.transform.CompileStatic
 import net.hedtech.banner.apisupport.ApiUtils
 import net.hedtech.banner.overall.loginworkflow.PostLoginWorkflow
 import org.grails.web.servlet.GrailsUrlPathHelper
 
 import javax.servlet.http.HttpSession
+
 class BannerSelfServicePostLoginFlowInterceptor {
     private static final String SLASH = "/"
     private static final String QUESTION_MARK = "?"

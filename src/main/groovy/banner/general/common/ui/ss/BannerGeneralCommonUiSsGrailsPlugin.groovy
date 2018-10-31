@@ -8,7 +8,7 @@ import net.hedtech.banner.web.SsbLoginURLRequest
 
 class BannerGeneralCommonUiSsGrailsPlugin extends Plugin {
 
-    def version = "9.28.1"
+    def version = "9.30"
 
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "3.3.2 > *"

@@ -43,7 +43,7 @@ class BannerSelfServicePostLoginFlowInterceptor {
     }
 
     boolean before() {
-        if (!ApiUtils.isApiRequest() && !request.xhr) {
+        /*if (!ApiUtils.isApiRequest() && !request.xhr) {
             HttpSession session = request.getSession()
 
             if(session.getAttribute("maxInactiveInterval")) {
@@ -101,7 +101,7 @@ class BannerSelfServicePostLoginFlowInterceptor {
                 log.debug "UserLocale evaluated is = "+ userLocale
                 session.setAttribute(USER_LOCALE_SETUP_COMPLETE, Boolean.TRUE)
             }
-        }
+        }*/
         true
     }
 

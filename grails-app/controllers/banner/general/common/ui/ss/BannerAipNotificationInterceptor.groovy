@@ -3,14 +3,12 @@ package banner.general.common.ui.ss
  Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
-import net.hedtech.banner.apisupport.ApiUtils
 import net.hedtech.banner.general.configuration.ConfigProperties
-import net.hedtech.banner.overall.loginworkflow.PostLoginWorkflow
 import org.grails.web.servlet.GrailsUrlPathHelper
-//import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED
 
-import javax.servlet.http.HttpSession
 import java.sql.SQLException
+
+import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED
 
 class BannerAipNotificationInterceptor {
     def aipNotificationService

@@ -66,7 +66,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
     </div>
 </div>
 
-<asset:javascript src="modules/surveyLTR-mf.js"/>
+<asset:javascript src="modules/survey-mf.js"/>
 
 </body>
 </html>

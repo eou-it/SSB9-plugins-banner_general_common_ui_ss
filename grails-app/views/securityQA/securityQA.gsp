@@ -190,7 +190,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
     </div>
 </div>
 
-<asset:javascript src="modules/securityQALTR-mf.js"/>
+<asset:javascript src="modules/securityQA-mf.js"/>
 
 </body>
 </html>

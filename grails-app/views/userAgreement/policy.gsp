@@ -50,7 +50,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
     </div>
 </div>
 
-<asset:javascript src="modules/userAgreementLTR-mf.js"/>
+<asset:javascript src="modules/userAgreement-mf.js"/>
 
 </body>
 </html>

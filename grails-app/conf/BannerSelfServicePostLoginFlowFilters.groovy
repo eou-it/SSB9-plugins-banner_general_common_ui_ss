@@ -22,7 +22,7 @@ class BannerSelfServicePostLoginFlowFilters {
 
     def filters = {
         all(controller: "selfServiceMenu|login|logout|error|dateConverter|about|theme|themeEditor|userPreference|shortcut|" +
-                "customPage|virtualDomainComposer|restfulApi|visualPageModelComposer|cssManager", invert: true) {
+				"cssRender|virtualDomainComposer|restfulApi|visualPageModelComposer|cssManager|userAgreement|securityQA|survey", invert: true) { //|cssManager|visualPageModelComposer|cssRender|virtualDomainComposer|visualPageModelComposer||cssRender|uploadProperties
             before = {
                 if (!ApiUtils.isApiRequest() && !request.xhr) {
                     HttpSession session = request.getSession()

@@ -21,8 +21,8 @@ class BannerAipNotificationFilters {
     def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
 
     def filters = {
-        all(controller: "selfServiceMenu|login|logout|error|dateConverter|about|theme|themeEditor|userPreference|shortcut|" +
-				"customPage|virtualDomainComposer|restfulApi|visualPageModelComposer|cssManager", invert: true) { //|cssManager|visualPageModelComposer|cssRender|virtualDomainComposer|visualPageModelComposer||cssRender|uploadProperties
+        all(controller: "selfServiceMenu|login|logout|error|dateConverter|about|theme|userPreference|shortcut|" +
+				"cssRender|restfulApi", invert: true) { //|cssManager|visualPageModelComposer|cssRender|virtualDomainComposer|visualPageModelComposer||cssRender|uploadProperties
             before = {
                 String path = getServletPath(request)
                 if (springSecurityService.isLoggedIn() && path != null){

@@ -21,8 +21,8 @@ class BannerSelfServicePostLoginFlowFilters {
     def dependsOn = [net.hedtech.banner.security.AccessControlFilters.class]
 
     def filters = {
-        all(controller: "selfServiceMenu|login|logout|error|dateConverter|about|theme|themeEditor|userPreference|shortcut|" +
-				"cssRender|virtualDomainComposer|restfulApi|visualPageModelComposer|cssManager|userAgreement|securityQA|survey", invert: true) { //|cssManager|visualPageModelComposer|cssRender|virtualDomainComposer|visualPageModelComposer||cssRender|uploadProperties
+        all(controller: "selfServiceMenu|login|logout|error|dateConverter|about|theme|userPreference|shortcut|" +
+				"cssRender|restfulApi", invert: true) { //|cssManager|visualPageModelComposer|cssRender|virtualDomainComposer|visualPageModelComposer||cssRender|uploadProperties
             before = {
                 if (!ApiUtils.isApiRequest() && !request.xhr) {
                     HttpSession session = request.getSession()

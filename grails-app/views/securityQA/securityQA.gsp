@@ -107,7 +107,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                     <br/>
                     <br/>
 
-                    <form action='${createLink(controller: "securityQA", action: "save")}' id='securityForm'
+                    <form action='${createLink(uri: "/ssb/securityQA/save")}' id='securityForm'
                           method='POST'>
                         <div class="section-wrapper">
                             <div class="question-wrapper">

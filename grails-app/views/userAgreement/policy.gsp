@@ -40,7 +40,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                             <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.continue"/>' id="policy-continue" class="primary"
                                    data-endpoint="${createLink(uri:'/ssb/userAgreement/agreement')}"/>
                             <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.exit"/>' id="policy-exit" class="secondary"
-                                   data-endpoint="${createLink(controller: "logout")}"/>
+                                   data-endpoint="${createLink(uri:'/ssb/logout')}"/>
                         </div>
                     </div>
                 </div>

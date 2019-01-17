@@ -3,13 +3,18 @@
  *******************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
 
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
+import grails.transaction.Rollback
 import groovy.sql.Sql
 import net.hedtech.banner.testing.BaseIntegrationTestCase
-import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
+import org.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+@Integration
+@Rollback
 class SecurityQAFlowIntegrationTests extends BaseIntegrationTestCase {
 
 

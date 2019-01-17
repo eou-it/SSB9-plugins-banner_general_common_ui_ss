@@ -7,17 +7,22 @@ import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 import net.hedtech.banner.testing.BaseIntegrationTestCase
-import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
+import org.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
+
 
 /**
  * Integration test cases for UserAgreementFlowIntegrationTests.
  */
+@Integration
+@Rollback
 class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
     def UserAgreementFlow
     public static final USER_AGREEMENT_ACTION = "useragreementdone"

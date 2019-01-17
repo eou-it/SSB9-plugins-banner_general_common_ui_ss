@@ -5,15 +5,18 @@ package net.hedtech.banner.overall.loginworkflow
 import org.junit.Before
 import org.junit.Test
 import org.junit.After
-
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
 import groovy.sql.Sql
 import net.hedtech.banner.testing.BaseIntegrationTestCase
 import grails.util.Holders
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
+import grails.web.context.ServletContextHolder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken as UPAT
 import org.springframework.security.core.context.SecurityContextHolder
 import net.hedtech.banner.general.overall.PinQuestion
 
+@Integration
+@Rollback
 class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
 
     def selfServiceBannerAuthenticationProvider

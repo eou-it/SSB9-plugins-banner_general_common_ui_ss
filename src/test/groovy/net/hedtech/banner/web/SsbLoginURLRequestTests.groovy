@@ -4,10 +4,7 @@
 
 package net.hedtech.banner.web
 
-import grails.test.mixin.TestMixin
-import grails.test.mixin.support.GrailsUnitTestMixin
 
-@TestMixin(GrailsUnitTestMixin)
 class SsbLoginURLRequestTests {
 
     private static final String PATH_ENDS_WITH_CONTROLLER_NAME = "/ssb/registration"

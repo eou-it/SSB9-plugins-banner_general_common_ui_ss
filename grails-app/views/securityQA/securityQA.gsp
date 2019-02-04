@@ -107,7 +107,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                     <br/>
                     <br/>
 
-                    <form action='${createLink(controller: "securityQA", action: "save")}' id='securityForm'
+                    <form action='${createLink(uri: "/ssb/securityQA/save")}' id='securityForm'
                           method='POST'>
                         <div class="section-wrapper">
                             <div class="question-wrapper">
@@ -179,7 +179,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                         <div class="button-area">
                             <input type='button' value='<g:message code="securityQA.confirm.button.cancel"/>'
                                    id="security-cancel-btn" class="secondary"
-                                   x data-endpoint="${createLink(controller: "logout")}"/>
+                                   x data-endpoint="${createLink(uri:'/ssb/logout')}"/>
                             <input type='button' value='<g:message code="securityQA.confirm.button.continue"/>'
                                    id="security-save-btn" class="primary"/>
                         </div>

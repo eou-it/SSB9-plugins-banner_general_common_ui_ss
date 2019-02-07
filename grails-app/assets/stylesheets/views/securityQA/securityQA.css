@@ -3,8 +3,7 @@
 ****************************************************************************** */
 
 #bodyContainer {
-    padding: 2em;
-
+    padding: 0.5em;
 }
 
 #content {
@@ -12,7 +11,7 @@
     font-size: 16px;
 }
 .eds-text-field {
-    width: 18em;
+    width: 100%;
     height: 2.8em;
 }
 #pageheader {
@@ -77,7 +76,7 @@ select option :hover {
     top: 0px;
     float: left;
     overflow: hidden;
-    width: 95%;
+    width: 100%;
 }
 
 .content-label {
@@ -111,29 +110,33 @@ select option :hover {
 }
 
 .section-wrapper div {
-    display: inline-block;
 }
 
+.spacing {
+    padding-bottom: 10px;
+}
+.confirm-pin-spacing {
+    padding-bottom: 15px;
+}
 .question-wrapper {
-    width: 45%;
-    padding-bottom: 1em;
+    width: 23%;
+    text-align: left;
 }
 
 .question-wrapper div{
-    display: inline-block;
 }
 
 
 .label-wrapper {
-    margin-left: 5px;
-    margin-right: 15px;
     padding: 2px;
-    width: 35%;
 }
 
 .label-style{
-    width:100%;
+    width: 100%;
+    text-align: left;
     font-family: OpenSans-Semibold;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .answer-wrapper {
@@ -141,8 +144,8 @@ select option :hover {
    padding-bottom: 1em;
 }
 
-.answer-wrapper div{
-    display: inline-block;
+.answer-spacing{
+    padding-bottom: 15px;
 }
 
 
@@ -155,9 +158,13 @@ select option :hover {
    width: 100%;
 }
 
+.select_spacing {
+    padding-top:1em;
+}
+
 .section-text-wrapper{
     vertical-align: top;
-    width: 50%;
+    width: 100%;
 }
 
 .section-text {
@@ -174,7 +181,8 @@ select option :hover {
 
 
 .button-area {
-    float: right;
+    padding-top: 10px;
+    margin-bottom: 10px;
 }
 
 
@@ -185,13 +193,12 @@ select option :hover {
 #errorMessage {
     font-size: 13px;
     font-weight: bold;
-    padding: 4px;
 }
 
 .section-message {
     font-family: OpenSans-Bold;
     font-size: 1em;
-    padding-bottom: 2em;
+    padding-bottom: 15px;
 }
 
 .informationImage {
@@ -224,20 +231,33 @@ select option :hover {
     height: 2.8em;
 }
 
+/*
+@media screen and (max-width: 1137px) {
 
-@media screen and (min-width: 768px) {
 
-    .button-area .primary,.button-area .secondary {
-        width: 10.9em;
-        height: 2.8em;
-    }
+        .button-area .primary, .button-area .secondary {
+            width: 10.9em;
+            height: 2.8em;
+        }
 
-    .eds-select-field {
-        width: 22.7em;
-        height: 2.8em;
-    }
-    .eds-text-field {
-        width: 22.7em;
+        .eds-select-field {
+            width: 22.7em;
+            height: 2.8em;
+        }
+
+        .eds-text-field {
+            width: 22.7em;
+        }
+
+}*/
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+
+    .question-wrapper {
+        width: 50%;
+        text-align: left;
     }
 
 }

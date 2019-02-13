@@ -128,9 +128,11 @@ select option :hover {
 
 
 .label-wrapper {
-    padding: 2px;
+    padding-bottom: 6px;
 }
-
+ .or-spacing {
+     padding-top: 6px;
+ }
 .label-style{
     width: 100%;
     text-align: left;
@@ -252,11 +254,11 @@ select option :hover {
 }*/
 
 @media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px) {
+and (min-device-width : 321px)
+and (max-device-width : 800px) {
 
     .question-wrapper {
-        width: 50%;
+        width: 60%;
         text-align: left;
     }
 

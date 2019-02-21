@@ -112,7 +112,7 @@ select option :hover {
 .section-wrapper div {
 }
 
-.spacing {
+.securityqa_spacing {
     padding-bottom: 10px;
 }
 .confirm-pin-spacing {
@@ -233,32 +233,58 @@ select option :hover {
     height: 2.8em;
 }
 
-/*
-@media screen and (max-width: 1137px) {
-
-
-        .button-area .primary, .button-area .secondary {
-            width: 10.9em;
-            height: 2.8em;
-        }
-
-        .eds-select-field {
-            width: 22.7em;
-            height: 2.8em;
-        }
-
-        .eds-text-field {
-            width: 22.7em;
-        }
-
-}*/
-
+/* for smart phone portrait */
 @media only screen
-and (min-device-width : 321px)
-and (max-device-width : 800px) {
+and (min-device-width : 320px)
+and (max-device-width : 700px) {
 
     .question-wrapper {
-        width: 60%;
+        width: 65%;
+        text-align: left;
+    }
+
+}
+ /* For iphone5 portrait */
+@media only screen
+and (min-device-width : 321px)
+and (max-device-width : 325px){
+
+    .question-wrapper {
+        width: 65%;
+        text-align: left;
+    }
+
+}
+/* smart phone landscape */
+@media only screen
+and (min-device-width: 731px)
+and (max-device-width: 825px)
+and (orientation : landscape) {
+
+    .question-wrapper {
+        width: 40%;
+        text-align: left;
+    }
+
+}
+/* ipad portrait */
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 825px){
+
+    .question-wrapper {
+        width: 40%;
+        text-align: left;
+    }
+}
+
+@media only screen
+and (min-device-width: 1024px)
+and (max-device-width: 1366px)
+and (orientation : landscape) {
+
+    .question-wrapper {
+        width: 40%;
         text-align: left;
     }
 

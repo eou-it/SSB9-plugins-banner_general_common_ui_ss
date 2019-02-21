@@ -94,7 +94,11 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
             <div id="contentHolder">
                 <div id="contentBelt"></div>
 
+                <div class="pagebodydiv" style="display: block;">
+                    <div id="errorMessage">
 
+                    </div>
+                </div>
                 <div align="center">
                     <div class="question-wrapper">
                         <label><div
@@ -137,7 +141,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                                       <label class="or-label" class="label-style"><g:message
                                             code="securityQA.or.label"/></label>
                                     </div>
-                                    <div class="question-wrapper spacing">
+                                    <div class="question-wrapper securityqa_spacing">
                                         <div class="label-wrapper"><label id="aria-editable-question-label${i}"
                                                                           class="label-style"></label></div>
 

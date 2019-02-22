@@ -123,10 +123,6 @@ select option :hover {
     text-align: left;
 }
 
-.question-wrapper div{
-}
-
-
 .label-wrapper {
     padding-bottom: 6px;
 }
@@ -234,58 +230,26 @@ select option :hover {
 }
 
 /* for smart phone portrait */
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 700px) {
+@media only screen and (min-device-width : 320px) and (max-device-width : 700px) {
 
     .question-wrapper {
         width: 65%;
-        text-align: left;
     }
 
 }
- /* For iphone5 portrait */
-@media only screen
-and (min-device-width : 321px)
-and (max-device-width : 325px){
 
-    .question-wrapper {
-        width: 65%;
-        text-align: left;
-    }
-
-}
-/* smart phone landscape */
-@media only screen
-and (min-device-width: 731px)
-and (max-device-width: 825px)
-and (orientation : landscape) {
+@media only screen and (min-device-width: 731px) and (max-device-width: 825px) and (orientation : landscape) {
 
     .question-wrapper {
         width: 40%;
-        text-align: left;
     }
 
 }
-/* ipad portrait */
-@media only screen
-and (min-device-width: 768px)
-and (max-device-width: 825px){
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) {
 
     .question-wrapper {
         width: 40%;
-        text-align: left;
-    }
-}
-
-@media only screen
-and (min-device-width: 1024px)
-and (max-device-width: 1366px)
-and (orientation : landscape) {
-
-    .question-wrapper {
-        width: 40%;
-        text-align: left;
     }
 
 }

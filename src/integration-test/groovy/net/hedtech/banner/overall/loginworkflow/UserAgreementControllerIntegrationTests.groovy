@@ -4,6 +4,8 @@
 package net.hedtech.banner.overall.loginworkflow
 
 import grails.converters.JSON
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
 import net.hedtech.banner.general.utility.InformationTextUtility
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 import net.hedtech.banner.testing.BaseIntegrationTestCase
@@ -17,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder
 /**
  * Integration test cases for UserAgreementController.
  */
+@Integration
+@Rollback
 class UserAgreementControllerIntegrationTests extends BaseIntegrationTestCase {
     private static final VIEW = 'policy'
     private static final String POLICY_PAGE_NAME = 'TERMSOFUSAGE'

@@ -4,6 +4,8 @@
 
 package net.hedtech.banner.general.utility
 
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
 import net.hedtech.banner.testing.BaseIntegrationTestCase
 import org.junit.After
 import org.junit.Before
@@ -12,6 +14,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 
+@Integration
+@Rollback
 class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
     private static final def PAGE_NAME = "TESTPAGE"

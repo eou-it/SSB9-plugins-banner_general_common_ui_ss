@@ -166,7 +166,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 
 
                         </g:each>
-                        <div class="button-area">
+                        <div class="question-wrapper button-area">
                             <input type='button' value='<g:message code="securityQA.confirm.button.cancel"/>'
                                    id="security-cancel-btn" class="secondary"
                                    x data-endpoint="${createLink(controller: "logout")}"/>

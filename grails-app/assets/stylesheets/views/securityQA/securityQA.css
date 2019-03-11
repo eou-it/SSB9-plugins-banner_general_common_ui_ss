@@ -364,10 +364,17 @@ select option :hover {
 
 }
 /*macboox*/
-@media only screen and (min-device-width: 1367px) {
+@media only screen and (min-device-width: 1367px) and (max-device-width: 1535px) {
 
     .button-area .primary, .button-area .secondary {
         width: 46.6%;
+    }
+
+}
+@media only screen and (min-device-width: 1536px) {
+
+    .button-area .primary, .button-area .secondary {
+        width: 47%;
     }
 
 }

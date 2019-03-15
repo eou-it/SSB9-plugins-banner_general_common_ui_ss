@@ -139,7 +139,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                                             code="securityQA.or.label"/></label>
                                     </div>
                                     <div class="question-wrapper securityqa_spacing">
-                                        <div class="label-wrapper"><label id="aria-editable-question-label${i}"
+                                        <div class="editableQuestion"><label id="aria-editable-question-label${i}"
                                                                           class="label-style"></label></div>
 
                                         <div class="section-text-wrapper"><input name="userDefinedQuestion"
@@ -155,7 +155,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 
 
                                 <div class="question-wrapper answer-spacing">
-                                    <div class="label-wrapper"><label id="aria-editable-answer-label${i}"
+                                    <div class="editableAnswer"><label id="aria-editable-answer-label${i}"
                                                                       class="label-style"></label></div>
 
                                     <div class="section-text-wrapper"><input name="answer" class="eds-text-field"

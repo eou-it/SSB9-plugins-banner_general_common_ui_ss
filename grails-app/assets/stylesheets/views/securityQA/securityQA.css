@@ -125,9 +125,9 @@ select option :hover {
 .section-wrapper div {
 }
 
-.securityqa_spacing {
+/*.securityqa_spacing {
     padding-bottom: 16px;
-}
+}*/
 /*.confirm-pin-spacing {
     padding: 0px 0px 32px 0px;
 }*/
@@ -155,9 +155,9 @@ select option :hover {
    padding-bottom: 1em;
 }
 
-/*.answer-spacing{
-    padding: 0 0 32px 0;
-}*/
+.answer-spacing{
+    padding-top: 16px;
+}
 
 
 .select-wrapper{

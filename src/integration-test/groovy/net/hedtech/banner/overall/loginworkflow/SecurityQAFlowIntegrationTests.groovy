@@ -73,7 +73,7 @@ class SecurityQAFlowIntegrationTests extends BaseIntegrationTestCase {
             if (forgetPIN != 'N')
                 sql.executeUpdate("update GUBPPRF set GUBPPRF_DISABLE_FORGET_PIN_IND = 'N'")
         } finally {
-            sql?.close()
+
         }
     }
 

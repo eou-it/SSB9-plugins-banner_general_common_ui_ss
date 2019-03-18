@@ -44,11 +44,11 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
         //
         // So, we'll set the formContext and then call super(), just as if this were not a controller test.
         // That is, we'll set the controller after we call super() so the base class won't manipulate it.
-        if (!isSsbEnabled()) return
-        formContext = ['GUAGMNU']
+        //if (!isSsbEnabled()) return
+        formContext = ['SELFSERVICE']
 
         controller = new SecurityQAController()
-
+        controller.securityQAService = securityQAService
         super.setUp()
         ServletContextHolder.servletContext.removeAttribute("gtvsdax")
         def auth = selfServiceBannerAuthenticationProvider.authenticate(new UPAT('HOF00720', '111111'))

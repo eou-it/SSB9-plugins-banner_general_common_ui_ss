@@ -15,10 +15,9 @@ eds-text-field:-moz-placeholder { /* Firefox 18- */
     color: #5B5E65;
 }
 
-/*#bodyContainer {
-    padding: 24px;
-}*/
-
+#securityForm{
+    width: 23%;
+}
 #content {
     overflow-x: hidden;
     font-size: 16px;
@@ -121,26 +120,11 @@ select option :hover {
 .section-wrapper {
     margin-bottom: 6px;
 }
-
-.section-wrapper div {
-}
-
-.securityqa_spacing {
-    padding-bottom: 16px;
-}
-/*.confirm-pin-spacing {
-    padding: 0px 0px 32px 0px;
-}*/
-.question-wrapper {
-    width: 23%;
-    text-align: left;
-}
-
 .label-wrapper {
     padding: 0 0 10px 0;
 }
- .or-spacing {
-     padding:8px 0 8px 0;
+.or-spacing {
+    padding:8px 0 8px 0;
  }
 .label-style{
     width: 100%;
@@ -151,14 +135,11 @@ select option :hover {
 }
 
 .answer-wrapper {
-   width: 45%;
-   padding-bottom: 1em;
+    padding:16px 0 0 0;
 }
-
-/*.answer-spacing{
-    padding: 0 0 32px 0;
-}*/
-
+.wrapper{
+    text-align:left;
+}
 
 .select-wrapper{
   vertical-align: top;
@@ -233,9 +214,6 @@ select option :hover {
     left: -9999px;
 }
 
-/*.button-area .secondary {
-    margin-right: 18%;
-}*/
 
 .button-area .primary, .button-area .secondary {
     width: 47.5%;
@@ -255,13 +233,13 @@ select option :hover {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    .question-wrapper {
+    #securityForm {
         width: 80%;
     }
 
 }
 @media only screen and (max-width: 600px) and (orientation: landscape) {
-    .question-wrapper {
+    #securityForm{
         width: 80%;
     }
 
@@ -269,14 +247,14 @@ select option :hover {
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    .question-wrapper {
+    #securityForm{
         width: 60%;
     }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-    .question-wrapper {
+    #securityForm{
         width: 50%;
     }
 
@@ -284,7 +262,7 @@ select option :hover {
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-    .question-wrapper {
+    #securityForm{
         width: 33%;
     }
 
@@ -292,7 +270,8 @@ select option :hover {
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-    .question-wrapper {
+    #securityForm {
         width: 23%;
     }
 }
+

@@ -51,9 +51,11 @@ dataSource {
 hibernate {
     cache.use_second_level_cache = true
     cache.use_query_cache = true
-    cache.provider_class = 'net.sf.ehcache.hibernate.EhCacheProvider'
-    hbm2ddl.auto = null
+    cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
+    //hbm2ddl.auto = null
     show_sql = false
+    packagesToScan="net.hedtech.**.*"
+    flush.mode = AUTO
     dialect = "org.hibernate.dialect.Oracle10gDialect"
     config.location = [
             "classpath:hibernate-banner-general-utility.cfg.xml",
@@ -62,6 +64,10 @@ hibernate {
             "classpath:hibernate-banner-general-common.cfg.xml"]
 }
 
+//Added for integration tests to run in plugin level
+grails.config.locations = [
+        BANNER_APP_CONFIG: "banner_configuration.groovy"
+]
 // Uncomment and edit the following lines to start using Grails encoding & escaping improvements
 
 /* remove this line 

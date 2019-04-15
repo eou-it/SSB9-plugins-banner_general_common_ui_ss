@@ -1,9 +1,11 @@
 /*********************************************************************************
- Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
  **********************************************************************************/
 
 package net.hedtech.banner.general.utility
 
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
 import net.hedtech.banner.testing.BaseIntegrationTestCase
 import org.junit.After
 import org.junit.Before
@@ -12,6 +14,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 
+@Integration
+@Rollback
 class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
     private static final def PAGE_NAME = "TESTPAGE"
@@ -27,7 +31,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
     @Before
     public void setUp() {
-        formContext = ['GUAGMNU'] // Since we are not testing a controller, we need to explicitly set this
+        formContext = ['SELFSERVICE'] // Since we are not testing a controller, we need to explicitly set this
         super.setUp()
     }
 

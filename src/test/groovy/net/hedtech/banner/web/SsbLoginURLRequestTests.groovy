@@ -1,13 +1,10 @@
 /*******************************************************************************
- Copyright 2014 Ellucian Company L.P. and its affiliates.
+ Copyright 2012-2019 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 
 package net.hedtech.banner.web
 
-import grails.test.mixin.TestMixin
-import grails.test.mixin.support.GrailsUnitTestMixin
 
-@TestMixin(GrailsUnitTestMixin)
 class SsbLoginURLRequestTests {
 
     private static final String PATH_ENDS_WITH_CONTROLLER_NAME = "/ssb/registration"

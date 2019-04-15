@@ -15,10 +15,9 @@ eds-text-field:-moz-placeholder { /* Firefox 18- */
     color: #5B5E65;
 }
 
-#bodyContainer {
-    padding: 24px;
+#securityForm{
+    width: 23%;
 }
-
 #content {
     overflow-x: hidden;
     font-size: 16px;
@@ -122,25 +121,11 @@ select option :hover {
     margin-bottom: 6px;
 }
 
-.section-wrapper div {
-}
-
-.securityqa_spacing {
-    padding-bottom: 10px;
-}
-.confirm-pin-spacing {
-    padding-bottom: 15px;
-}
-.question-wrapper {
-    width: 23%;
-    text-align: left;
-}
-
 .label-wrapper {
-    padding-bottom: 6px;
+    padding: 0 0 10px 0;
 }
- .or-spacing {
-     padding-top: 6px;
+.or-spacing {
+    padding:8px 0 8px 0;
  }
 .label-style{
     width: 100%;
@@ -151,14 +136,11 @@ select option :hover {
 }
 
 .answer-wrapper {
-   width: 45%;
-   padding-bottom: 1em;
+    padding:16px 0 0 0;
 }
-
-.answer-spacing{
-    padding-bottom: 15px;
+.wrapper{
+    text-align:left;
 }
-
 
 .select-wrapper{
   vertical-align: top;
@@ -170,7 +152,7 @@ select option :hover {
 }
 
 .select_spacing {
-    padding-top:1em;
+    padding: 32px 0 0px 0;
 }
 
 .section-text-wrapper{
@@ -192,8 +174,8 @@ select option :hover {
 
 
 .button-area {
-    padding-top: 10px;
-    margin-bottom: 10px;
+    height: 2.8em;
+    padding:24px 0 24px 0;
 }
 
 
@@ -206,10 +188,10 @@ select option :hover {
     font-weight: bold;
 }
 
-.section-message {
+.question-wrapper .section-message {
     font-family: OpenSans-Bold;
     font-size: 1em;
-    padding-bottom: 15px;
+    padding: 24px 0 24px 0;
 }
 
 .informationImage {
@@ -233,39 +215,64 @@ select option :hover {
     left: -9999px;
 }
 
-/*.button-area .secondary {
-    margin-right: 18%;
-}*/
 
 .button-area .primary, .button-area .secondary {
-    width: 49%;
+    width: 47.5%;
     height: 2.8em;
-}
-
-/* for smart phone portrait */
-@media only screen and (min-device-width : 320px) and (max-device-width : 700px) {
-
-    .question-wrapper {
-        width: 73%;
-    }
-    .button-area {
-        font-size: 14px;
-    }
 
 }
-
-@media only screen and (min-device-width: 731px) and (max-device-width: 825px) and (orientation : landscape) {
-
-    .question-wrapper {
-        width: 40%;
-    }
-   
+.button-area .secondary {
+    float: left;
+}
+.button-area .primary {
+    float: right;
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) {
+.header-wrapper{
+    padding: 24px 0 24px 0;
+}
 
-    .question-wrapper {
-        width: 40%;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    #securityForm {
+        width: 80%;
     }
 
 }
+@media only screen and (max-width: 600px) and (orientation: landscape) {
+    #securityForm{
+        width: 80%;
+    }
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    #securityForm{
+        width: 60%;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    #securityForm{
+        width: 50%;
+    }
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    #securityForm{
+        width: 33%;
+    }
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    #securityForm {
+        width: 23%;
+    }
+}
+

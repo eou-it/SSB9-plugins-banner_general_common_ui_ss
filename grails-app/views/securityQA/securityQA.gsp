@@ -91,19 +91,20 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
     <div id='title-panel' class='aurora-theme'></div>
     <div id="bodyContainer" class="ui-layout-center inner-center">
          <div id="pagebody" class="level4">
-            <div id="contentHolder">
+            <div id="contentHolder" align="center">
                 <div id="contentBelt"></div>
-                <div align="center">
+                <div>
                     <div id="errorMessage">
-                         
+
                     </div>
-                    <div class="question-wrapper">
-                        <label><div
-                                class="section-message" id="aria-section-message">${securityQAInfo}</div></label>
-                    </div>
+
                     <form action='${createLink(uri: "/ssb/securityQA/save")}' id='securityForm'
                           method='POST'>
-                        <div class="question-wrapper confirm-pin-spacing">
+                        <div class="question-wrapper wrapper">
+                            <label><div
+                                    class="section-message" id="aria-section-message">${securityQAInfo}</div></label>
+                        </div>
+                        <div class="confirm_pin-wrapper confirm-pin-spacing wrapper">
                                 <div class="label-wrapper">
                                     <label id="aria-confirm-pin" class="label-style"><g:message
                                             code="securityQA.confirmpin.label"/></label>
@@ -117,14 +118,14 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                         </div>
                         <g:each in="${1..noOfquestions}" status="i" var="ques">
 
-                                <div class="question-wrapper select_spacing">
+                                <div class="question-wrapper select_spacing wrapper">
                                     <div class="label-wrapper"><label id="aria-question-label${i}"
                                                                       class="label-style"><g:message
                                                 code="securityQA.question.label"
                                                 args="[i + 1]"/></label></div>
 
 
-                                        <select class="select eds-select-field" id="question" name="question"
+                                        <select class="select eds-select-field" id="question_${i}" name="question"
                                                 aria-labelledby="aria-question-label${i}">
                                             <option value="question0"><g:message
                                                     code="securityQA.selection.label"/></option>
@@ -138,30 +139,37 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                                       <label class="or-label" class="label-style"><g:message
                                             code="securityQA.or.label"/></label>
                                     </div>
-                                    <div class="question-wrapper securityqa_spacing">
-                                        <div class="label-wrapper"><label id="aria-editable-question-label${i}"
+                                    <div class="question-wrapper securityqa_spacing wrapper">
+                                        <div class="editableQuestion"><label id="aria-editable-question-label${i}"
                                                                           class="label-style"></label></div>
 
-                                        <div class="section-text-wrapper"><input name="userDefinedQuestion"
-                                                                                       id="userDefinedQuestion"
+                                        <div class="section-text-wrapper"><g:textField name="userDefinedQuestion"
+                                                                                       id="userDefinedQuestion_${i}"
                                                                                        value="${selectedUserDefinedQues[i]}"
                                                                                        class="eds-text-field"
-                                                                                       aria-labelledby="aria-editable-question-label${i}"
-                                                                                       placeholder="<g:message code="securityQA.userdefinedquestion.label" args="[i + 1]"/>"/></div>
+                                                                                       autocomplete="off"
+                                                                                       aria-describedby = "userDefinedQuestion"
+                                                                                       aria-label="${g.message(code: 'securityQA.userdefinedquestion.label',args:i+1)}"
+                                                                                       placeholder="${g.message(code: 'securityQA.userdefinedquestion.label',args:i+1)}"
+                                        ></g:textField></div>
                                     </div>
                                 </g:if>
 
 
 
 
-                                <div class="question-wrapper answer-spacing">
-                                    <div class="label-wrapper"><label id="aria-editable-answer-label${i}"
+                                <div class="answer-wrapper answer-spacing">
+                                    <div class="editableAnswer"><label id="aria-editable-answer-label${i}"
                                                                       class="label-style"></label></div>
 
-                                    <div class="section-text-wrapper"><input name="answer" class="eds-text-field"
+                                    <div class="section-text-wrapper"><g:textField name="answer"
+                                                                                   id="answer_${i}"
                                                                                    value="${selectedAns[i]}"
-                                                                                   aria-labelledby="aria-editable-answer-label${i}"
-                                                                                   placeholder="<g:message code="securityQA.answer.label" args="[i + 1]"/>"/></div>
+                                                                                   class="eds-text-field"
+                                                                                   autocomplete="off"
+                                                                                   aria-describedby = "answer"
+                                                                                   aria-label="${g.message(code: 'securityQA.answer.label' , args:i+1)}"
+                                                                                   placeholder="${g.message(code: 'securityQA.answer.label' , args:i+1)}"></g:textField></div>
                                 </div>
 
 

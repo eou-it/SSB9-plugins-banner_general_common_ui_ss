@@ -1,19 +1,22 @@
 /*******************************************************************************
- Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
 import org.junit.Before
 import org.junit.Test
 import org.junit.After
-
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
 import groovy.sql.Sql
 import net.hedtech.banner.testing.BaseIntegrationTestCase
 import grails.util.Holders
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
+import grails.web.context.ServletContextHolder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken as UPAT
 import org.springframework.security.core.context.SecurityContextHolder
 import net.hedtech.banner.general.overall.PinQuestion
 
+@Integration
+@Rollback
 class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
 
     def selfServiceBannerAuthenticationProvider
@@ -41,11 +44,11 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
         //
         // So, we'll set the formContext and then call super(), just as if this were not a controller test.
         // That is, we'll set the controller after we call super() so the base class won't manipulate it.
-        if (!isSsbEnabled()) return
-        formContext = ['GUAGMNU']
+        //if (!isSsbEnabled()) return
+        formContext = ['SELFSERVICE']
 
         controller = new SecurityQAController()
-
+        controller.securityQAService = securityQAService
         super.setUp()
         ServletContextHolder.servletContext.removeAttribute("gtvsdax")
         def auth = selfServiceBannerAuthenticationProvider.authenticate(new UPAT('HOF00720', '111111'))

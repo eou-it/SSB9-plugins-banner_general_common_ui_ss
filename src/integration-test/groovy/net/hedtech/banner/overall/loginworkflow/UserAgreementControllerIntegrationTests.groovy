@@ -1,12 +1,15 @@
 /*******************************************************************************
- Copyright 2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2017-2019 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 package net.hedtech.banner.overall.loginworkflow
 
 import grails.converters.JSON
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
 import net.hedtech.banner.general.utility.InformationTextUtility
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 import net.hedtech.banner.testing.BaseIntegrationTestCase
+import net.hedtech.banner.web.SsbLoginURLRequest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -17,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder
 /**
  * Integration test cases for UserAgreementController.
  */
+@Integration
+@Rollback
 class UserAgreementControllerIntegrationTests extends BaseIntegrationTestCase {
     private static final VIEW = 'policy'
     private static final String POLICY_PAGE_NAME = 'TERMSOFUSAGE'
@@ -26,11 +31,14 @@ class UserAgreementControllerIntegrationTests extends BaseIntegrationTestCase {
     private static final String BANNER_ID = 'HOF00720'
     private static final String SLASH = "/"
     def ssbLoginURLRequest
+    def userAgreementService
 
     @Before
     public void setUp() {
-        formContext = ['GUAGMNU']
+        formContext = ['SELFSERVICE']
         controller = new UserAgreementController()
+        controller.userAgreementService = userAgreementService
+        controller.ssbLoginURLRequest = new SsbLoginURLRequest()
         super.setUp()
     }
 

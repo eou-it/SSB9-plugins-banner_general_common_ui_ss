@@ -16,7 +16,7 @@ $(document).ready(function () {
     });
     var notificationMessages = new Array();
 
-    $('select#question').each(function (j, ielm) {
+    $('.question-wrapper select.eds-select-field').each(function (j, ielm) {
         $($(ielm).find('option[value="' + selectedQues[j] + '"]')).selected();
     });
 
@@ -42,7 +42,7 @@ $(document).ready(function () {
 
 
         if(userDefinedQuesFlag == 'Y') {
-            $('input#userDefinedQuestion').each(function (j, selectElm) {
+            $('.question-wrapper input.eds-text-field').each(function (j, selectElm) {
                 // to clear old states
                 var inputbox = $(selectElm);
                 removeAriaErrors(selectElm, 'aria-invalid-question-'+j);
@@ -69,7 +69,7 @@ $(document).ready(function () {
             });
         }
 
-        $('select#question').find('option:selected').each(function (j, ielm) {
+        $('.question-wrapper select.eds-select-field').find('option:selected').each(function (j, ielm) {
 
             // to clear old states
             removeAriaErrors(ielm, 'aria-invalid-select-question-'+j);
@@ -89,13 +89,13 @@ $(document).ready(function () {
                     notificationMessages.push(notification);
                 }
             } else {
-                var userDefinedQuestion = $('input#userDefinedQuestion')[j].value;
+                var userDefinedQuestion = $('.question-wrapper input.eds-text-field')[j].value;
                 if (index != 0 && userDefinedQuestion.length > 0) {
                     var error = $.i18n.prop("securityQA.invalid.number.question");
                     //$(ielm).closest("div .section-wrapper").addClass("notification-error");
                     $(ielm).addClass("notification-error");
                     addAriaErrors(ielm.parentElement, error, "aria-invalid-select-question-" + j);
-                    $($('input#userDefinedQuestion')[j]).attr('aria-invalid', 'true');
+                    $($('.question-wrapper input.eds-text-field')[j]).attr('aria-invalid', 'true');
                     var notification = {message:error,component:selectbox};
                     notificationMessages.push(notification);
                 }
@@ -103,14 +103,14 @@ $(document).ready(function () {
                     var error = $.i18n.prop("securityQA.error");
                     $(ielm).closest("div .section-wrapper").addClass("notification-error");
                     addAriaErrors(ielm.parentElement, error, "aria-invalid-select-question-" + j);
-                    $($('input#userDefinedQuestion')[j]).attr('aria-invalid', 'true');
+                    $($('.question-wrapper input.eds-text-field')[j]).attr('aria-invalid', 'true');
                     var notification = {message:error,component:selectbox};
                     notificationMessages.push(notification);
                 }
             }
         });
 
-        $('input#answer').each(function (j, ielm) {
+        $('.answer-wrapper input.eds-text-field').each(function (j, ielm) {
 
             // to clear old states
             removeAriaErrors(ielm, 'aria-invalid-answer-'+j);
@@ -172,12 +172,12 @@ $(document).ready(function () {
     });
 
 
-    $('select#question').live('change', function () {
+    $('.question-wrapper select.eds-select-field').live('change', function () {
         updateSelects();
     });
 
     function updateSelects() {
-        $('select#question').each(
+        $('.question-wrapper select.eds-select-field').each(
             function (j, elem) {
                 var $selected = $(elem).find("option:selected");
                 var $opts = $("<div>");
@@ -192,7 +192,7 @@ $(document).ready(function () {
                     newArray.push(questions[i]);
                 }
 
-                $('select#question').find('option:selected').each(function (j, ielm) {
+                $('.question-wrapper select.eds-select-field').find('option:selected').each(function (j, ielm) {
                     var index = parseInt($(ielm).val().substring("question".length));
                     if (elem != $(ielm).parent()[0]) {
                         newArray[index] = "";

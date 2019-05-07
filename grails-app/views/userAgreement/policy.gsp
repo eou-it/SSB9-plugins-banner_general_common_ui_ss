@@ -8,13 +8,13 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 
 <html>
 <head>
-    <title><g:message code="net.hedtech.banner.termsofuse.title"/></title>
     <meta name="layout" content="bannerSelfServicePage"/>
+    <title><g:message code="net.hedtech.banner.termsofuse.title"/></title>
     <g:if test="${message(code: 'default.language.direction')  == 'rtl'}">
-        <r:require modules="userAgreementRTL"/>
+        <asset:stylesheet href="modules/userAgreementRTL-mf.css"/>
     </g:if>
     <g:else>
-        <r:require modules="userAgreementLTR"/>
+        <asset:stylesheet href="modules/userAgreementLTR-mf.css"/>
     </g:else>
     <meta name="headerAttributes" content=""/>
         <meta name="menuBaseURL" content="${request.contextPath}/ssb"/>
@@ -39,8 +39,9 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                         <div class="button-area">
                             <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.continue"/>' id="policy-continue" class="primary"
                                    data-endpoint="${createLink(uri:'/ssb/userAgreement/agreement')}"/>
+
                             <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.exit"/>' id="policy-exit" class="secondary"
-                                   data-endpoint="${createLink(uri:'/ssb/logout')}"/>
+                                   data-endpoint="${createLink(controller: "logout")}"/>
                         </div>
                     </div>
                 </div>
@@ -48,5 +49,8 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
         </div>
     </div>
 </div>
+
+<asset:javascript src="modules/userAgreement-mf.js"/>
+
 </body>
 </html>

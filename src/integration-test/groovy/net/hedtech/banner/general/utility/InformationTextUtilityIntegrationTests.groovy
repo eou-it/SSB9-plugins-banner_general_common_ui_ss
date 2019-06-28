@@ -27,6 +27,8 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     private static final def KEY_1 = "key1"
     private static final def LOCALE_FR = "fr"
     private static final def LOCALE_COUNTRY = "CA"
+    private static final def EN = "en"
+    private static final def US = "US"
     private static final def ASSERT_VALUE_1 = 'Baseline text no 0\nBaseline text no 1\nBaseline text no 2\nBaseline text no 3'
 
     @Before
@@ -44,7 +46,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     @Test
     void testSingleValueKeyWithBaseline() {
         createBaselineWithSingleValueKey()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         String expectedText = "Baseline text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
     }
@@ -53,7 +55,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     void testMultipleValuesKeyWithBaseline() {
         createBaselineTestDataWithNotNullDate()
 
-        def informationText = InformationTextUtility.getMessages(PAGE_NAME)
+        def informationText = InformationTextUtility.getMessages(PAGE_NAME, new Locale(EN, US))
         String value1 = ASSERT_VALUE_1
         String value2 = "Baseline second text no 0\nBaseline second text no 1\nBaseline second text no 2\nBaseline second text no 3"
         assertEquals(value1, informationText.key1)
@@ -63,7 +65,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     @Test
     void testSingleKeyWithoutValue() {
 
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         String expectedText = ""
         GroovyTestCase.assertEquals(expectedText, informationText)
     }
@@ -72,7 +74,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     void testSingleValueKeyWithLocal() {
         createLocalWithSingleValueKey()
 
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         String expectedText = "Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
     }
@@ -82,7 +84,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithNullDate()
 
-        def informationText = InformationTextUtility.getMessages(PAGE_NAME)
+        def informationText = InformationTextUtility.getMessages(PAGE_NAME, new Locale(EN, US))
         String expectedText1 = ASSERT_VALUE_1
         String expectedText2 = "Baseline second text no 0\nBaseline second text no 1\nBaseline second text no 2\nBaseline second text no 3"
         GroovyTestCase.assertEquals(expectedText1, informationText.key1)
@@ -94,7 +96,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithNotNullDate()
 
-        def informationText = InformationTextUtility.getMessages(PAGE_NAME)
+        def informationText = InformationTextUtility.getMessages(PAGE_NAME, new Locale(EN, US))
         String value1 = "Local text no 0\nLocal text no 1\nLocal text no 2\nLocal text no 3"
         String value2 = "Local second text no 0\nLocal second text no 1\nLocal second text no 2\nLocal second text no 3"
         assertEquals(value1, informationText.key1)
@@ -106,7 +108,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithSingleNullDate()
 
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         String expectedText = "Local text no 0\nLocal text no 1\nLocal text no 2"
         GroovyTestCase.assertEquals(expectedText, informationText)
     }
@@ -116,7 +118,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         createBaselineTestDataWithNotNullDate()
         createLocalTestDataWithFutureStartDate()
 
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         String expectedText = ASSERT_VALUE_1
         GroovyTestCase.assertEquals(expectedText, informationText)
     }
@@ -127,7 +129,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
         createSingleLocalTestDataForWebUser();
         setAnonymousAuthentication()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         String expectedText = "Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
         logout()
@@ -138,7 +140,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
         createMultipleLocalTestDataForWebUser();
         setAnonymousAuthentication()
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         println informationText
         String expectedText = "Local text no 0\nLocal text no 1"
         GroovyTestCase.assertEquals(expectedText, informationText)
@@ -149,12 +151,12 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     void testDefaultPersonaSingleValue() {
 
         createSingleDefaultLocalTestDataForUser();
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         String expectedText = "DEFAULT - Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
 
         createLocalWithSingleValueKey()
-        informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         expectedText = "Local text no 0"
         GroovyTestCase.assertEquals(expectedText, informationText)
     }
@@ -163,13 +165,13 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     void testDefaultPersonaMultipleValue() {
 
         createMultipleDefaultLocalTestDataForUser();
-        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        def informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         String expectedText = "DEFAULT - Local text no 0\n" +
                 "DEFAULT - Local text no 1"
         GroovyTestCase.assertEquals(expectedText, informationText)
 
         createLocalTestDataWithNotNullDate()
-        informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1)
+        informationText = InformationTextUtility.getMessage(PAGE_NAME, KEY_1, new Locale(EN, US))
         expectedText = "Local text no 0\nLocal text no 1\nLocal text no 2\nLocal text no 3"
         GroovyTestCase.assertEquals(expectedText, informationText)
     }
@@ -264,6 +266,130 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         GroovyTestCase.assertEquals("Failed for direct match for language", "Baseline text for Key3 for fr_CA", infoTextMap."Key3")
     }
 
+    @Test
+    void testGetMessageAsListForBaseline() {
+        def bTextPrefix = "Baseline text no"
+        def bCommentPrefix = "Baseline comment no"
+        def numberOfRecords = 4
+
+        createInfoTextTestData(RECORD_BASELINE, bTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, bCommentPrefix)
+
+        List<Map> result = InformationTextUtility.getMessageAsList(PAGE_NAME, KEY_1, new Locale(EN, US))
+
+        assertEquals(numberOfRecords, result.size())
+        result.eachWithIndex { obj, index ->
+            assertEquals(bTextPrefix + " " + index, obj.text)
+            assertEquals(bCommentPrefix + " " + index, obj.comment)
+        }
+    }
+
+    @Test
+    void testGetMessageAsListForLocal() {
+        def bTextPrefix = "Baseline text no"
+        def bCommentPrefix = "Baseline comment no"
+        def lTextPrefix = "Local text no"
+        def lCommentPrefix = "Local comment no"
+        def numberOfRecords = 4
+
+        createInfoTextTestData(RECORD_BASELINE, bTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, bCommentPrefix)
+        createInfoTextTestData(RECORD_LOCAL, lTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, lCommentPrefix)
+
+        List<Map> result = InformationTextUtility.getMessageAsList(PAGE_NAME, KEY_1, new Locale(EN, US))
+
+        assertEquals(numberOfRecords, result.size())
+        result.eachWithIndex { obj, index ->
+            assertEquals(lTextPrefix + " " + index, obj.text)
+            assertEquals(lCommentPrefix + " " + index, obj.comment)
+        }
+    }
+
+    @Test
+    void testGetMessageAsListForSingleNullLocal() {
+        def bTextPrefix = "Baseline text no"
+        def bCommentPrefix = "Baseline comment no"
+        def lTextPrefix = "Local text no"
+        def lCommentPrefix = "Local comment no"
+        def numberOfRecords = 4
+
+        createInfoTextTestData(RECORD_BASELINE, bTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, bCommentPrefix)
+        createInfoTextTestData(RECORD_LOCAL, lTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , true, PERSONA_STUDENT, lCommentPrefix)
+
+        List<Map> result = InformationTextUtility.getMessageAsList(PAGE_NAME, KEY_1, new Locale(EN, US))
+
+        assertEquals(numberOfRecords-1, result.size())
+        result.eachWithIndex { obj, index ->
+            assertEquals(lTextPrefix + " " + index, obj.text)
+            assertEquals(lCommentPrefix + " " + index, obj.comment)
+        }
+    }
+
+    @Test
+    void testGetMessageAsListForAllNullLocal() {
+        def bTextPrefix = "Baseline text no"
+        def bCommentPrefix = "Baseline comment no"
+        def lTextPrefix = "Local text no"
+        def lCommentPrefix = "Local comment no"
+        def numberOfRecords = 4
+
+        createInfoTextTestData(RECORD_BASELINE, bTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, bCommentPrefix)
+        createInfoTextTestData(RECORD_LOCAL, lTextPrefix , KEY_1, null, null, numberOfRecords , false, PERSONA_STUDENT, lCommentPrefix)
+
+        List<Map> result = InformationTextUtility.getMessageAsList(PAGE_NAME, KEY_1, new Locale(EN, US))
+
+        assertEquals(numberOfRecords, result.size())
+        result.eachWithIndex { obj, index ->
+            assertEquals(bTextPrefix + " " + index, obj.text)
+            assertEquals(bCommentPrefix + " " + index, obj.comment)
+        }
+    }
+
+
+    @Test
+    void testGetToolTipMessageAsListForBaseline() {
+        def bTextPrefix = "Baseline text no"
+        def bCommentPrefix = "Baseline comment no"
+        def numberOfRecords = 4
+
+        createInfoTextTestData(RECORD_BASELINE, bTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, bCommentPrefix)
+
+        List<Map> result = InformationTextUtility.getToolTipMessageAsList(PAGE_NAME, KEY_1, new Locale(EN, US))
+
+        assertEquals(numberOfRecords, result.size())
+        result.eachWithIndex { obj, index ->
+            assertEquals(bTextPrefix + " " + index, obj.label)
+            assertEquals(bTextPrefix + " " + index, obj.text)
+            assertEquals(bCommentPrefix + " " + index, obj.comment)
+        }
+    }
+
+
+    @Test
+    void testGetToolTipMessageAsListForLocal() {
+        def bTextPrefix = "Baseline text no"
+        def bCommentPrefix = "Baseline comment no"
+        def lTextPrefix = "Local text no"
+        def lCommentPrefix = "Local comment no"
+        def numberOfRecords = 4
+
+        createInfoTextTestData(RECORD_BASELINE, bTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, bCommentPrefix)
+        createInfoTextTestData(RECORD_LOCAL, lTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, lCommentPrefix)
+
+        List<Map> result = InformationTextUtility.getToolTipMessageAsList(PAGE_NAME, KEY_1, new Locale(EN, US))
+
+        assertEquals(numberOfRecords, result.size())
+        result.eachWithIndex { obj, index ->
+            assertEquals(bTextPrefix + " " + index, obj.label)
+            assertEquals(lTextPrefix + " " + index, obj.text)
+            assertEquals(lCommentPrefix + " " + index, obj.comment)
+        }
+    }
+
+
+
+
+
+
+
     /************************************************Helpers***********************************************************/
     private void createInfoTextRecord(pageName, label, textType, sequenceNumber, persona, startDate, endDate, text, locale, sourceIndicator, comment) {
         new InformationText(pageName: pageName, label: label, textType: textType, sequenceNumber: sequenceNumber, persona: persona,
@@ -321,7 +447,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
     private def createLocalTestDataWithNullDate() {
         createInfoTextTestData(RECORD_LOCAL, "Local text no", KEY_1)
-        createInfoTextTestData(RECORD_LOCAL, "Local text no", "key2")
+        createInfoTextTestData(RECORD_LOCAL, "Local second text no", "key2")
     }
 
     private def createLocalTestDataWithSingleNullDate() {
@@ -353,12 +479,11 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     }
 
     private
-    def createInfoTextTestData(sourceIndicator, text, label, startDate = null, endDate = null, recordsSize = 4, singleNullDateIndicator = false, persona = PERSONA_STUDENT) {
+    def createInfoTextTestData(sourceIndicator, text, label, startDate = null, endDate = null, recordsSize = 4, singleNullDateIndicator = false, persona = PERSONA_STUDENT, comment = "Test data") {
         def pageName = PAGE_NAME
         def textType = "N"
         def sequenceNumber = 1
         def locale = "en_US"
-        def comment = "Test data"
         recordsSize.times {
             if (singleNullDateIndicator) {
                 if (it == recordsSize - 1) {
@@ -377,7 +502,7 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
                     text: text + " " + it,
                     locale: locale,
                     sourceIndicator: sourceIndicator,
-                    comment: comment
+                    comment: comment + " " + it
             ).save(failOnError: true, flush: true)
         }
     }
@@ -442,5 +567,4 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
     }
 
 }
-
 

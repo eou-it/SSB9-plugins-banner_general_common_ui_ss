@@ -79,8 +79,7 @@
 /target/test-reports/plain/TEST-unit-unit-net.hedtech.banner.web.SsbLoginURLRequestTests.txt
 /web-app/WEB-INF/tld/c.tld
 /web-app/WEB-INF/tld/fmt.tld
-/web-app/css/views/securityQA/securityQA-rtl.css
-/web-app/css/views/userAgreement/policy-rtl.css
+*-rtl.css
 /target/classes/BannerGeneralCommonUiSsGrailsPlugin$_closure2_closure11.class
 /target/classes/BannerGeneralCommonUiSsResources$_run_closure1_closure6.class
 /target/classes/BannerGeneralCommonUiSsResources$_run_closure1_closure7.class
@@ -108,7 +107,6 @@
 /target/test-classes/integration/net/hedtech/banner/overall/loginworkflow/SurveyControllerIntegrationTests$_testSurvey_closure1.class
 /target/test-classes/integration/net/hedtech/banner/overall/loginworkflow/SurveyControllerIntegrationTests$_testSurvey_closure2.class
 /target/test-classes/integration/net/hedtech/banner/overall/loginworkflow/SurveyControllerIntegrationTests.class
-/web-app/css/views/survey/survey-rtl.css
 /target/classes/net/hedtech/banner/general/utility/InformationTextUtility$_getDefaultOrNonDefaultResultSet_closure7.class
 /target/classes/net/hedtech/banner/general/utility/InformationTextUtility$_getFilteredResultSetForLabel_closure6.class
 /target/classes/net/hedtech/banner/general/utility/InformationTextUtility$_getFilteredResultSet_closure3.class
@@ -137,3 +135,9 @@
 /target/test-reports/plain/TEST-integration-integration-net.hedtech.banner.overall.loginworkflow.SurveyControllerIntegrationTests.txt
 messages_ar_SA.properties
 *.iml
+/.gradle
+/build
+/gradle
+gradle-wrapper.jar
+*.ipr
+*.iws

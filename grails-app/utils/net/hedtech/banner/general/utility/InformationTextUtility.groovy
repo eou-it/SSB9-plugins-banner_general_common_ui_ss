@@ -61,9 +61,9 @@ class InformationTextUtility {
      */
     private static boolean notExistsNonDefaultRole(Map informationTexts,String key )     {
         if (informationTexts.containsKey(key)) {
-           return false
+            return false
         }  else {
-           return true
+            return true
         }
     }
 
@@ -133,18 +133,23 @@ class InformationTextUtility {
 
     /**
      *
-     * Gives a filtered result set of a message for a particular label by removing baseline records if a local record is present.
+     * Gives filtered resultSet of a message for a particular label by removing all baseline records if at least one local record is present
+     * with start date specified.
      */
     private static Collection<InformationText> getFilteredResultSetForLabel(List<InformationText> resultSet) {
-        List<InformationText> localInfoTexts = resultSet.findAll {
+        List<InformationText> localInfoTextsWithStartDate = resultSet.findAll {
             it.sourceIndicator == SourceIndicators.LOCAL.getCode() && it.startDate != null
         }
+
+        List<InformationText> localInfoTexts = resultSet.findAll {
+            it.sourceIndicator == SourceIndicators.LOCAL.getCode()
+        }
+
         List<InformationText> baselineInfoTexts = resultSet - localInfoTexts
 
-        if (localInfoTexts.size() > 0) {
-            resultSet = getDefaultOrNonDefaultResultSet(localInfoTexts)
-        }
-        else {
+        if (localInfoTextsWithStartDate.size() > 0) {
+            resultSet = getDefaultOrNonDefaultResultSet(localInfoTextsWithStartDate)
+        }  else {
             resultSet = getDefaultOrNonDefaultResultSet(baselineInfoTexts)
         }
         return resultSet
@@ -156,10 +161,10 @@ class InformationTextUtility {
         }
         List<InformationText> nonDefaultInfoText = resultSet - defaultInfoText
         if(nonDefaultInfoText.size() > 0) {
-           resultSet = nonDefaultInfoText
+            resultSet = nonDefaultInfoText
         }
         else {
-           resultSet = defaultInfoText
+            resultSet = defaultInfoText
         }
         return resultSet
     }
@@ -174,7 +179,7 @@ class InformationTextUtility {
         return text
     }
 
-   private static String getTextBasedOnDateRange(InformationText row) {
+    private static String getTextBasedOnDateRange(InformationText row) {
         if (row.sourceIndicator == "${SourceIndicators.LOCAL.getCode()}" && row.startDate == null) {
             return ""
         }
@@ -216,6 +221,77 @@ class InformationTextUtility {
             }
         }
         return infoTextFilteredForFallbackLocale
+    }
+
+    /**
+     * getMessageAsList method returns information text message along with the comment provided for a given pageName, label and locale
+     * This will return a list of maps[text: <text>, comment: <comment>] for a page and a specific label.
+     * If multiple sequences are present with same label then the return array will have more than 1 results.
+     * The page name would need to be decided by respective teams to enable them to access the necessary information texts.
+     * Example Implementation - def infoTexts = ["finaid.ss.home.holds.tooltip": InformationTextUtility.getMessage("FINAIDSS","finaid.ss.home.holds.tooltip")]
+     * @param pageName
+     * @param label
+     * @param locale
+     * @return
+     */
+    public static List getMessageAsList(String pageName, String label, Locale locale = LocaleContextHolder.getLocale()) {
+        List<Map> informationTexts = new ArrayList()
+        List<String> localeList = getFallbackLocaleNames(locale)
+        List<InformationText> resultSet = InformationText.fetchInfoTextByRolesAndLabel(pageName,getQueryParamForRoles(),localeList,label)
+        resultSet = getResultSetPrioritzedForLocale(resultSet,localeList)
+        resultSet = getFilteredResultSetForLabel(resultSet)
+
+        def infoText
+
+        if (resultSet.size() > 0) {
+            resultSet.each { InformationText result ->
+                infoText = [
+                        text:  result.text,
+                        comment: result.comment
+                ]
+                informationTexts.add(infoText)
+            }
+        }
+        return informationTexts
+    }
+
+
+    /**
+     * getMessageAsList method returns Tool tip and help text message along with the comment provided for a given pageName, labels and locale
+     * This will return a list of maps[text: <text>, comment: <comment>] for a page and a specific label.
+     * If multiple sequences are present with same label then the return array will have more than 1 results.
+     * The page name would need to be decided by respective teams to enable them to access the necessary information texts.
+     * Example Implementation - def infoTexts = ["finaid.ss.home.holds.tooltip": InformationTextUtility.getMessage("FINAIDSS","finaid.ss.home.holds.tooltip")]
+     * @param pageName
+     * @param labels
+     * @param locale
+     * @return
+     */
+    public static List getToolTipMessageAsList(String pageName, List<String> labels, Locale locale = LocaleContextHolder.getLocale()) {
+        List<Map> informationTexts = new ArrayList()
+        List<String> localeList = getFallbackLocaleNames(locale)
+        List<InformationText> resultSet = InformationText.fetchInfoTextByRoleAndLabels(pageName,getQueryParamForRoles(),localeList,labels)
+        resultSet = getResultSetPrioritzedForLocale(resultSet,localeList)
+        //resultSet = getFilteredResultSetForLabel(resultSet)
+        Map<String, InformationText> infoTextGroupedByLabel  = resultSet.groupBy({ informationText -> informationText.label })
+        List<InformationText> finalResultSet = new ArrayList<InformationText>()
+        infoTextGroupedByLabel?.each {label, infoTextsForLabel ->
+            finalResultSet.addAll(getFilteredResultSetForLabel(infoTextsForLabel))
+        }
+
+        def infoText
+
+        if (finalResultSet.size() > 0) {
+            finalResultSet.each { InformationText result ->
+                infoText = [
+                        label : result.label,
+                        text:  result.text,
+                        comment: result.comment
+                ]
+                informationTexts.add(infoText)
+            }
+        }
+        return informationTexts
     }
 
 }

@@ -352,11 +352,13 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
 
         createInfoTextTestData(RECORD_BASELINE, bTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, bCommentPrefix)
 
-        List<Map> result = InformationTextUtility.getToolTipMessageAsList(PAGE_NAME, KEY_1, new Locale(EN, US))
+        List<String> labelList= new ArrayList<>()
+        labelList.add(KEY_1)
+        List<Map> result = InformationTextUtility.getToolTipMessageAsList(PAGE_NAME, labelList, new Locale(EN, US))
 
         assertEquals(numberOfRecords, result.size())
         result.eachWithIndex { obj, index ->
-            assertEquals(bTextPrefix + " " + index, obj.label)
+            assertEquals(KEY_1, obj.label)
             assertEquals(bTextPrefix + " " + index, obj.text)
             assertEquals(bCommentPrefix + " " + index, obj.comment)
         }
@@ -374,11 +376,13 @@ class InformationTextUtilityIntegrationTests extends BaseIntegrationTestCase {
         createInfoTextTestData(RECORD_BASELINE, bTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, bCommentPrefix)
         createInfoTextTestData(RECORD_LOCAL, lTextPrefix , KEY_1, new Date(), new Date(), numberOfRecords , false, PERSONA_STUDENT, lCommentPrefix)
 
-        List<Map> result = InformationTextUtility.getToolTipMessageAsList(PAGE_NAME, KEY_1, new Locale(EN, US))
+        List<String> labelList= new ArrayList<>()
+        labelList.add(KEY_1)
+        List<Map> result = InformationTextUtility.getToolTipMessageAsList(PAGE_NAME, labelList, new Locale(EN, US))
 
         assertEquals(numberOfRecords, result.size())
         result.eachWithIndex { obj, index ->
-            assertEquals(bTextPrefix + " " + index, obj.label)
+            assertEquals(KEY_1, obj.label)
             assertEquals(lTextPrefix + " " + index, obj.text)
             assertEquals(lCommentPrefix + " " + index, obj.comment)
         }

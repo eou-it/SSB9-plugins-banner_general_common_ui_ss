@@ -34,6 +34,7 @@ class BannerSelfServicePostLoginFlowInterceptor {
                 .excludes(controller: 'userPreference')
                 .excludes(controller: 'shortcut')
                 .excludes(controller: 'restfulApi')
+                .excludes(controller: 'cssRender')
 
     }
 

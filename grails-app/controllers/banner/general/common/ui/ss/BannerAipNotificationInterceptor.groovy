@@ -27,14 +27,9 @@ class BannerAipNotificationInterceptor {
                 .excludes(controller: 'dateConverter')
                 .excludes(controller: 'about')
                 .excludes(controller: 'theme')
-                .excludes(controller: 'themeEditor')
                 .excludes(controller: 'userPreference')
                 .excludes(controller: 'shortcut')
-                .excludes(controller: 'customPage')
-                .excludes(controller: 'virtualDomainComposer')
                 .excludes(controller: 'restfulApi')
-                .excludes(controller: 'visualPageModelComposer')
-                .excludes(controller: 'cssManager')
 
     }
 

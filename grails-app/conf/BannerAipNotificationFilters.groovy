@@ -2,9 +2,11 @@
  Copyright 2018 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
-import org.apache.log4j.Logger
-import org.codehaus.groovy.grails.web.servlet.GrailsUrlPathHelper
+
 import net.hedtech.banner.general.configuration.ConfigProperties
+import org.apache.log4j.Logger
+import org.grails.web.servlet.GrailsUrlPathHelper
+
 import java.sql.SQLException
 
 import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED

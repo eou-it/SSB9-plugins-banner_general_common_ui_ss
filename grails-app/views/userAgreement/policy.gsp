@@ -1,6 +1,6 @@
 <%--
 /*******************************************************************************
-Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 --%>
 
@@ -41,7 +41,7 @@ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
                                    data-endpoint="${createLink(uri:'/ssb/userAgreement/agreement')}"/>
 
                             <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.exit"/>' id="policy-exit" class="secondary"
-                                   data-endpoint="${createLink(controller: "logout")}"/>
+                                   data-endpoint="${createLink(uri:'/ssb/logout')}"/>
                         </div>
                     </div>
                 </div>

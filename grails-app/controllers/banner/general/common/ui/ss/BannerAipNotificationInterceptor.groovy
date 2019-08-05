@@ -1,6 +1,6 @@
 package banner.general.common.ui.ss
 /*******************************************************************************
- Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 import net.hedtech.banner.general.configuration.ConfigProperties

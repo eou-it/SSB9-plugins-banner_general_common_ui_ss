@@ -1,19 +1,25 @@
 /*******************************************************************************
- Copyright 2018 Ellucian Company L.P. and its affiliates.
+ Copyright 2018-2019 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 
+import groovy.util.logging.Slf4j
 import net.hedtech.banner.general.configuration.ConfigProperties
-import org.apache.log4j.Logger
 import org.grails.web.servlet.GrailsUrlPathHelper
 
 import java.sql.SQLException
 
 import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED
 
+/**
+ * As per the grails 3 standards filter has been changed to interceptor,
+ * so have to use BannerAipNotificationInterceptor instead of BannerAipNotificationFilters
+ *
+ */
+@Slf4j
+@Deprecated
 class BannerAipNotificationFilters {
 
-    private final log = Logger.getLogger(BannerAipNotificationFilters.class)
 
     def aipNotificationService
     def springSecurityService

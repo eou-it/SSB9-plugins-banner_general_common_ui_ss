@@ -1,17 +1,17 @@
 /*******************************************************************************
- Copyright 2018 Ellucian Company L.P. and its affiliates.
+ Copyright 2018-2019 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
-import org.apache.log4j.Logger
+
+import groovy.util.logging.Slf4j
 import org.codehaus.groovy.grails.web.servlet.GrailsUrlPathHelper
 import net.hedtech.banner.general.configuration.ConfigProperties
 import java.sql.SQLException
 
 import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED
 
+@Slf4j
 class BannerAipNotificationFilters {
-
-    private final log = Logger.getLogger(BannerAipNotificationFilters.class)
 
     def aipNotificationService
     def springSecurityService

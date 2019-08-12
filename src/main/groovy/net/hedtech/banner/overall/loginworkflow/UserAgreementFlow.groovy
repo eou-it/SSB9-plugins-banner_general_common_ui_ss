@@ -6,14 +6,13 @@ package net.hedtech.banner.overall.loginworkflow
 
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
-import org.apache.log4j.Logger
+import groovy.util.logging.Slf4j
 import java.sql.SQLException
 import net.hedtech.banner.security.BannerGrantedAuthorityService
-
+@Slf4j
 class UserAgreementFlow extends PostLoginWorkflow {
     def sessionFactory
 
-    private final log = Logger.getLogger(getClass())
     public static final USER_AGREEMENT_ACTION = "useragreementdone"
     public static final TERMS_OF_USAGE_NOT_ANSWERED = "N"
     public static final TERMS_OF_USAGE_ANSWERED = "Y"

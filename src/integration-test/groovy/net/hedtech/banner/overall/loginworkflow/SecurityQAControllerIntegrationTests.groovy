@@ -80,9 +80,9 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
         questionMinimumLength = securityQAService.getUserDefinedPreference().GUBPPRF_QSTN_MIN_LENGTH
         answerMinimumLength = securityQAService.getUserDefinedPreference().GUBPPRF_ANSR_MIN_LENGTH
         assertTrue !controller?.response?.contentAsString?.equals("[]")
-        assertEquals controller.modelAndView.model.questionMinimumLength, questionMinimumLength, 0
-        assertEquals controller.modelAndView.model.answerMinimumLength, answerMinimumLength, 0
-        assertEquals controller.modelAndView.model.questions.size(), ques.size(), 0
+        assertEquals controller.questionMinimumLength, questionMinimumLength, 0
+        assertEquals controller.answerMinimumLength, answerMinimumLength, 0
+        assertEquals controller.questions.size(), ques.size(), 0
     }
 
 	@Test

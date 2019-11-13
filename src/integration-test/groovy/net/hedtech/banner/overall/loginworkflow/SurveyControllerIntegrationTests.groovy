@@ -12,6 +12,7 @@ import net.hedtech.banner.general.system.Race
 import net.hedtech.banner.general.system.RegulatoryRace
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 import net.hedtech.banner.testing.BaseIntegrationTestCase
+import net.hedtech.banner.web.SsbLoginURLRequest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -19,6 +20,7 @@ import grails.util.Holders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import static groovy.test.GroovyAssert.shouldFail
 
 @Integration
 @Rollback
@@ -35,8 +37,10 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
 
     @Before
     public void setUp() {
-        formContext = ['GUAGMNU']
+        formContext = ['SELFSERVICE']
         controller = new SurveyController()
+        controller.ssbLoginURLRequest = new SsbLoginURLRequest()
+        controller.surveyService = surveyService
         super.setUp()
     }
 
@@ -45,7 +49,6 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
     public void tearDown() {
         super.tearDown()
         logout()
-        controller = null
     }
 
     private Authentication loginForRegistration(String bannerId) {
@@ -79,11 +82,10 @@ class SurveyControllerIntegrationTests extends BaseIntegrationTestCase {
         String personEthnicity = personBasicPersonBase?.ethnic
 
         controller.survey()
-        Map fields = renderMap.model
-        assertEquals fields.raceMap, raceMap
-        assertEquals fields.regulatoryRaces, regulatoryRaces
-        assertEquals fields.personRaceCodes, personRaceCodes
-        assertEquals fields.personEthnicity, personEthnicity
+        assertEquals controller.modelAndView.model.raceMap, raceMap
+        assertEquals controller.modelAndView.model.regulatoryRaces, regulatoryRaces
+        assertEquals controller.modelAndView.model.personRaceCodes, personRaceCodes
+        assertEquals controller.modelAndView.model.personEthnicity, personEthnicity
         raceMap = controller.session.getAttribute("raceMap")
         regulatoryRaces = controller.session.getAttribute("regulatoryRaces")
         assertNotNull raceMap

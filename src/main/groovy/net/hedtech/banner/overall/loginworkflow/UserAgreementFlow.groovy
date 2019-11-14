@@ -1,5 +1,5 @@
 /*******************************************************************************
- Copyright 2014 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 
 package net.hedtech.banner.overall.loginworkflow
@@ -7,6 +7,8 @@ package net.hedtech.banner.overall.loginworkflow
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
+import net.hedtech.banner.exceptions.ApplicationException
+import net.hedtech.banner.i18n.MessageHelper
 import java.sql.SQLException
 import net.hedtech.banner.security.BannerGrantedAuthorityService
 @Slf4j
@@ -55,7 +57,12 @@ class UserAgreementFlow extends PostLoginWorkflow {
             return row?.TWGBWRUL_DISP_USAGE_IND
         } catch (SQLException ae) {
             log.debug ae.stackTrace
-            throw ae
+            if (ae.message.contains("ORA-28000")){
+                String message = MessageHelper.message("net.hedtech.banner.errors.login.locked")
+                throw new ApplicationException('UserAgreementFlow', message)
+            }else{
+                throw ae
+            }
         }
         catch (Exception ae) {
             log.debug ae.stackTrace

@@ -80,10 +80,9 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
         questionMinimumLength = securityQAService.getUserDefinedPreference().GUBPPRF_QSTN_MIN_LENGTH
         answerMinimumLength = securityQAService.getUserDefinedPreference().GUBPPRF_ANSR_MIN_LENGTH
         assertTrue !controller?.response?.contentAsString?.equals("[]")
-        def fields = renderMap.model
-        assertEquals fields.questionMinimumLength, questionMinimumLength, 0
-        assertEquals fields.answerMinimumLength, answerMinimumLength, 0
-        assertEquals fields.questions.size(), ques.size(), 0
+        assertEquals controller.questionMinimumLength, questionMinimumLength, 0
+        assertEquals controller.answerMinimumLength, answerMinimumLength, 0
+        assertEquals controller.questions.size(), ques.size(), 0
     }
 
 	@Test
@@ -127,8 +126,13 @@ class SecurityQAControllerIntegrationTests extends BaseIntegrationTestCase {
     }
 
     private void setNumberOfQuestion(int noOfQuestions){
-        def sql = new Sql(sessionFactory.getCurrentSession().connection())
-        sql.executeUpdate("update GUBPPRF set GUBPPRF_NO_OF_QSTNS = ?",[noOfQuestions])
+        def sql
+        try {
+            sql = new Sql(sessionFactory.getCurrentSession().connection())
+            sql.executeUpdate("update GUBPPRF set GUBPPRF_NO_OF_QSTNS = ?",[noOfQuestions])
+        } finally {
+            //sql?.close() // note that the test will close the connection, since it's our current session's connection
+        }
     }
 
     private def newValidForCreatePinQuestion(String pinQuestionId,String desc) {

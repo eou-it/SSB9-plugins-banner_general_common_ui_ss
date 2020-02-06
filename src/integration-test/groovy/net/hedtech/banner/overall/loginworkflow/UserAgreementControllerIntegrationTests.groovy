@@ -23,7 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 @Integration
 @Rollback
 class UserAgreementControllerIntegrationTests extends BaseIntegrationTestCase {
-    private static final VIEW = 'policy'
+    private static final VIEW ='/userAgreement/policy'
     private static final String POLICY_PAGE_NAME = 'TERMSOFUSAGE'
     private static final String TERMS_OF_USAGE_LABEL = 'terms.of.usage'
     private static final String PATH_ENDS_WITH_CONTROLLER_NAME = "/ssb/home"
@@ -56,10 +56,10 @@ class UserAgreementControllerIntegrationTests extends BaseIntegrationTestCase {
 
         controller.index()
         assertNotNull(renderMap)
-        assertEquals(renderMap.view, VIEW)
+        assertEquals(controller.modelAndView.viewName, VIEW)
 
         def infoText = InformationTextUtility.getMessage(POLICY_PAGE_NAME, TERMS_OF_USAGE_LABEL)
-        assertEquals(renderMap.model.infoText, infoText)
+        assertEquals(controller.modelAndView.model.infoText, infoText)
     }
 
     @Test
@@ -69,11 +69,11 @@ class UserAgreementControllerIntegrationTests extends BaseIntegrationTestCase {
         def infoText = InformationTextUtility.getMessage(POLICY_PAGE_NAME, TERMS_OF_USAGE_LABEL)
         assertNotNull pidm
 
-        def result = controller.index()
+        controller.index()
         assertEquals(200, controller.response.status)
         assertNotNull(renderMap)
-        assertEquals(result.view, VIEW)
-        assertEquals(result.model.infoText, infoText)
+        assertEquals(controller.modelAndView.viewName, VIEW)
+        assertEquals(controller.modelAndView.model.infoText, infoText)
     }
 
 

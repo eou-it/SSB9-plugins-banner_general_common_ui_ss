@@ -33,7 +33,7 @@ class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
 
     @Before
     public void setUp() {
-        formContext = ['GUAGMNU']
+        formContext = ['SELFSERVICE']
         super.setUp()
     }
 
@@ -125,7 +125,7 @@ class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
             sql = new Sql(sessionFactory.getCurrentSession().connection())
             sql.executeUpdate("update TWGBWRUL set TWGBWRUL_DISP_USAGE_IND = ? ", [indicator])
         } finally {
-            sql?.close() // note that the test will close the connection, since it's our current session's connection
+            //sql?.close() // note that the test will close the connection, since it's our current session's connection
         }
     }
 
@@ -135,7 +135,7 @@ class UserAgreementFlowIntegrationTests extends BaseIntegrationTestCase {
             sql = new Sql(sessionFactory.getCurrentSession().connection())
             sql.executeUpdate("update GOBTPAC set GOBTPAC_USAGE_ACCEPT_IND = ? WHERE GOBTPAC_PIDM = ? ", [value, pidm])
         } finally {
-            sql?.close() // note that the test will close the connection, since it's our current session's connection
+            //sql?.close() // note that the test will close the connection, since it's our current session's connection
         }
     }
     private Authentication loginForRegistration(String bannerId) {

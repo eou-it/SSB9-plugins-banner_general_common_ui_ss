@@ -6,7 +6,7 @@ Copyright 2014-18 Ellucian Company L.P. and its affiliates.
     margin: 2em;
 }
 #content {
-    overflow: hidden;
+    overflow: scroll;
 }
 
 #pagetitle {

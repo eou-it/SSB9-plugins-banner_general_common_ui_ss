@@ -6,8 +6,8 @@ Copyright 2014-20 Ellucian Company L.P. and its affiliates.
     margin: 2em;
 }
 #content {
-    overflow: auto;
     overflow-x: hidden;
+    overflow-y: auto;
     padding-bottom: 10px;
 }
 

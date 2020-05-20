@@ -70,6 +70,7 @@ Copyright 2014-20 Ellucian Company L.P. and its affiliates.
 
 .button-area {
     float: right;
+    padding-bottom: 1em;
 }
 
 .button-area .primary {

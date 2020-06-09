@@ -1,6 +1,6 @@
 package banner.general.common.ui.ss
 /*******************************************************************************
- Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 import net.hedtech.banner.general.configuration.ConfigProperties
@@ -42,7 +42,14 @@ class BannerAipNotificationInterceptor {
                 boolean hasActiveActionItems = hasActiveActionItems(user.pidm,session)
                 session.setAttribute("hasActiveActionItems",hasActiveActionItems)
                 if(hasActiveActionItems){
-                    session.setAttribute("aipUrl", getAipUrl())
+                    String mepCode = session.getAttribute( 'mep' )
+                    log.debug( "mepCode : $mepCode" )
+                    def configUrl = getAipUrl()
+                    if (mepCode) {
+                        configUrl = "$configUrl?mepCode=$mepCode"
+                    }
+                    log.debug( "Aip config url :  $configUrl" )
+                    session.setAttribute("aipUrl", configUrl)
                 }
             }else{
                 session.setAttribute("hasActiveActionItems",false)

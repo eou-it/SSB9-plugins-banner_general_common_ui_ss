@@ -1,3 +1,6 @@
+/*******************************************************************************
+ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
+ ****************************************************************************** */
 package banner.general.common.ui.ss
 
 import grails.plugins.*
@@ -7,9 +10,6 @@ import net.hedtech.banner.overall.loginworkflow.UserAgreementFlow
 import net.hedtech.banner.web.SsbLoginURLRequest
 
 class BannerGeneralCommonUiSsGrailsPlugin extends Plugin {
-
-    def version = "9.30"
-
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "3.3.11 > *"
     // resources that are excluded from plugin packaging

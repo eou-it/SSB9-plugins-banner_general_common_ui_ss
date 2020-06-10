@@ -10,7 +10,6 @@ import net.hedtech.banner.overall.loginworkflow.UserAgreementFlow
 import net.hedtech.banner.web.SsbLoginURLRequest
 
 class BannerGeneralCommonUiSsGrailsPlugin extends Plugin {
-
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "3.3.2 > *"
     // resources that are excluded from plugin packaging

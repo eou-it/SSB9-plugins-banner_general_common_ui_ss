@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright 2016 Ellucian Company L.P. and its affiliates.
+Copyright 2016-2020 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 
 $(document).ready(function () {
@@ -13,4 +13,5 @@ $(document).ready(function () {
     });
 
     $('#policy-continue').focus();
+    document.getElementById("content").scrollTop=0;
 })

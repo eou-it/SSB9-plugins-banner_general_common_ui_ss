@@ -1,12 +1,13 @@
 /*******************************************************************************
-Copyright 2014-18 Ellucian Company L.P. and its affiliates.
+Copyright 2014-20 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 
 #bodyContainer {
     margin: 2em;
 }
 #content {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #pagetitle {
@@ -69,6 +70,7 @@ Copyright 2014-18 Ellucian Company L.P. and its affiliates.
 
 .button-area {
     float: right;
+    padding-bottom: 1em;
 }
 
 .button-area .primary {

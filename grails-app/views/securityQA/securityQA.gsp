@@ -87,7 +87,7 @@ Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
     }
 
 </script>
-<div id="content">
+<div id="content" role="main">
     <div id='title-panel' class='aurora-theme'></div>
     <div id="bodyContainer" class="ui-layout-center inner-center">
          <div id="pagebody" class="level4">

@@ -3,7 +3,7 @@
 Copyright 2014 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 --%>
-<div id="editSurvey">
+<div id="editSurvey" role="main">
     <div id="ethnicity-wrapper" role="dialog" aria-describedby="section-header-text1">
         <div id="ethnicity-header" class="section-header">
             <span class="section-header-text" id="section-header-text1" role="header">${infoTexts."ethnicity.header"}%{--<g:message code="survey.ethnicity.header" />--}%</span>

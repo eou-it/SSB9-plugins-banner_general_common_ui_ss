@@ -3,7 +3,7 @@
 Copyright 2014 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 --%>
-<div id="confirmSurvey">
+<div id="confirmSurvey" role="main">
     <div class="informationImage">
         <div class="section-message confirmation-content"><g:message code="survey.confirm.section.message"/></div></label>
     </div>

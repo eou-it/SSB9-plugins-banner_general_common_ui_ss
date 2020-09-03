@@ -32,6 +32,8 @@ class BannerAipNotificationInterceptor {
                 .excludes(controller: 'restfulApi')
                 .excludes(controller: 'cssRender')
                 .excludes(controller: 'aip')
+                .excludes(uri: '/static/js/**')
+                .excludes(uri: '/static/css/**')
 
     }
 

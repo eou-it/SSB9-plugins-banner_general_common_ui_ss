@@ -1,4 +1,7 @@
 package banner.general.common.ui.ss
+
+import grails.util.Holders
+
 /*******************************************************************************
  Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
@@ -99,8 +102,8 @@ class BannerAipNotificationInterceptor {
      * */
     private def getAipUrl() {
         try{
-            ConfigProperties configProperties = ConfigProperties.fetchByConfigNameAndAppId('GENERALLOCATION','GENERAL_SS')
-            return configProperties? configProperties.configValue + '/ssb/aip/' : null
+            def generalLocation = Holders.config.GENERALLOCATION
+            return generalLocation?generalLocation + '/ssb/aip/' : null
         }catch (SQLException e){
             log.warn("Unable to fetch the configuration GENERALLOCATION "+e.getMessage())
             return ""

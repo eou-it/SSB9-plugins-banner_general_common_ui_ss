@@ -1,7 +1,5 @@
 package banner.general.common.ui.ss
 
-import grails.util.Holders
-
 /*******************************************************************************
  Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
@@ -12,6 +10,8 @@ import org.grails.web.servlet.GrailsUrlPathHelper
 import java.sql.SQLException
 
 import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED
+
+import grails.util.Holders
 
 class BannerAipNotificationInterceptor {
     def aipNotificationService

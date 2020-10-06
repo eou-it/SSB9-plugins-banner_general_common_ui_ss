@@ -1,6 +1,6 @@
 package banner.general.common.ui.ss
 /*******************************************************************************
- Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 import net.hedtech.banner.apisupport.ApiUtils
@@ -35,6 +35,8 @@ class BannerSelfServicePostLoginFlowInterceptor {
                 .excludes(controller: 'shortcut')
                 .excludes(controller: 'restfulApi')
                 .excludes(controller: 'cssRender')
+                .excludes(uri: '/static/js/**')
+                .excludes(uri: '/static/css/**')
 
     }
 

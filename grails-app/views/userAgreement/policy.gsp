@@ -1,6 +1,6 @@
 <%--
 /*******************************************************************************
-Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 --%>
 
@@ -25,7 +25,7 @@ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
     </script>
 </head>
 <body>
-<div id="content" role="main">
+<div id="content">
     <div id='title-panel' class='aurora-theme'></div>
     <div id="bodyContainer">
         <div id="pagebody" class="loginterms level">
@@ -33,7 +33,7 @@ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
                 <div id="contentBelt"></div>
                 <div class="pagebodydiv" style="display: block;">
                     <div role="dialog" aria-describedby="terms-text-style">
-                        <div class="termstextdiv">
+                        <div class="termstextdiv" role="alert">
                             <sanitizeMarkdown:renderHtml text="${infoText}" />
                         </div>
                         <div class="button-area">

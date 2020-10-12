@@ -1,6 +1,6 @@
 <%--
 /*******************************************************************************
-Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 --%>
 
@@ -25,7 +25,7 @@ Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
     </script>
 </head>
 <body>
-<div id="content">
+<div id="content" role="main">
     <div id='title-panel' class='aurora-theme'></div>
     <div id="bodyContainer">
         <div id="pagebody" class="loginterms level">

@@ -11,7 +11,8 @@ $(document).ready(function () {
         var href = $(this).attr("data-endpoint");
         window.location = href;
     });
-
+    document.getElementsByClassName('termstextdiv')[0].children[0].childNodes[0].id="userAgreementContent"
+    document.getElementsByClassName('termstextdiv')[0].children[0].childNodes[1].id="userAgreementInstruction"
     $('#policy-continue').focus();
     document.getElementById("content").scrollTop=0;
 })

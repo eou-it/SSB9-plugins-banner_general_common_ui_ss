@@ -11,6 +11,8 @@ $(document).ready(function () {
         var href = $(this).attr("data-endpoint");
         window.location = href;
     });
-
+    $('div.termstextdiv').find('blockquote')[0].id="terms-text";
+    $('div.termstextdiv').find('blockquote')[0].ariaLive="assertive";
+    $('#policy-continue').focus();
     document.getElementById("content").scrollTop=0;
 })

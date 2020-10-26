@@ -11,22 +11,18 @@ $(document).ready(function () {
         var href = $(this).attr("data-endpoint");
         window.location = href;
     });
-    $('div.termstextdiv').find('blockquote')[0].id="terms-text";
-    $('div.termstextdiv').find('blockquote')[0].ariaLive="assertive";
     document.addEventListener("keydown", function (e) {
-        if(e.key == 'c' && e.ctrlKey) {
-            console.log("c is pressed");
+        if(e.key == 'c' && e.altKey) {
             $("#policy-continue").focus();
         }
-        else if(e.key == 'q'  && e.ctrlKey) {
-            console.log("e is pressed");
+        else if(e.key == 'x'  && e.altKey) {
             $("#policy-exit").focus();
         }
-        else if(e.key == 'm' && e.ctrlKey) {
-            console.log("m is pressed");
+        else if(e.key == 'i' && e.altKey) {
             $('#terms-text').focus();
         }
 
     });
+    $('#policy-continue').focus();
     document.getElementById("content").scrollTop=0;
 })

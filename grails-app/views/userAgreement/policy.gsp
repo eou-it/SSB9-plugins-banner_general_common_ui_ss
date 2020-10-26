@@ -32,13 +32,13 @@ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
             <div id="contentHolder">
                 <div id="contentBelt"></div>
                 <div class="pagebodydiv" style="display: block;">
-                    <div role="dialog" aria-describedby="terms-text">
+                    <div role="dialog">
                         <div class="termstextdiv">
                             <sanitizeMarkdown:renderHtml text="${infoText}" />
                         </div>
                         <div class="button-area">
                             <input aria-live="polite" type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.continue"/>' id="policy-continue" class="primary"
-                                   data-endpoint="${createLink(uri:'/ssb/userAgreement/agreement')}"/>
+                                   data-endpoint="${createLink(uri:'/ssb/userAgreement/agreement')}" aria-labelledby="terms-text"/>
 
                             <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.exit"/>' id="policy-exit" class="secondary"
                                    data-endpoint="${createLink(uri:'/ssb/logout')}"/>

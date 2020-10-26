@@ -32,13 +32,15 @@ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
             <div id="contentHolder">
                 <div id="contentBelt"></div>
                 <div class="pagebodydiv" style="display: block;">
-                    <div role="dialog">
-                        <div class="termstextdiv">
+                    <div role="dialog" aria-labelledby="terms-text">
+                        <div aria-live="assertive">Press Ctrl + M for Reading the Terms of usage text  Ctrl + C for Continue Ctrl + Q for exit
+                        </div>
+                        <div class="termstextdiv" id="terms-text" aria-live="assertive" tabindex="0">
                             <sanitizeMarkdown:renderHtml text="${infoText}" />
                         </div>
                         <div class="button-area">
-                            <input aria-live="polite" type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.continue"/>' id="policy-continue" class="primary"
-                                   data-endpoint="${createLink(uri:'/ssb/userAgreement/agreement')}" aria-labelledby="terms-text"/>
+                            <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.continue"/>' id="policy-continue" class="primary"
+                                   data-endpoint="${createLink(uri:'/ssb/userAgreement/agreement')}"/>
 
                             <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.exit"/>' id="policy-exit" class="secondary"
                                    data-endpoint="${createLink(uri:'/ssb/logout')}"/>

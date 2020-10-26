@@ -13,6 +13,20 @@ $(document).ready(function () {
     });
     $('div.termstextdiv').find('blockquote')[0].id="terms-text";
     $('div.termstextdiv').find('blockquote')[0].ariaLive="assertive";
-    $('#policy-continue').focus();
+    document.addEventListener("keydown", function (e) {
+        if(e.key == 'c' && e.ctrlKey) {
+            console.log("c is pressed");
+            $("#policy-continue").focus();
+        }
+        else if(e.key == 'q'  && e.ctrlKey) {
+            console.log("e is pressed");
+            $("#policy-exit").focus();
+        }
+        else if(e.key == 'm' && e.ctrlKey) {
+            console.log("m is pressed");
+            $('#terms-text').focus();
+        }
+
+    });
     document.getElementById("content").scrollTop=0;
 })

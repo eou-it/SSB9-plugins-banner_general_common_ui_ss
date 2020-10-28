@@ -35,11 +35,11 @@ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
                     <div role="dialog" aria-labelledby="termsText instructionText">
                         <div class="termstextdiv" tabindex="0" aria-hidden="true">
                             <sanitizeMarkdown:renderHtml text="${infoText}" />
-                            <p id="instructionText" style="display: none;" aria-live="polite">Press ALT+C to Continue and ALT+X to exit</p>
+                            <p id="instructionText" style="display: none;">Press ALT+C to Continue and ALT+X to exit</p>
                         </div>
                         <div class="button-area">
                             <div id="continueInstruction" style="display: none;">
-                                If you agree to the terms of usage press Enter, if you want to listen to the terms of usage press ALT+I
+                                If you agree to the terms of usage press Enter, if you want to listen to the terms of usage press ALT+I and press ALT+C to come back to Continue button Or press ALT+X to move the focus to Exit button
                             </div>
                             <input type='button' value='<g:message code="net.hedtech.banner.termsofuse.button.continue"/>' id="policy-continue" class="primary"
                                    data-endpoint="${createLink(uri:'/ssb/userAgreement/agreement')}" aria-labelledby="continueInstruction"/>

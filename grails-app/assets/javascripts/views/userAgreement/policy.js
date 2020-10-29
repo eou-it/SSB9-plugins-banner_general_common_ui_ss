@@ -11,7 +11,7 @@ $(document).ready(function () {
         var href = $(this).attr("data-endpoint");
         window.location = href;
     });
-    $('div.termstextdiv').find('blockquote')[0].id="termsText";
+    $('.termstextdiv').find('blockquote')[0].id="termsText";
     document.addEventListener("keydown", function (e) {
         if(e.key == 'c' && e.altKey) {
             $("#policy-continue").focus();

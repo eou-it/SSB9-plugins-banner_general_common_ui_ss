@@ -33,7 +33,7 @@ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
                 <div id="contentBelt"></div>
                 <div class="pagebodydiv" style="display: block;">
                     <div role="dialog" aria-labelledby="termsText instructionText">
-                        <div class="termstextdiv" tabindex="0" aria-hidden="true">
+                        <div class="termstextdiv" tabindex="0" aria-hidden="true" id="termsText">
                             <sanitizeMarkdown:renderHtml text="${infoText}" />
                             <p id="instructionText" style="display: none;">Press ALT+C to Continue and ALT+X to exit</p>
                         </div>

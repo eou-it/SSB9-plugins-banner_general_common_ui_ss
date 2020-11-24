@@ -1,4 +1,5 @@
 package banner.general.common.ui.ss
+
 /*******************************************************************************
  Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
@@ -9,6 +10,8 @@ import org.grails.web.servlet.GrailsUrlPathHelper
 import java.sql.SQLException
 
 import static net.hedtech.banner.general.aip.AipNotificationConstants.ENABLED
+
+import grails.util.Holders
 
 class BannerAipNotificationInterceptor {
     def aipNotificationService
@@ -32,6 +35,8 @@ class BannerAipNotificationInterceptor {
                 .excludes(controller: 'restfulApi')
                 .excludes(controller: 'cssRender')
                 .excludes(controller: 'aip')
+                .excludes(uri: '/static/js/**')
+                .excludes(uri: '/static/css/**')
 
     }
 
@@ -99,8 +104,8 @@ class BannerAipNotificationInterceptor {
      * */
     private def getAipUrl() {
         try{
-            ConfigProperties configProperties = ConfigProperties.fetchByConfigNameAndAppId('GENERALLOCATION','GENERAL_SS')
-            return configProperties? configProperties.configValue + '/ssb/aip/' : null
+            def generalLocation = Holders.config.GENERALLOCATION
+            return generalLocation?generalLocation + '/ssb/aip/' : null
         }catch (SQLException e){
             log.warn("Unable to fetch the configuration GENERALLOCATION "+e.getMessage())
             return ""

@@ -11,21 +11,19 @@ $(document).ready(function () {
         var href = $(this).attr("data-endpoint");
         window.location = href;
     });
-    document.addEventListener("keydown", function (e) {
-        if(e.key == 'c' && e.altKey) {
+    var termsOfUsageShortcuts = [
+        'alt+c', function() {
             $("#policy-continue").focus();
-            e.preventDefault();
-        }
-        else if(e.key == 'x'  && e.altKey) {
+        },
+        'alt+x', function() {
             $("#policy-exit").focus();
-            e.preventDefault();
-        }
-        else if(e.key == 'i' && e.altKey) {
+        },
+        'alt+i', function() {
             $('.termstextdiv').focus();
-            e.preventDefault();
         }
+    ];
+    key && key.bind.apply( window, termsOfUsageShortcuts );
 
-    });
     $('#policy-continue').focus();
     document.getElementById("content").scrollTop=0;
 })
